@@ -142,7 +142,7 @@ class Grasp:
             print(fitness_viajes)
             
             del init[-1]
-        return []  # self.solucion
+        return self.solucion
 
 
 g = Grasp()
