@@ -1,11 +1,11 @@
 import datetime
 import os
-import operator
 from getData import DatosStock
 from getData import DatosViajes
 from collections import OrderedDict
 import numpy as np
-
+import collections
+import operator
 
 class Grasp:
     """
@@ -21,7 +21,8 @@ class Grasp:
         self.oriStock = self.stock.dictStock
         self.viajes = DatosViajes("data/viajes.xml")
         self.oriViajes = self.viajes.dictViajes
-        self.ini_sol = self.getData() # ? dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
+        # ? dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
+        self.ini_sol = self.getData()
 
     def getData(self):
         """
@@ -32,7 +33,8 @@ class Grasp:
         """
         self.dictStock = self.oriStock
         self.dictViajes = self.oriViajes
-        output = dict(zip(set(self.dictViajes),[{} for v in set(self.dictViajes)]))
+        output = dict(zip(set(self.dictViajes), [
+                      {} for v in set(self.dictViajes)]))
         for viaje in self.dictViajes:
 
             fecha = self.dictViajes[viaje]['FechaDescarga']
@@ -42,7 +44,8 @@ class Grasp:
                 plataformas, list) else [plataformas]
 
             articulos = self.dictViajes[viaje]['Carga']['CantidadModelo']
-            articulos = articulos if isinstance(articulos, list) else [articulos]
+            articulos = articulos if isinstance(
+                articulos, list) else [articulos]
 
             for plataforma in plataformas:
                 idPlataforma = plataforma['Plataforma']
@@ -52,17 +55,23 @@ class Grasp:
                     for articulo in articulos:
                         idArticulo = articulo['Articulo']
                         cantidad = int(articulo['Cantidad'])
-                        fechas = list( self.dictStock[idPlataforma][idArticulo].keys())
-                        if fecha in fechas :
+                        fechas = list(
+                            self.dictStock[idPlataforma][idArticulo].keys())
+                        if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 cantidadStock = 0
                                 # ? se restan las catidades de ese articulo a cada uno de los diás en los que se usa
                                 for d in range(int(demora)):
-                                    cantidadStock = cantidadStock + int(self.dictStock[idPlataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                                    self.dictStock[idPlataforma][idArticulo][fechas[fechas.index(fecha)- d ]] = str(cantidadStock)
+                                    cantidadStock = cantidadStock + \
+                                        int(self.dictStock[idPlataforma][idArticulo][fechas[fechas.index(
+                                            fecha) - d]]) - cantidad
+                                    self.dictStock[idPlataforma][idArticulo][fechas[fechas.index(
+                                        fecha) - d]] = str(cantidadStock)
                             else:
-                                cantidadStock = int(self.dictStock[idPlataforma][idArticulo][fecha]) - cantidad
-                                self.dictStock[idPlataforma][idArticulo][fecha] = str(cantidadStock)
+                                cantidadStock = int(
+                                    self.dictStock[idPlataforma][idArticulo][fecha]) - cantidad
+                                self.dictStock[idPlataforma][idArticulo][fecha] = str(
+                                    cantidadStock)
 
                     self.solucion[viaje] = plataforma['Plataforma']
                     del output[viaje]
@@ -77,59 +86,64 @@ class Grasp:
         listaLCR = sorted(listaLCR.items(),
                           key=operator.itemgetter(1),
                           reverse=False)
-        
-        #viajes con cada una de las plataformas
-        init = listaLCR[:LCR-1] 
+
+        # viajes con cada una de las plataformas
+        init = listaLCR[:LCR-1]
         resto = listaLCR[LCR-1:]
         for val in resto:
             init.append(val)
             fecha = self.dictViajes[val[0]]['FechaDescarga']
+            fitness_viajes = {}
             for id_viaje, nplat in init:
-                articulos = self.dictViajes[id_viaje]['Carga']['CantidadModelo']
-                stocks = []            
+                articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
                 
+                stocks = {}
                 #  Calculos para el coste de stock normalizado
                 for articulo in articulos:
                     idArticulo = articulo['Articulo']
                     cantidad = int(articulo['Cantidad'])
-                    stock_art = {}
+                    stock_plat = {idArticulo:{}}
+                    suma_art_plat = 0
                     for id_plataforma in self.ini_sol[id_viaje]:
                         demora = self.ini_sol[id_viaje][id_plataforma]['Demora']
-                        fechas = list( self.dictStock[id_plataforma][idArticulo].keys())
-                        if fecha in fechas :
+                        fechas = list(self.dictStock[id_plataforma][idArticulo].keys())
+                        if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 cantidadStock = 0
                                 # ? se restan las catidades de ese articulo a cada uno de los diás en los que se usa
                                 for d in range(int(demora)):
                                     cantidadStock = cantidadStock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
                             else:
-                                cantidadStock = int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
-                        stock_art[id_plataforma] = cantidadStock
-                    
-                    diviendo_art = np.sum(stock_art.values())
-                    stocks.append({x:y/diviendo_art for x, y in stock_art.items()})
-                                
-                
+                                cantidadStock = int(
+                                    self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
+                        stock_plat[idArticulo][id_plataforma] = cantidadStock
+                        suma_art_plat = suma_art_plat + cantidadStock
+                        
+                    stocks[idArticulo] = {x:int(y)/suma_art_plat if suma_art_plat > 0 else 0 for x,y in stock_plat[idArticulo].items()}
+                # aplanamos el dict para que todos los valores de los articulos en todas las plataformas generen el coste
+                counter = collections.Counter()
+                for d in stocks.values():
+                    counter.update(d)
+                stocks = dict(counter)
+
+                fitness_plats = {}
                 for id_plataforma in self.ini_sol[id_viaje]:
                     #  Calculos para el coste de transporte normalizado
                     ct = float(self.ini_sol[id_viaje][id_plataforma]['Precio'])
-                    ct_all = np.sum([float(f['Precio']) for f in g.ini_sol[id_viaje].values()])
-                
+                    ct_all = np.sum([float(f['Precio'])
+                                     for f in g.ini_sol[id_viaje].values()])
+
                     #  Calculos para el coste del stock normalizado
                     cs = stocks[id_plataforma]
-                    cs_all = np.sum(stocks.values())
-                    
+
                     # Función fitness
-                    fitness =  ct/ct_all + cs/cs_all
-                        
-                        
-                        
-                    
-                
+                    fitness_plats[id_plataforma] = ct/ct_all + cs
+                fitness_viajes[id_viaje] = max(fitness_plats.items(), key=operator.itemgetter(1))[0] #TODO te falta por coger la mejor plataforma de los 3 viajes
+            print(fitness_viajes)
+            
             del init[-1]
         return []  # self.solucion
 
 
 g = Grasp()
-# print(g.GRASP_Solution())
-print(g.solucion)
+print(g.GRASP_Solution())
