@@ -149,9 +149,11 @@ class Grasp:
             id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
             plataforma_viaje_select = fitness_viajes[id_viaje_select]    
             
+            # eliminamos de la lista el viaje que ya hemos adjudicado
             list_init = dict(init)
             del list_init[id_viaje_select]
             init = list(list_init.items()) 
+            # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
         return self.solucion
 
