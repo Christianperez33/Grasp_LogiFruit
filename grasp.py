@@ -6,6 +6,7 @@ from collections import OrderedDict
 import numpy as np
 import collections
 import operator
+import time
 
 class Grasp:
     """
@@ -94,6 +95,7 @@ class Grasp:
             init.append(val)
             fecha = self.dictViajes[val[0]]['FechaDescarga']
             fitness_viajes = {}
+            fitness_valores = {}
             for id_viaje, nplat in init:
                 articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
                 
@@ -138,12 +140,24 @@ class Grasp:
 
                     # Función fitness
                     fitness_plats[id_plataforma] = ct/ct_all + cs
-                fitness_viajes[id_viaje] = max(fitness_plats.items(), key=operator.itemgetter(1))[0] #TODO te falta por coger la mejor plataforma de los 3 viajes
-            print(fitness_viajes)
+                
+                # obtenemos la plataforma con mayor fitness y su valor
+                fitness_viajes[id_viaje] = max(fitness_plats.items(), key=operator.itemgetter(1))[0] 
+                fitness_valores[id_viaje] = fitness_plats[max(fitness_plats.items(), key=operator.itemgetter(1))[0]]
             
-            del init[-1]
+            #evaluacion de los fitnees del lcr
+            id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
+            plataforma_viaje_select = fitness_viajes[id_viaje_select]    
+            
+            list_init = dict(init)
+            del list_init[id_viaje_select]
+            init = list(list_init.items()) 
+            self.solucion[id_viaje_select] = plataforma_viaje_select
         return self.solucion
 
 
+
+start_time = time.time()
 g = Grasp()
 print(g.GRASP_Solution())
+print("--- %s seconds ---" % (time.time() - start_time))
