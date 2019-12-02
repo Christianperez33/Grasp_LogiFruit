@@ -7,6 +7,7 @@ import numpy as np
 import collections
 import operator
 import time
+import csv
 
 class Grasp:
     """
@@ -91,6 +92,7 @@ class Grasp:
         # viajes con cada una de las plataformas
         init = listaLCR[:LCR-1]
         resto = listaLCR[LCR-1:]
+        total_fitness = 0
         for val in resto:
             init.append(val)
             fecha = self.dictViajes[val[0]]['FechaDescarga']
@@ -109,31 +111,33 @@ class Grasp:
                     for id_plataforma in self.ini_sol[id_viaje]:
                         demora = self.ini_sol[id_viaje][id_plataforma]['Demora']
                         fechas = list(self.dictStock[id_plataforma][idArticulo].keys())
+                        cantidadStock = 0
                         if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
-                                cantidadStock = 0
-                                # ? se restan las catidades de ese articulo a cada uno de los diás en los que se usa
+                                # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
                                 for d in range(int(demora)):
-                                    cantidadStock = cantidadStock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    cantidadStock = cantidadStock + np.absolute(int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad)
                             else:
-                                cantidadStock = int(
-                                    self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
+                                cantidadStock = np.absolute(int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad)
                         stock_plat[idArticulo][id_plataforma] = cantidadStock
                         suma_art_plat = suma_art_plat + cantidadStock
                         
                     stocks[idArticulo] = {x:int(y)/suma_art_plat if suma_art_plat > 0 else 0 for x,y in stock_plat[idArticulo].items()}
+
+                divisor = len(stocks.keys())
                 # aplanamos el dict para que todos los valores de los articulos en todas las plataformas generen el coste
                 counter = collections.Counter()
                 for d in stocks.values():
                     counter.update(d)
                 stocks = dict(counter)
+                stocks = {x:stocks[x]/divisor for x in stocks}
+
 
                 fitness_plats = {}
                 for id_plataforma in self.ini_sol[id_viaje]:
                     #  Calculos para el coste de transporte normalizado
                     ct = float(self.ini_sol[id_viaje][id_plataforma]['Precio'])
-                    ct_all = np.sum([float(f['Precio'])
-                                     for f in g.ini_sol[id_viaje].values()])
+                    ct_all = np.sum([float(f['Precio']) for f in self.ini_sol[id_viaje].values()])
 
                     #  Calculos para el coste del stock normalizado
                     cs = stocks[id_plataforma]
@@ -147,7 +151,8 @@ class Grasp:
             
             #evaluacion de los fitnees del lcr
             id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
-            plataforma_viaje_select = fitness_viajes[id_viaje_select]    
+            plataforma_viaje_select = fitness_viajes[id_viaje_select]
+            total_fitness = total_fitness + fitness_valores[id_viaje_select]
             
             # eliminamos de la lista el viaje que ya hemos adjudicado
             list_init = dict(init)
@@ -155,11 +160,5 @@ class Grasp:
             init = list(list_init.items()) 
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
-        return self.solucion
+        return [self.solucion, total_fitness]
 
-
-
-start_time = time.time()
-g = Grasp()
-print(g.GRASP_Solution())
-print("--- %s seconds ---" % (time.time() - start_time))
