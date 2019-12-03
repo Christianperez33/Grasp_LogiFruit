@@ -7,14 +7,16 @@ import numpy as np
 import collections
 import operator
 import time
+import random
 import csv
+
 
 class Grasp:
     """
      Clase Grasp contiene los metodos necesarios para la correcta obtención de los datos y su procesado para obtener una solución válida
     """
 
-    def __init__(self):
+    def __init__(self, shuffle=True, seed=None):
         """
         __init__ Constructor que inicializa las variables de stock y viajes segun las funciones desarrolladas para la obtención de los datos
         """
@@ -23,7 +25,31 @@ class Grasp:
         self.oriStock = self.stock.dictStock
         self.viajes = DatosViajes("data/viajes.xml")
         self.oriViajes = self.viajes.dictViajes
-        # ? dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
+
+        if shuffle:
+            keys_stock = list(self.oriStock.keys())
+            keys_viajes = list(self.oriViajes.keys())
+            
+            if seed is None:
+                random.seed()
+            else:
+                random.seed(seed)
+                
+            random.shuffle(keys_stock)
+            random.shuffle(keys_viajes)
+
+            shuffled_stock = dict()
+            for key in keys_stock:
+                shuffled_stock.update({key: self.oriStock[key]})
+                
+            shuffled_viajes = dict()
+            for key in keys_viajes:
+                shuffled_viajes.update({key: self.oriViajes[key]})
+
+            self.oriStock  = shuffled_stock
+            self.oriViajes = shuffled_viajes
+            
+        #! dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
         self.ini_sol = self.getData()
 
     def getData(self):
@@ -83,12 +109,11 @@ class Grasp:
 
         return output
 
-    def GRASP_Solution(self, LCR=3):
+    def GRASP_Solution(self, alfa=0.5,LCR=3):
         listaLCR = {s: len(self.ini_sol[s]) for s in self.ini_sol}
         listaLCR = sorted(listaLCR.items(),
                           key=operator.itemgetter(1),
                           reverse=False)
-
         # viajes con cada una de las plataformas
         init = listaLCR[:LCR-1]
         resto = listaLCR[LCR-1:]
@@ -143,13 +168,13 @@ class Grasp:
                     cs = stocks[id_plataforma]
 
                     # Función fitness
-                    fitness_plats[id_plataforma] = ct/ct_all + cs
+                    fitness_plats[id_plataforma] = alfa*ct/ct_all + (1-alfa)*cs
                 
                 # obtenemos la plataforma con mayor fitness y su valor
                 fitness_viajes[id_viaje] = max(fitness_plats.items(), key=operator.itemgetter(1))[0] 
                 fitness_valores[id_viaje] = fitness_plats[max(fitness_plats.items(), key=operator.itemgetter(1))[0]]
             
-            #evaluacion de los fitnees del lcr
+            # evaluacion de los fitnees del lcr
             id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
@@ -160,5 +185,5 @@ class Grasp:
             init = list(list_init.items()) 
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
-        return [self.solucion, total_fitness]
+        return [self.solucion, total_fitness/len(listaLCR)]
 
