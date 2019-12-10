@@ -9,6 +9,7 @@ argparser.add_argument('-r', '--random', help='mezcla de datos al incio del algo
 argparser.add_argument('-i', '--iteraciones', help='numero de iteraciones que hace el algoritmo', default=5)
 argparser.add_argument('-s', '--seed', help='semilla que utilizamos para el randomizado de los datos',default=None)
 argparser.add_argument('-a', '--alfa', help='cojunto de valores que puede tomar alfa, cuan mas grande el valor mas divisiones de alfa, multiplos de 10',default=10)
+argparser.add_argument('-g', '--save', help='Guarda la solución en un fichero llamado "solution_json.json"',default=False)
 args = argparser.parse_args()
 
 
@@ -28,9 +29,11 @@ for i in tqdm(range(int(args.iteraciones))):
             if val >= x[1]:
                 sol = x[0]
                 val = x[1]
-
-with open('solution_json.json', 'w') as outfile:
-    json.dump(sol, outfile)
+                
+print(len(list(sol.keys())))
+if(args.save):
+    with open('solution_json.json', 'w') as outfile:
+        json.dump(sol, outfile)
 print("---> Mejor fitness: {}".format(val))
 for x in sum_val:
     print("---> Media fitness {}: {}".format(x, sum_val[x]/int(args.iteraciones)))

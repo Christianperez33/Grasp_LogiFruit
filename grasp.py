@@ -118,9 +118,11 @@ class Grasp:
         init = listaLCR[:LCR-1]
         resto = listaLCR[LCR-1:]
         total_fitness = 0
-        for val in resto:
-            init.append(val)
-            fecha = self.dictViajes[val[0]]['FechaDescarga']
+        while len(init) > 0 :
+            if len(resto) > 0:
+                val = resto.pop(0)
+                init.append(val)
+                fecha = self.dictViajes[val[0]]['FechaDescarga']
             fitness_viajes = {}
             fitness_valores = {}
             for id_viaje, nplat in init:
@@ -185,5 +187,6 @@ class Grasp:
             init = list(list_init.items()) 
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
+            
         return [self.solucion, total_fitness/len(listaLCR)]
 
