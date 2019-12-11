@@ -5,10 +5,8 @@ from tqdm import tqdm
 import json
 
 argparser = argparse.ArgumentParser()
-argparser.add_argument(
-    '-r', '--random', help='mezcla de datos al incio del algoritmo', default=True)
-argparser.add_argument('-i', '--iteraciones',
-                       help='numero de iteraciones que hace el algoritmo', default=5)
+argparser.add_argument('-r', '--random', help='mezcla de datos al incio del algoritmo', default=True)
+argparser.add_argument('-i', '--iteraciones',help='numero de iteraciones que hace el algoritmo', default=5)
 argparser.add_argument(
     '-s', '--seed', help='semilla que utilizamos para el randomizado de los datos', default=None)
 argparser.add_argument(
