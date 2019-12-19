@@ -74,4 +74,4 @@ class DatosStock:
 # s = DatosStock("data/stock.csv")
 # print(s.dictStock['1'])
 # v = DatosViajes("data/viajes.xml")
-# print(v.dictViajes["2150"])  
+# print(v.dictViajes["2091"])  

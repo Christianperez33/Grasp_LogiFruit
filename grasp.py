@@ -66,7 +66,8 @@ class Grasp:
         for viaje in self.dictViajes:
 
             fecha = self.dictViajes[viaje]['FechaDescarga']
-
+            if self.dictViajes[viaje]['PlataformasPosibles'] is None: continue
+            
             plataformas = self.dictViajes[viaje]['PlataformasPosibles']['CosteTransporte']
             plataformas = plataformas if isinstance(
                 plataformas, list) else [plataformas]
@@ -189,4 +190,3 @@ class Grasp:
             self.solucion[id_viaje_select] = plataforma_viaje_select
             
         return [self.solucion, total_fitness/len(listaLCR)]
-

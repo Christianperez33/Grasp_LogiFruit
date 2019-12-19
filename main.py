@@ -7,12 +7,9 @@ import json
 argparser = argparse.ArgumentParser()
 argparser.add_argument('-r', '--random', help='mezcla de datos al incio del algoritmo', default=True)
 argparser.add_argument('-i', '--iteraciones',help='numero de iteraciones que hace el algoritmo', default=5)
-argparser.add_argument(
-    '-s', '--seed', help='semilla que utilizamos para el randomizado de los datos', default=None)
-argparser.add_argument(
-    '-a', '--alfa', help='cojunto de valores que puede tomar alfa, cuan mas grande el valor mas divisiones de alfa, multiplos de 10', default=None)
-argparser.add_argument(
-    '-g', '--save', help='Guarda la solución en un fichero llamado "solution_json.json"', default=False)
+argparser.add_argument('-s', '--seed', help='semilla que utilizamos para el randomizado de los datos', default=None)
+argparser.add_argument('-a', '--alfa', help='cojunto de valores que puede tomar alfa, cuan mas grande el valor mas divisiones de alfa, multiplos de 10', default=None)
+argparser.add_argument('-g', '--save', help='Guarda la solución en un fichero llamado "solution_json.json"', default=False)
 args = argparser.parse_args()
 
 
