@@ -43132,6 +43132,23 @@
     </PlataformasPosibles>
   </ViajesLite>
   <ViajesLite>
+    <Id>1170</Id>
+    <FechaDescarga>2019-03-11T00:00:00</FechaDescarga>
+    <Carga>
+      <CantidadModelo>
+        <Articulo>81</Articulo>
+        <Cantidad>48</Cantidad>
+      </CantidadModelo>
+    </Carga>
+    <PlataformasPosibles>
+      <CosteTransporte>
+        <Plataforma>10</Plataforma>
+        <Precio>181.84</Precio>
+        <Demora>1</Demora>
+      </CosteTransporte> 
+    </PlataformasPosibles> 
+  </ViajesLite>
+  <ViajesLite>
     <Id>1171</Id>
     <FechaDescarga>2019-03-11T00:00:00</FechaDescarga>
     <Carga>
@@ -75734,6 +75751,53 @@
         <Plataforma>8</Plataforma>
         <Precio>197.62</Precio>
         <Demora>0</Demora>
+      </CosteTransporte>
+    </PlataformasPosibles>
+  </ViajesLite>
+  <ViajesLite>
+    <Id>1965</Id>
+    <FechaDescarga>2019-03-13T00:00:00</FechaDescarga>
+    <Carga>
+      <CantidadModelo>
+        <Articulo>43</Articulo>
+        <Cantidad>396</Cantidad>
+      </CantidadModelo>
+    </Carga>
+    <PlataformasPosibles>
+      <CosteTransporte>
+        <Plataforma>1</Plataforma>
+        <Precio>138.05</Precio>
+        <Demora>0</Demora>
+      </CosteTransporte>
+      <CosteTransporte>
+        <Plataforma>2</Plataforma>
+        <Precio>199.18</Precio>
+        <Demora>0</Demora>
+      </CosteTransporte>
+      <CosteTransporte>
+        <Plataforma>11</Plataforma>
+        <Precio>243.57</Precio>
+        <Demora>1</Demora>
+      </CosteTransporte>
+      <CosteTransporte>
+        <Plataforma>3</Plataforma>
+        <Precio>267.78</Precio>
+        <Demora>1</Demora>
+      </CosteTransporte>
+      <CosteTransporte>
+        <Plataforma>7</Plataforma>
+        <Precio>276.08</Precio>
+        <Demora>1</Demora>
+      </CosteTransporte>
+      <CosteTransporte>
+        <Plataforma>9</Plataforma>
+        <Precio>519.02</Precio>
+        <Demora>1</Demora>
+      </CosteTransporte>
+      <CosteTransporte>
+        <Plataforma>13</Plataforma>
+        <Precio>564.55</Precio>
+        <Demora>1</Demora>
       </CosteTransporte>
     </PlataformasPosibles>
   </ViajesLite>
