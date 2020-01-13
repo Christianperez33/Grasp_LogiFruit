@@ -2,6 +2,7 @@ import datetime
 import os
 from getData import DatosStock
 from getData import DatosViajes
+from getData import DatosPrecio
 from collections import OrderedDict
 import numpy as np
 import collections
@@ -25,6 +26,9 @@ class Grasp:
         self.oriStock = self.stock.dictStock
         self.viajes = DatosViajes("data/viajes.xml")
         self.oriViajes = self.viajes.dictViajes
+        self.precios = DatosPrecio("./data/precio.csv")
+        self.oriPrecios = self.precios.dictPrecios
+
 
         if shuffle:
             keys_stock = list(self.oriStock.keys())
@@ -140,6 +144,7 @@ class Grasp:
                         demora = self.ini_sol[id_viaje][id_plataforma]['Demora']
                         fechas = list(self.dictStock[id_plataforma][idArticulo].keys())
                         cantidadStock = 0
+                        # verificamos si es una fecha válida
                         if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
@@ -169,7 +174,6 @@ class Grasp:
 
                     #  Calculos para el coste del stock normalizado
                     cs = stocks[id_plataforma]
-
                     # Función fitness
                     fitness_plats[id_plataforma] = alfa*ct/ct_all + (1-alfa)*cs
                 

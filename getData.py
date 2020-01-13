@@ -68,10 +68,27 @@ class DatosStock:
                 
         return res
 
+class DatosPrecio:
+    def __init__(self,path):
+        data = pd.read_csv(path,sep=';', names=['Articulo','UnidadesHueco','PrecioUnitario'], engine="python", skiprows=1)
+        self.csv = data
+        self.dictPrecios = self.getDict()
 
+    def getDict(self):
+        res = {}
+        columnas = ['UnidadesHueco','PrecioUnitario']
+        
+        for id in range(len(self.csv)):
+            valores = list(self.csv.iloc[id,1:])
+            valores[1] = float(valores[1].replace(",", "."))
+            res[str(self.csv.iloc[id,0])]= dict(zip(columnas,valores))
+        
+        return res  
 
    
 # s = DatosStock("data/stock.csv")
 # print(s.dictStock['1'])
 # v = DatosViajes("data/viajes.xml")
-# print(v.dictViajes["2091"])  
+# print(v.dictViajes["2091"]) 
+# d = DatosPrecio("./data/precio.csv")
+# print(d.getDict())
