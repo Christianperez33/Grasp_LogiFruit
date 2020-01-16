@@ -17,16 +17,16 @@ class Grasp:
      Clase Grasp contiene los metodos necesarios para la correcta obtención de los datos y su procesado para obtener una solución válida
     """
 
-    def __init__(self, shuffle=True, seed=None):
+    def __init__(self, shuffle=True, seed=None, stock="./data/stock.csv", viajes ="./data/viajes.csv", precios = "./data/precio.csv"):
         """
         __init__ Constructor que inicializa las variables de stock y viajes segun las funciones desarrolladas para la obtención de los datos
         """
         self.solucion = dict()
-        self.stock = DatosStock("data/stock.csv")
+        self.stock = DatosStock(stock)
         self.oriStock = self.stock.dictStock
-        self.viajes = DatosViajes("data/viajes.xml")
+        self.viajes = DatosViajes(viajes)
         self.oriViajes = self.viajes.dictViajes
-        self.precios = DatosPrecio("./data/precio.csv")
+        self.precios = DatosPrecio(precios)
         self.oriPrecios = self.precios.dictPrecios
 
 
@@ -63,8 +63,10 @@ class Grasp:
         Returns:
             dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
         """
-        self.dictStock = self.oriStock
-        self.dictViajes = self.oriViajes
+        self.dictStock   = self.oriStock
+        self.dictViajes  = self.oriViajes
+        self.dictPrecios = self.oriPrecios
+
         output = dict(zip(set(self.dictViajes), [
                       {} for v in set(self.dictViajes)]))
         for viaje in self.dictViajes:
@@ -130,56 +132,55 @@ class Grasp:
                 fecha = self.dictViajes[val[0]]['FechaDescarga']
             fitness_viajes = {}
             fitness_valores = {}
+            
             for id_viaje, nplat in init:
                 articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
-                
                 stocks = {}
-                #  Calculos para el coste de stock normalizado
                 for articulo in articulos:
+                    # obtenemos los datos del articulo
                     idArticulo = articulo['Articulo']
                     cantidad = int(articulo['Cantidad'])
-                    stock_plat = {idArticulo:{}}
-                    suma_art_plat = 0
+                    precio = self.oriPrecios[idArticulo]["PrecioUnitario"]
+                    stocks[idArticulo] = {}
+                    # recorremos todas las plataformas por cada articulo para obtener su stock
                     for id_plataforma in self.ini_sol[id_viaje]:
                         demora = self.ini_sol[id_viaje][id_plataforma]['Demora']
                         fechas = list(self.dictStock[id_plataforma][idArticulo].keys())
-                        cantidadStock = 0
+                        costeStock = 0
                         # verificamos si es una fecha válida
                         if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
                                 for d in range(int(demora)):
-                                    cantidadStock = cantidadStock + np.absolute(int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad)
+                                    costeStock = int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
                             else:
-                                cantidadStock = np.absolute(int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad)
-                        stock_plat[idArticulo][id_plataforma] = cantidadStock
-                        suma_art_plat = suma_art_plat + cantidadStock
-                        
-                    stocks[idArticulo] = {x:int(y)/suma_art_plat if suma_art_plat > 0 else 0 for x,y in stock_plat[idArticulo].items()}
+                                costeStock = int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
+                        if costeStock >= 0:
+                            costeStock = 0
+                        else:
+                            costeStock = abs(costeStock * precio)
+                        stocks[idArticulo][id_plataforma] = costeStock
+                
 
-                divisor = len(stocks.keys())
                 # aplanamos el dict para que todos los valores de los articulos en todas las plataformas generen el coste
                 counter = collections.Counter()
                 for d in stocks.values():
                     counter.update(d)
                 stocks = dict(counter)
-                stocks = {x:stocks[x]/divisor for x in stocks}
-
 
                 fitness_plats = {}
                 for id_plataforma in self.ini_sol[id_viaje]:
-                    #  Calculos para el coste de transporte normalizado
-                    ct = float(self.ini_sol[id_viaje][id_plataforma]['Precio'])
-                    ct_all = np.sum([float(f['Precio']) for f in self.ini_sol[id_viaje].values()])
 
-                    #  Calculos para el coste del stock normalizado
+                    #  Calculos para el coste de transporte 
+                    ct = float(self.ini_sol[id_viaje][id_plataforma]['Precio'])
+                    
+                    #  Calculos para el coste del stock
                     cs = stocks[id_plataforma]
                     # Función fitness
-                    fitness_plats[id_plataforma] = alfa*ct/ct_all + (1-alfa)*cs
-                
+                    fitness_plats[id_plataforma] = alfa*ct + (1-alfa)*cs
                 # obtenemos la plataforma con mayor fitness y su valor
-                fitness_viajes[id_viaje] = max(fitness_plats.items(), key=operator.itemgetter(1))[0] 
-                fitness_valores[id_viaje] = fitness_plats[max(fitness_plats.items(), key=operator.itemgetter(1))[0]]
+                fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
+                fitness_valores[id_viaje] = fitness_plats[min(fitness_plats.items(), key=operator.itemgetter(1))[0]]
             
             # evaluacion de los fitnees del lcr
             id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
