@@ -31,7 +31,7 @@ for i in tqdm(range(int(args.iteraciones))):
         
     else:
         for alfa in range(int(args.alfa)+1):
-            x = g.GRASP_Solution(alfa/int(args.alfa),args.lcr)
+            x = g.GRASP_Solution(alfa/int(args.alfa),args.lcr,i)
             sum_val[str(alfa/int(args.alfa))] = sum_val[str(alfa/int(args.alfa))] + x[1] if str(alfa/int(args.alfa)) in sum_val.keys() else x[1]
             if i == 0:
                 sol = x[0]

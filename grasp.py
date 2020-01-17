@@ -52,10 +52,9 @@ class Grasp:
 
             self.oriStock  = shuffled_stock
             self.oriViajes = shuffled_viajes
-            
         #! dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
         self.ini_sol = self.getData()
-
+        
     def getData(self):
         """
         getData Función que preprocesa los datos para su posterior uso
@@ -66,6 +65,7 @@ class Grasp:
         self.dictStock   = self.oriStock
         self.dictViajes  = self.oriViajes
         self.dictPrecios = self.oriPrecios
+
 
         output = dict(zip(set(self.dictViajes), [
                       {} for v in set(self.dictViajes)]))
@@ -84,6 +84,7 @@ class Grasp:
 
             for plataforma in plataformas:
                 idPlataforma = plataforma['Plataforma']
+                
                 coste = float(plataforma['Precio'])
                 demora = plataforma['Demora']
                 if len(plataformas) == 1:
@@ -112,11 +113,11 @@ class Grasp:
                     del output[viaje]
                 else:
                     output[viaje][plataforma['Plataforma']] = plataforma
-                    del output[viaje][plataforma['Plataforma']]['Plataforma']
+                    # del output[viaje][plataforma['Plataforma']]['Plataforma']
 
         return output
 
-    def GRASP_Solution(self, alfa=0.5,LCR=3):
+    def GRASP_Solution(self, alfa=0.5,LCR=3, iter=0):
         listaLCR = {s: len(self.ini_sol[s]) for s in self.ini_sol}
         listaLCR = sorted(listaLCR.items(),
                           key=operator.itemgetter(1),
@@ -193,5 +194,42 @@ class Grasp:
             init = list(list_init.items()) 
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
+
+
+        #actualizamos el stock para poder ver el balanceo
+        for idviaje in self.solucion:
+            idplataforma = self.solucion[idviaje]
+            
+            plataformas = self.oriViajes[idviaje]['PlataformasPosibles']['CosteTransporte']
+            plataformas = plataformas if isinstance(plataformas, list) else [plataformas]
+            for plataforma in plataformas:
+                if str(plataforma['Plataforma']) == str(idplataforma):
+                    demora = plataforma['Demora']
+                    break
+                    
+            articulos = self.oriViajes[idviaje]['Carga']['CantidadModelo']
+            articulos = articulos if isinstance(articulos, list) else [articulos]
+            for articulo in articulos:
+                idArticulo = articulo['Articulo']
+                cantidad = int(articulo['Cantidad'])
+                fechas = list(self.dictStock[idplataforma][idArticulo].keys())
+                if fecha in fechas:
+                    if fechas.index(fecha)-int(demora) > 0:
+                        for d in range(int(demora)):
+                            self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]] = int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                    else:
+                        self.dictStock[id_plataforma][idArticulo][fecha] = int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
+        
+        
+        # guardamos el diccionario de stock para poder ver el balanceo
+        dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: t[0])))
+        with open("stock_sol_"+str(iter)+".csv", 'w') as csvfile:
+            writer = csv.writer(csvfile,delimiter=';')
+            for p in dictstock:
+                writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
+                for a in dictstock[p]:
+                    writer.writerow([int(a)]+list(dictstock[p][a].values()))
+                writer.writerow([' '])
+                
             
         return [self.solucion, total_fitness/len(listaLCR)]
