@@ -140,7 +140,7 @@ class Grasp:
                 for articulo in articulos:
                     # obtenemos los datos del articulo
                     idArticulo = articulo['Articulo']
-                    cantidad = int(articulo['Cantidad'])
+                    cantidad = abs(int(articulo['Cantidad']))
                     precio = self.oriPrecios[idArticulo]["PrecioUnitario"]
                     stocks[idArticulo] = {}
                     # recorremos todas las plataformas por cada articulo para obtener su stock
@@ -179,6 +179,7 @@ class Grasp:
                     cs = stocks[id_plataforma]
                     # Función fitness
                     fitness_plats[id_plataforma] = alfa*ct + (1-alfa)*cs
+
                 # obtenemos la plataforma con mayor fitness y su valor
                 fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
                 fitness_valores[id_viaje] = fitness_plats[min(fitness_plats.items(), key=operator.itemgetter(1))[0]]
@@ -197,6 +198,7 @@ class Grasp:
 
 
         #actualizamos el stock para poder ver el balanceo
+        fechas = []
         for idviaje in self.solucion:
             idplataforma = self.solucion[idviaje]
             
@@ -211,7 +213,7 @@ class Grasp:
             articulos = articulos if isinstance(articulos, list) else [articulos]
             for articulo in articulos:
                 idArticulo = articulo['Articulo']
-                cantidad = int(articulo['Cantidad'])
+                cantidad = abs(int(articulo['Cantidad']))
                 fechas = list(self.dictStock[idplataforma][idArticulo].keys())
                 if fecha in fechas:
                     if fechas.index(fecha)-int(demora) > 0:
@@ -227,6 +229,7 @@ class Grasp:
             writer = csv.writer(csvfile,delimiter=';')
             for p in dictstock:
                 writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
+                writer.writerow([' ']+fechas)
                 for a in dictstock[p]:
                     writer.writerow([int(a)]+list(dictstock[p][a].values()))
                 writer.writerow([' '])
