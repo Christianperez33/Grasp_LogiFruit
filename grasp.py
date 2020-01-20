@@ -222,7 +222,7 @@ class Grasp:
         
         
         # guardamos el diccionario de stock para poder ver el balanceo
-        dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: t[0])))
+        dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
         with open("stock_sol_"+str(iter)+".csv", 'w') as csvfile:
             writer = csv.writer(csvfile,delimiter=';')
             for p in dictstock:
