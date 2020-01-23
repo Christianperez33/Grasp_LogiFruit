@@ -113,7 +113,6 @@ class Grasp:
                     del output[viaje]
                 else:
                     output[viaje][plataforma['Plataforma']] = plataforma
-                    # del output[viaje][plataforma['Plataforma']]['Plataforma']
 
         return output
 
@@ -137,39 +136,53 @@ class Grasp:
             for id_viaje, nplat in init:
                 articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
                 stocks = {}
+                cantidades ={}
                 for articulo in articulos:
                     # obtenemos los datos del articulo
                     idArticulo = articulo['Articulo']
                     cantidad = abs(int(articulo['Cantidad']))
                     precio = self.oriPrecios[idArticulo]["PrecioUnitario"]
                     stocks[idArticulo] = {}
+                    cantidades[idArticulo] = {}
                     # recorremos todas las plataformas por cada articulo para obtener su stock
                     for id_plataforma in self.ini_sol[id_viaje]:
                         demora = self.ini_sol[id_viaje][id_plataforma]['Demora']
                         fechas = list(self.dictStock[id_plataforma][idArticulo].keys())
                         costeStock = 0
+                        cantidadStock = 0
                         # verificamos si es una fecha válida
                         if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
                                 for d in range(int(demora)):
-                                    costeStock = int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    resto_stock = int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    cantidadStock = cantidadStock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]])
+                                    if resto_stock < 0:
+                                        costeStock = costeStock + resto_stock * precio
+                                cantidadStock = cantidadStock / int(demora) if cantidadStock > 0 else 0
                             else:
-                                costeStock = int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
-                        if costeStock >= 0:
-                            costeStock = 0
-                        else:
-                            costeStock = abs(costeStock * precio)
+                                resto_stock = int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
+                                cantidadStock = cantidadStock + int(self.dictStock[id_plataforma][idArticulo][fecha])
+                                if resto_stock < 0:
+                                    costeStock = costeStock + resto_stock * precio
+
                         stocks[idArticulo][id_plataforma] = costeStock
-                
+                        cantidades[idArticulo][id_plataforma] = cantidadStock
+
 
                 # aplanamos el dict para que todos los valores de los articulos en todas las plataformas generen el coste
                 counter = collections.Counter()
                 for d in stocks.values():
                     counter.update(d)
                 stocks = dict(counter)
+            
+                counter = collections.Counter()
+                for d in cantidades.values():
+                    counter.update(d)
+                cantidades = dict(counter)
 
                 fitness_plats = {}
+                fitness_plats_cantidad = {}
                 for id_plataforma in self.ini_sol[id_viaje]:
 
                     #  Calculos para el coste de transporte 
@@ -180,9 +193,22 @@ class Grasp:
                     # Función fitness
                     fitness_plats[id_plataforma] = alfa*ct + (1-alfa)*cs
 
+                    #  Calculos para la cantidad de stock
+                    cs = cantidades[id_plataforma]
+                    # Función fitness en el caso de que todas las plataformas tengan stock positivo
+                    fitness_plats_cantidad[id_plataforma] = alfa*ct + (1-alfa)*cs
+                    # Test del fitness -> 
+                    # print(stocks)
+                    # print("alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(alfa,ct,cs,(1-alfa)))
+
+                
                 # obtenemos la plataforma con mayor fitness y su valor
-                fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
-                fitness_valores[id_viaje] = fitness_plats[min(fitness_plats.items(), key=operator.itemgetter(1))[0]]
+                if(all(0.0 == x for x in list(fitness_plats.values()))):
+                    fitness_viajes[id_viaje] = max(fitness_plats_cantidad.items(), key=operator.itemgetter(1))[0] 
+                else:
+                    fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
+                
+                fitness_valores[id_viaje] = fitness_plats[fitness_viajes[id_viaje]]
             
             # evaluacion de los fitnees del lcr
             id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]

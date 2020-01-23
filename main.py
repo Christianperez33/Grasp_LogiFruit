@@ -10,6 +10,7 @@ argparser.add_argument('-r', '--random', help='mezcla de datos al incio del algo
 argparser.add_argument('-i', '--iteraciones',help='numero de iteraciones que hace el algoritmo', default=5)
 argparser.add_argument('-s', '--seed', help='semilla que utilizamos para el randomizado de los datos', default=None)
 argparser.add_argument('-a', '--alfa', help='cojunto de valores que puede tomar alfa, cuan mas grande el valor mas divisiones de alfa, multiplos de 10', default=None)
+argparser.add_argument('-av', '--a_val', help='valor de inicio de alfa', default=0.5)
 argparser.add_argument('-g', '--save', help='Guarda la solución en un fichero llamado "solution_json.json"', default=False)
 argparser.add_argument('-l', '--lcr', help='Tamaño de la lista de candidatos', default=3)
 argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', default="./data/stock.csv")
@@ -25,28 +26,23 @@ sum_val = {}
 for i in tqdm(range(int(args.iteraciones))):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
     if args.alfa == None:
-        x = g.GRASP_Solution()
+        x = g.GRASP_Solution(float(args.a_val),int(args.lcr))
         sol[i] = x[0]
         val[i] = x[1]
         
     else:
+        sol[i] = {}
+        val[i] = {}
         for alfa in range(int(args.alfa)+1):
-            x = g.GRASP_Solution(alfa/int(args.alfa),args.lcr,i)
-            sum_val[str(alfa/int(args.alfa))] = sum_val[str(alfa/int(args.alfa))] + x[1] if str(alfa/int(args.alfa)) in sum_val.keys() else x[1]
-            if i == 0:
-                sol = x[0]
-                val = x[1]
-            else:
-                if val >= x[1]:
-                    sol = x[0]
-                    val = x[1]
+            x = g.GRASP_Solution(alfa/int(args.alfa),int(args.lcr),i)
+            sol[i][alfa] = x[0]
+            val[i][alfa] = x[1]
 
 
 
-
+new_val = 0
+new_sol = {}
 if args.alfa == None:
-    new_val = 0
-    new_sol = {}
     for i in val.keys():
         print("---> Iter {} fitness: {}".format(i,val[i]))
         if new_val == 0:
@@ -56,11 +52,19 @@ if args.alfa == None:
             new_val = val[i]
             new_sol = sol[i]
     val = new_val
-    sol = new_sol
-        
+    sol = new_sol 
 else:
-    for x in sum_val:
-        print("---> Media fitness {}: {}".format(x,sum_val[x]/int(args.iteraciones)))
+    for i in val:
+        for alfa in val[i]:
+            print("---> Iter {} alfa {} fitness: {}".format(i,alfa/int(args.alfa),val[i][alfa]))
+            if new_val == 0:
+                new_val = val[i][alfa]
+                new_sol = sol[i][alfa]
+            elif val[i][alfa] < new_val:
+                new_val = val[i][alfa]
+                new_sol = sol[i][alfa]
+    val = new_val
+    sol = new_sol
 
 
 if(args.save):
