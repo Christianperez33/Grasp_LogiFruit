@@ -192,23 +192,30 @@ class Grasp:
                     cs = stocks[id_plataforma]
                     # Función fitness
                     fitness_plats[id_plataforma] = alfa*ct + (1-alfa)*cs
-
+                    
+                    # Test del fitness -> 
+                    # print(stocks)
+                    # print("plataforma:{} ,alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(id_plataforma,alfa,ct,cs,(1-alfa)))
+                    
                     #  Calculos para la cantidad de stock
                     cs = cantidades[id_plataforma]
                     # Función fitness en el caso de que todas las plataformas tengan stock positivo
                     fitness_plats_cantidad[id_plataforma] = alfa*ct + (1-alfa)*cs
+                    
                     # Test del fitness -> 
                     # print(stocks)
-                    # print("alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(alfa,ct,cs,(1-alfa)))
+                    # print("plataforma:{} ,alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(id_plataforma,alfa,ct,cs,(1-alfa)))
 
-                
+                id_selected = 0
                 # obtenemos la plataforma con mayor fitness y su valor
                 if(all(0.0 == x for x in list(fitness_plats.values()))):
-                    fitness_viajes[id_viaje] = max(fitness_plats_cantidad.items(), key=operator.itemgetter(1))[0] 
+                    fitness_viajes[id_viaje] = max(fitness_plats_cantidad.items(), key=operator.itemgetter(1))[0]
+                    id_selected = fitness_plats_cantidad[fitness_viajes[id_viaje]]
                 else:
-                    fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
-                
-                fitness_valores[id_viaje] = fitness_plats[fitness_viajes[id_viaje]]
+                    fitness_viajes[id_viaje] = min([ (val[0],abs(val[1])) for val in fitness_plats.items()], key=operator.itemgetter(1))[0]
+                    id_selected = fitness_plats[fitness_viajes[id_viaje]]
+
+                fitness_valores[id_viaje] = id_selected
             
             # evaluacion de los fitnees del lcr
             id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
@@ -226,12 +233,12 @@ class Grasp:
         #actualizamos el stock para poder ver el balanceo
         fechas = []
         for idviaje in self.solucion:
-            idplataforma = self.solucion[idviaje]
+            id_plataforma = self.solucion[idviaje]
             
             plataformas = self.oriViajes[idviaje]['PlataformasPosibles']['CosteTransporte']
             plataformas = plataformas if isinstance(plataformas, list) else [plataformas]
             for plataforma in plataformas:
-                if str(plataforma['Plataforma']) == str(idplataforma):
+                if str(plataforma['Plataforma']) == str(id_plataforma):
                     demora = plataforma['Demora']
                     break
                     
@@ -240,11 +247,15 @@ class Grasp:
             for articulo in articulos:
                 idArticulo = articulo['Articulo']
                 cantidad = abs(int(articulo['Cantidad']))
-                fechas = list(self.dictStock[idplataforma][idArticulo].keys())
+                fechas = list(self.dictStock[id_plataforma][idArticulo].keys())
+                # print("idviaje {},articulo {},plataforma {}".format(idviaje,articulo,id_plataforma))
+                # print(self.dictStock[id_plataforma][idArticulo][fecha],fecha)
+                # os._exit(0)
                 if fecha in fechas:
                     if fechas.index(fecha)-int(demora) > 0:
                         for d in range(int(demora)):
                             self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]] = int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                            
                     else:
                         self.dictStock[id_plataforma][idArticulo][fecha] = int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
         
