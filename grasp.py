@@ -195,18 +195,22 @@ class Grasp:
                     cs = stocks[id_plataforma]
                     # Función fitness
                     fitness_plats[id_plataforma] = alfa*ct + (1-alfa)*cs
-
+                    
+                    # Test del fitness -> 
+                    # print(stocks)
+                    # print("plataforma:{} ,alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(id_plataforma,alfa,ct,cs,(1-alfa)))
+                    
                     #  Calculos para la cantidad de stock
                     cs = cantidades[id_plataforma]
                     # Función fitness en el caso de que todas las plataformas tengan stock positivo
                     fitness_plats_cantidad[id_plataforma] = alfa*ct + (1-alfa)*cs
+                    
                     # Test del fitness -> 
                     # print(stocks)
-                    # print("alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(alfa,ct,cs,(1-alfa)))
+                    # print("plataforma:{} ,alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(id_plataforma,alfa,ct,cs,(1-alfa)))
 
-                
+                id_selected = 0
                 # obtenemos la plataforma con mayor fitness y su valor
-                print(fitness_plats.items())
                 if(all(0.0 == x for x in list(fitness_plats.values()))):
                     fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
                 else:
