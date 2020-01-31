@@ -10,6 +10,7 @@ import operator
 import time
 import random
 import csv
+import copy
 
 
 class Grasp:
@@ -23,11 +24,11 @@ class Grasp:
         """
         self.solucion = dict()
         self.stock = DatosStock(stock)
-        self.oriStock = self.stock.dictStock
+        self.oriStock = copy.deepcopy(self.stock.dictStock)
         self.viajes = DatosViajes(viajes)
-        self.oriViajes = self.viajes.dictViajes
+        self.oriViajes = copy.deepcopy(self.viajes.dictViajes)
         self.precios = DatosPrecio(precios)
-        self.oriPrecios = self.precios.dictPrecios
+        self.oriPrecios = copy.deepcopy(self.precios.dictPrecios)
 
 
         if shuffle:
@@ -62,9 +63,9 @@ class Grasp:
         Returns:
             dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
         """
-        self.dictStock   = self.oriStock
-        self.dictViajes  = self.oriViajes
-        self.dictPrecios = self.oriPrecios
+        self.dictStock   = copy.deepcopy(self.oriStock)
+        self.dictViajes  = copy.deepcopy(self.oriViajes)
+        self.dictPrecios = copy.deepcopy(self.oriPrecios)
 
 
         output = dict(zip(set(self.dictViajes), [
@@ -91,32 +92,30 @@ class Grasp:
                     for articulo in articulos:
                         idArticulo = articulo['Articulo']
                         cantidad = int(articulo['Cantidad'])
-                        fechas = list(
-                            self.dictStock[idPlataforma][idArticulo].keys())
-                        if fecha in fechas:
-                            if fechas.index(fecha)-int(demora) > 0:
-                                cantidadStock = 0
-                                # ? se restan las catidades de ese articulo a cada uno de los diás en los que se usa
-                                for d in range(int(demora)):
-                                    cantidadStock = cantidadStock + \
-                                        int(self.dictStock[idPlataforma][idArticulo][fechas[fechas.index(
-                                            fecha) - d]]) - cantidad
-                                    self.dictStock[idPlataforma][idArticulo][fechas[fechas.index(
-                                        fecha) - d]] = str(cantidadStock)
-                            else:
-                                cantidadStock = int(
-                                    self.dictStock[idPlataforma][idArticulo][fecha]) - cantidad
-                                self.dictStock[idPlataforma][idArticulo][fecha] = str(
-                                    cantidadStock)
+                        fechas = list(self.dictStock[idPlataforma][idArticulo].keys())
+                        
+                        ini_rango = (fechas.index(fecha)) - int(demora)
+                        rango = fechas[0 if ini_rango <= 0 else ini_rango:]
+                        for f in rango:
+                            self.dictStock[idPlataforma][idArticulo][f] = int(self.dictStock[idPlataforma][idArticulo][f]) - cantidad
+                        
+                        # if int(idArticulo) == 81 and int(idPlataforma) == 7 :
+                        #     print(cantidad)
+                        #     print(fecha)
+                        #     print(demora)
+                        #     print(self.oriStock['7']["81"].values())
+                        #     print(self.dictStock['7']["81"].values())
+                        #     os._exit(0)
 
                     self.solucion[viaje] = plataforma['Plataforma']
                     del output[viaje]
                 else:
                     output[viaje][plataforma['Plataforma']] = plataforma
-
+        
         return output
 
     def GRASP_Solution(self, alfa=0.5,LCR=3, iter=0):
+        
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
         listaLCR = sorted(listaLCR.items(),
                           key=operator.itemgetter(1),
@@ -125,6 +124,7 @@ class Grasp:
         actual = listaLCR[:LCR-1]
         resto = listaLCR[LCR-1:]
         total_fitness = 0
+        coste_transporte = 0
         while len(actual) > 0 :
 
             if len(resto) > 0:
@@ -186,11 +186,12 @@ class Grasp:
 
                 fitness_plats = {}
                 fitness_plats_cantidad = {}
+                fitness_transporte = {}
                 for id_plataforma in self.datos[id_viaje]:
 
                     #  Calculos para el coste de transporte 
                     ct = float(self.datos[id_viaje][id_plataforma]['Precio'])
-                    
+                    fitness_transporte[id_plataforma] = ct
                     #  Calculos para el coste del stock
                     cs = stocks[id_plataforma]
                     # Función fitness
@@ -209,7 +210,6 @@ class Grasp:
                     # print(stocks)
                     # print("plataforma:{} ,alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(id_plataforma,alfa,ct,cs,(1-alfa)))
 
-                id_selected = 0
                 # obtenemos la plataforma con mayor fitness y su valor
                 if(all(0.0 == x for x in list(fitness_plats.values()))):
                     fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
@@ -222,6 +222,7 @@ class Grasp:
             id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
+            coste_transporte = coste_transporte + fitness_transporte[fitness_viajes[id_viaje]]
             
             # eliminamos de la lista el viaje que ya hemos adjudicado
             list_actual = dict(actual)
@@ -249,17 +250,23 @@ class Grasp:
                 cantidad = abs(int(articulo['Cantidad']))
                 fecha = self.dictViajes[id_viaje_select]['FechaDescarga']
                 fechas = list(self.dictStock[plataforma_viaje_select][idArticulo].keys())
+                
+                ini_rango = (fechas.index(fecha)) - int(demora)
+                rango = fechas[0 if ini_rango <= 0 else ini_rango:]
+                for f in rango:
+                    self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad
 
-                # antes = self.dictStock[plataforma_viaje_select][idArticulo][fecha]
-                for d in range(1 if int(demora) == 0 else int(demora)):
-                    if(fechas.index(fecha) - d) >= 0:
-                        self.dictStock[plataforma_viaje_select][idArticulo][fechas[fechas.index(fecha) - d]] = int(self.dictStock[plataforma_viaje_select][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                # despues = self.dictStock[plataforma_viaje_select][idArticulo][fecha]
-        
-        
+                # if int(idArticulo) == 81 and int(plataforma_viaje_select) == 7 :
+                #             print(cantidad)
+                #             print(fecha)
+                #             print(demora)
+                #             print(self.oriStock['7']["81"].values())
+                #             print(self.dictStock['7']["81"].values())
+                #             os._exit(0)
+                
         # guardamos el diccionario de stock para poder ver el balanceo
         dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-        with open("stock_sol_"+str(iter)+".csv", 'w') as csvfile:
+        with open("stock_sol_"+str(alfa).replace(".","_")+".csv", 'w') as csvfile:
             writer = csv.writer(csvfile,delimiter=';')
             for p in dictstock:
                 writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
@@ -269,4 +276,4 @@ class Grasp:
                 writer.writerow([' '])
                 
             
-        return [self.solucion, total_fitness/len(listaLCR)]
+        return [self.solucion, total_fitness/len(listaLCR),coste_transporte/len(listaLCR)]
