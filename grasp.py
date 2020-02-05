@@ -4,6 +4,7 @@ from getData import DatosStock
 from getData import DatosViajes
 from getData import DatosPrecio
 from collections import OrderedDict
+from operator import itemgetter 
 import numpy as np
 import collections
 import operator
@@ -134,11 +135,11 @@ class Grasp:
 
             fitness_viajes = {}
             fitness_valores = {}
-            
             for id_viaje, nplat in actual:
                 articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
                 stocks = {}
                 cantidades ={}
+                restos = {}
                 for articulo in articulos:
                     # obtenemos los datos del articulo
                     idArticulo = articulo['Articulo']
@@ -146,83 +147,95 @@ class Grasp:
                     precio = self.oriPrecios[idArticulo]["PrecioUnitario"]
                     stocks[idArticulo] = {}
                     cantidades[idArticulo] = {}
-
+                    restos[idArticulo] = {}
                     # recorremos todas las plataformas por cada articulo para obtener su stock
                     for id_plataforma in self.datos[id_viaje]:
                         demora = self.datos[id_viaje][id_plataforma]['Demora']
                         fechas = list(self.dictStock[id_plataforma][idArticulo].keys())
                         costeStock = 0
                         cantidadStock = 0
+                        resto_stock = 0
                         # verificamos si es una fecha válida
                         if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
                                 for d in range(int(demora)):
-                                    resto_stock = int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
                                     cantidadStock = cantidadStock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]])
                                     if resto_stock < 0:
-                                        costeStock = costeStock + resto_stock * precio
+                                        costeStock = costeStock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad * precio
                                 cantidadStock = (cantidadStock/int(demora)) if cantidadStock > 0 else 0
+                                resto_stock = (resto_stock/int(demora)) if resto_stock > 0 else 0
                             else:
-                                resto_stock = int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
+                                resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
                                 cantidadStock = cantidadStock + int(self.dictStock[id_plataforma][idArticulo][fecha])
                                 if resto_stock < 0:
-                                    costeStock = costeStock + resto_stock * precio
+                                    costeStock = costeStock + int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad * precio
 
                         stocks[idArticulo][id_plataforma] = costeStock
                         cantidades[idArticulo][id_plataforma] = cantidadStock
-
-
+                        restos[idArticulo][id_plataforma] = resto_stock
+                
                 # aplanamos el dict para que todos los valores de los articulos en todas las plataformas generen el coste
                 counter = collections.Counter()
                 for d in stocks.values():
                     counter.update(d)
                 stocks = dict(counter)
-            
+
                 counter = collections.Counter()
                 for d in cantidades.values():
                     counter.update(d)
                 cantidades = dict(counter)
 
-                fitness_plats = {}
+                counter = collections.Counter()
+                for d in restos.values():
+                    counter.update(d)
+                restos = dict(counter)
+
+                fitness_plats_precio = {}
                 fitness_plats_cantidad = {}
                 fitness_transporte = {}
+                fitness_completo_precio = {}
+                fitness_completo_cantidad = {}
                 for id_plataforma in self.datos[id_viaje]:
 
                     #  Calculos para el coste de transporte 
-                    ct = float(self.datos[id_viaje][id_plataforma]['Precio'])
-                    fitness_transporte[id_plataforma] = ct
-                    #  Calculos para el coste del stock
-                    cs = stocks[id_plataforma]
-                    # Función fitness
-                    fitness_plats[id_plataforma] = alfa*ct + (1-alfa)*cs
+                    fitness_transporte[id_plataforma] = float(self.datos[id_viaje][id_plataforma]['Precio'])
                     
-                    # Test del fitness -> 
-                    # print(stocks)
-                    # print("plataforma:{} ,alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(id_plataforma,alfa,ct,cs,(1-alfa)))
+                    #  Calculos para el coste del stock
+                    # Función fitness
+                    fitness_plats_precio[id_plataforma] = stocks[id_plataforma]
+                    fitness_completo_precio[id_plataforma] = alfa * fitness_transporte[id_plataforma] + (1 - alfa) * fitness_plats_precio[id_plataforma]
                     
                     #  Calculos para la cantidad de stock
-                    cs = cantidades[id_plataforma]
                     # Función fitness en el caso de que todas las plataformas tengan stock positivo
-                    fitness_plats_cantidad[id_plataforma] = alfa*ct + (1-alfa)*cs
-                    
-                    # Test del fitness -> 
-                    # print(stocks)
-                    # print("plataforma:{} ,alfa:{} ,transporte:{} , stock:{}, 1-alfa:{} ".format(id_plataforma,alfa,ct,cs,(1-alfa)))
+                    fitness_plats_cantidad[id_plataforma] = restos[id_plataforma]
+                    fitness_completo_cantidad[id_plataforma] = alfa * fitness_transporte[id_plataforma] + (1 - alfa) * fitness_plats_cantidad[id_plataforma]
 
-                # obtenemos la plataforma con mayor fitness y su valor
-                if(all(0.0 == x for x in list(fitness_plats.values()))):
-                    fitness_viajes[id_viaje] = min(fitness_plats.items(), key=operator.itemgetter(1))[0] 
+
+                #Obtención del mejor fitness por stock/precio
+                id_plataforma_select = min(fitness_completo_precio.items(), key=operator.itemgetter(1))[0]
+                if fitness_plats_precio[id_plataforma_select] != 0:
+                    zero_dict = {x:y for x,y in fitness_plats_precio.items() if y == 0 }
+                    if len(zero_dict) == 0:
+                        id_plataforma_select = min(fitness_plats_precio.items(), key=operator.itemgetter(1))[0]
+                        fitness_valores[id_viaje] = fitness_completo_precio[id_plataforma_select]
+                        fitness_viajes[id_viaje] = id_plataforma_select
+                    else:
+                        cantidad_dict = {x:fitness_plats_cantidad[x] for x in zero_dict.keys()}
+                        id_plataforma_select = min(fitness_plats_cantidad.items(), key=operator.itemgetter(1))[0]
+                        fitness_valores[id_viaje] = fitness_completo_precio[id_plataforma_select]
+                        fitness_viajes[id_viaje] = id_plataforma_select
                 else:
-                    fitness_viajes[id_viaje] = max(fitness_plats_cantidad.items(), key=operator.itemgetter(1))[0] 
-                
-                fitness_valores[id_viaje] = fitness_plats[fitness_viajes[id_viaje]]
-            
-            # evaluacion de los fitnees del lcr
-            id_viaje_select = max(fitness_valores.items(), key=operator.itemgetter(1))[0]
+                    fitness_valores[id_viaje] = fitness_completo_precio[id_plataforma_select]
+                    fitness_viajes[id_viaje] = id_plataforma_select
+
+
+            # evaluacion de los fitness del lcr
+            id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
-            coste_transporte = coste_transporte + fitness_transporte[fitness_viajes[id_viaje]]
+            coste_transporte = coste_transporte + fitness_transporte[fitness_viajes[id_viaje_select]]
             
             # eliminamos de la lista el viaje que ya hemos adjudicado
             list_actual = dict(actual)
@@ -256,17 +269,11 @@ class Grasp:
                 for f in rango:
                     self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad
 
-                # if int(idArticulo) == 81 and int(plataforma_viaje_select) == 7 :
-                #             print(cantidad)
-                #             print(fecha)
-                #             print(demora)
-                #             print(self.oriStock['7']["81"].values())
-                #             print(self.dictStock['7']["81"].values())
-                #             os._exit(0)
+
                 
         # guardamos el diccionario de stock para poder ver el balanceo
         dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-        with open("stock_sol_"+str(alfa).replace(".","_")+".csv", 'w') as csvfile:
+        with open("stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w') as csvfile:
             writer = csv.writer(csvfile,delimiter=';')
             for p in dictstock:
                 writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])

@@ -17,9 +17,11 @@ argparser.add_argument('-l', '--lcr', help='Tamaño de la lista de candidatos', 
 argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', default="./data/stock.csv")
 argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml",)
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
+argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True)
 args = argparser.parse_args()
 
 cien = False
+old_aval = args.a_val
 if int(args.a_val) > 1:
     args.a_val = int(args.a_val)/100
     cien = True
@@ -28,7 +30,8 @@ sol = {}
 val = {}
 trans = {}
 sum_val = {}
-print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
+if args.debug:
+    print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
 
 for i in tqdm(range(int(args.iteraciones))):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
@@ -53,7 +56,8 @@ new_sol = {}
 new_trans = {}
 if args.alfa == None:
     for i in val.keys():
-        print("---> Iter {} fitness: {} transporte: {}".format(i,val[i],trans[i]))
+        if args.debug:
+            print("---> Iter {} fitness: {} transporte: {}".format(i,val[i],trans[i]))
         if new_val == 0:
             new_val = val[i]
             new_sol = sol[i]
@@ -68,7 +72,8 @@ if args.alfa == None:
 else:
     for i in val:
         for alfa in val[i]:
-            print("---> Iter {} alfa {} fitness: {} transporte: {}".format(i,alfa/int(args.alfa),val[i][alfa],trans[i][alfa]))
+            if args.debug:
+                print("---> Iter {} alfa {} fitness: {} transporte: {}".format(i,alfa/int(args.alfa),val[i][alfa],trans[i][alfa]))
             if new_val == 0:
                 new_val = val[i][alfa]
                 new_sol = sol[i][alfa]
@@ -82,7 +87,8 @@ else:
     trans = new_trans
 
 if(args.save):
-    with open(args.name+str(float(args.a_val)).replace(".","_")+'.json', 'w') as outfile:
+    with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
         json.dump(sol, outfile)
-print("---> Mejor fitness: {} Transporte: {}".format(val,trans))
-print("--- {} seconds ---".format(time.time() - start_time))
+if args.debug:
+    print("---> Mejor fitness: {} Transporte: {}".format(val,trans))   
+    print("--- {} seconds ---".format(time.time() - start_time))
