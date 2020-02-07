@@ -139,6 +139,11 @@ class Grasp:
 
             fitness_viajes = {}
             fitness_valores = {}
+            fitness_plats_precio = {}
+            fitness_plats_cantidad = {}
+            fitness_transporte = {}
+            fitness_completo_precio = {}
+            fitness_no_alfa = {}
             for id_viaje, nplat in actual:
                 articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
                 stocks = {}
@@ -186,74 +191,56 @@ class Grasp:
                     counter.update(d)
                 restos = dict(counter)
 
-                fitness_plats_precio = {}
-                fitness_plats_cantidad = {}
-                fitness_transporte = {}
-                fitness_completo_precio = {}
-                fitness_no_alfa = {}
+                fitness_plats_precio[id_viaje] = {}
+                fitness_plats_cantidad[id_viaje] = {}
+                fitness_transporte[id_viaje] = {}
+                fitness_completo_precio[id_viaje] = {}
+                fitness_no_alfa[id_viaje] = {}
                 for id_plataforma in self.datos[id_viaje]:
 
                     #  Calculos para el coste de transporte 
-                    fitness_transporte[id_plataforma] = float(self.datos[id_viaje][id_plataforma]['Precio'])
+                    fitness_transporte[id_viaje][id_plataforma] = float(self.datos[id_viaje][id_plataforma]['Precio'])
                     
                     #  Calculos para el coste del stock
                     # Función fitness
-                    fitness_plats_precio[id_plataforma] = stocks[id_plataforma]
-                    fitness_completo_precio[id_plataforma] = alfa * fitness_transporte[id_plataforma] + (1 - alfa) * fitness_plats_precio[id_plataforma]
-                    fitness_no_alfa[id_plataforma] = fitness_transporte[id_plataforma] + fitness_plats_precio[id_plataforma]
+                    fitness_plats_precio[id_viaje][id_plataforma] = stocks[id_plataforma]
+                    fitness_completo_precio[id_viaje][id_plataforma] = alfa * fitness_transporte[id_viaje][id_plataforma] + (1 - alfa) * fitness_plats_precio[id_viaje][id_plataforma]
+                    fitness_no_alfa[id_viaje][id_plataforma] = fitness_transporte[id_viaje][id_plataforma] + fitness_plats_precio[id_viaje][id_plataforma]
                     #  Calculos para la cantidad de stock
                     # Función fitness en el caso de que todas las plataformas tengan stock positivo
-                    fitness_plats_cantidad[id_plataforma] = restos[id_plataforma]
+                    fitness_plats_cantidad[id_viaje][id_plataforma] = restos[id_plataforma]
 
 
                 #Obtención del mejor fitness por stock/precio
                 
-                dict_precios_positivos = {x:y for x,y in fitness_completo_precio.items() if y >= 0}
+                dict_precios_positivos = {x:y for x,y in fitness_completo_precio[id_viaje].items() if y >= 0}
                 if len(dict_precios_positivos) <= 0:
                     #elijo de todos los negativos el mayor, mas cercano a 0
-                    id_plataforma_select = max(fitness_completo_precio.items(), key=operator.itemgetter(1))[0]
+                    id_plataforma_select = max(fitness_completo_precio[id_viaje].items(), key=operator.itemgetter(1))[0]
                 else:
                     #de los positivos cojo el menor
                     id_plataforma_select = min(dict_precios_positivos.items(), key=operator.itemgetter(1))[0]
                 
-                # old_aa = id_plataforma_select
-                # if fitness_plats_cantidad[id_plataforma_select] <= 0:
-                #     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                #     print(fitness_no_alfa)
-                #     print(fitness_plats_precio)
-                #     print(fitness_transporte)
-                #     print(id_plataforma_select)
-                #     print(fitness_completo_precio)
-
-                zero_dict = {x:y for x,y in fitness_plats_precio.items() if y == 0 }
+                zero_dict = {x:y for x,y in fitness_plats_precio[id_viaje].items() if y == 0 }
+                cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
+                precio_dict = {x:fitness_plats_precio[id_viaje][x] for x in zero_dict.keys()}
                 # Por cada uno de los precios con 0 calcular el coste del stock y obtener el que mejor indice tenga 
-                if fitness_plats_precio[id_plataforma_select] == 0 and len(zero_dict) >= 1:
-                    cantidad_dict = {x:fitness_plats_cantidad[x] for x in zero_dict.keys()}
-                    max_cant = max(cantidad_dict.items(), key=operator.itemgetter(1))[1]
-                    precio_dict = {x:fitness_plats_precio[x] for x in zero_dict.keys()}
-                    max_precio = max(precio_dict.items(), key=operator.itemgetter(1))[1]
-                    
-
+                if fitness_plats_precio[id_viaje][id_plataforma_select] == 0 and len(zero_dict) >= 1 and not all([ int(x) == 0 for x in cantidad_dict.values()]):
+                    cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
                     factor=1.0/(sum(cantidad_dict.values()) if sum(precio_dict.values()) != 0 else 1)
                     cantidad_dict = Counter({x:cantidad_dict[x]*factor for x in cantidad_dict.keys()})
-
+                    
                     factor=1.0/ (sum(precio_dict.values()) if sum(precio_dict.values()) != 0 else 1)
                     precio_dict = Counter({x:precio_dict[x]*factor for x in precio_dict.keys()})
+                    
                     cantidad_dict.update(precio_dict)
                     cantidad_dict = dict(cantidad_dict)
-                    
                     mediana = len(cantidad_dict.items())//2
                     id_plataforma_select = sorted(cantidad_dict.items(),key=operator.itemgetter(1),reverse=False)[mediana][0]
+                else:
+                    id_plataforma_select = min(cantidad_dict.items(), key=operator.itemgetter(1))[0]
 
-                    #id_plataforma_select = min(cantidad_dict.items(), key=operator.itemgetter(1))[0]
-
-
-                # if fitness_plats_cantidad[old_aa] <= 0:
-                #     print(id_plataforma_select)
-                #     os._exit(0)
-
-                # fitness_valores[id_viaje] = fitness_completo_precio[id_plataforma_select]
-                fitness_valores[id_viaje] = fitness_no_alfa[id_plataforma_select]
+                fitness_valores[id_viaje] = fitness_no_alfa[id_viaje][id_plataforma_select]
                 fitness_viajes[id_viaje] = id_plataforma_select
                 
 
@@ -263,11 +250,12 @@ class Grasp:
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
 
             #ERROR hay unos viajes que el transporte es mayor que el fitness ....
-            if fitness_transporte[fitness_viajes[id_viaje_select]] > fitness_valores[id_viaje_select]:
-                print(id_viaje_select,fitness_viajes[id_viaje_select])
-                print(fitness_valores[id_viaje_select], fitness_transporte[fitness_viajes[id_viaje_select]])
+            if fitness_transporte[id_viaje_select][plataforma_viaje_select] > fitness_valores[id_viaje_select]:
+                print(id_viaje_select,plataforma_viaje_select)
+                print(fitness_valores[id_viaje_select] == fitness_no_alfa[id_viaje_select][plataforma_viaje_select])
+            
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
-            coste_transporte = coste_transporte + fitness_transporte[fitness_viajes[id_viaje_select]]
+            coste_transporte = coste_transporte + fitness_transporte[id_viaje_select][plataforma_viaje_select]
             
             # eliminamos de la lista el viaje que ya hemos adjudicado
             list_actual = dict(actual)
