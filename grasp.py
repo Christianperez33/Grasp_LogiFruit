@@ -225,20 +225,21 @@ class Grasp:
                 cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
                 precio_dict = {x:fitness_plats_precio[id_viaje][x] for x in zero_dict.keys()}
                 # Por cada uno de los precios con 0 calcular el coste del stock y obtener el que mejor indice tenga 
-                if fitness_plats_precio[id_viaje][id_plataforma_select] == 0 and len(zero_dict) >= 1 and not all([ int(x) == 0 for x in cantidad_dict.values()]):
-                    cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
-                    factor=1.0/(sum(cantidad_dict.values()) if sum(precio_dict.values()) != 0 else 1)
-                    cantidad_dict = Counter({x:cantidad_dict[x]*factor for x in cantidad_dict.keys()})
-                    
-                    factor=1.0/ (sum(precio_dict.values()) if sum(precio_dict.values()) != 0 else 1)
-                    precio_dict = Counter({x:precio_dict[x]*factor for x in precio_dict.keys()})
-                    
-                    cantidad_dict.update(precio_dict)
-                    cantidad_dict = dict(cantidad_dict)
-                    mediana = len(cantidad_dict.items())//2
-                    id_plataforma_select = sorted(cantidad_dict.items(),key=operator.itemgetter(1),reverse=False)[mediana][0]
-                else:
-                    id_plataforma_select = min(cantidad_dict.items(), key=operator.itemgetter(1))[0]
+                if len(list(cantidad_dict.items())) != 0 or len(list(precio_dict.items())) != 0:
+                    if fitness_plats_precio[id_viaje][id_plataforma_select] == 0 and len(zero_dict) >= 1 and not all([ int(x) == 0 for x in cantidad_dict.values()]):
+                        cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
+                        factor=1.0/(sum(cantidad_dict.values()) if sum(precio_dict.values()) != 0 else 1)
+                        cantidad_dict = Counter({x:cantidad_dict[x]*factor for x in cantidad_dict.keys()})
+                        
+                        factor=1.0/ (sum(precio_dict.values()) if sum(precio_dict.values()) != 0 else 1)
+                        precio_dict = Counter({x:precio_dict[x]*factor for x in precio_dict.keys()})
+                        
+                        cantidad_dict.update(precio_dict)
+                        cantidad_dict = dict(cantidad_dict)
+                        mediana = len(cantidad_dict.items())//2
+                        id_plataforma_select = sorted(cantidad_dict.items(),key=operator.itemgetter(1),reverse=False)[mediana][0]
+                    else:
+                        id_plataforma_select = min(cantidad_dict.items(), key=operator.itemgetter(1))[0]
 
                 fitness_valores[id_viaje] = fitness_no_alfa[id_viaje][id_plataforma_select]
                 fitness_viajes[id_viaje] = id_plataforma_select

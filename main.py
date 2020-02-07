@@ -18,7 +18,6 @@ argparser = argparse.ArgumentParser()
 argparser.add_argument('-r', '--random', help='mezcla de datos al incio del algoritmo', default=True)
 argparser.add_argument('-i', '--iteraciones',help='numero de iteraciones que hace el algoritmo', default=5)
 argparser.add_argument('-s', '--seed', help='semilla que utilizamos para el randomizado de los datos', default=None)
-argparser.add_argument('-a', '--alfa', help='cojunto de valores que puede tomar alfa, cuan mas grande el valor mas divisiones de alfa, multiplos de 10', default=None)
 argparser.add_argument('-av', '--a_val', help='valor de inicio de alfa', default=0.5)
 argparser.add_argument('-g', '--save', help='Guarda la solución en un fichero llamado "solution_json.json"', default=False)
 argparser.add_argument('-n', '--name', help='nombre del archivo que guarda la solucion"', default="solution_")
@@ -27,8 +26,8 @@ argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', def
 argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml",)
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
+argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=False ,type=str2bool)
 args = argparser.parse_args()
-
 cien = False
 
 old_aval = args.a_val
@@ -47,60 +46,38 @@ if args.debug:
 
 for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
-    if args.alfa == None:
-        x = g.GRASP_Solution(float(args.a_val),int(args.lcr))
-        sol[i] = x[0]
-        val[i] = x[1]
-        trans[i] = x[2]
-        
-    else:
-        sol[i] = {}
-        val[i] = {}
-        trans[i] = {}
-        for alfa in range(int(args.alfa)+1):
-            x = g.GRASP_Solution(alfa/int(args.alfa),int(args.lcr),i)
-            sol[i][alfa] = x[0]
-            val[i][alfa] = x[1]
-            trans[i][alfa] = x[2]
+    x = g.GRASP_Solution(float(args.a_val),int(args.lcr),1,test=args.test)
+    sol[i] = x[0]
+    val[i] = x[1]
+    trans[i] = x[2]
 
-new_val = 0
-new_sol = {}
-new_trans = {}
-if args.alfa == None:
-    for i in val.keys():
+
+with open("Resumen_test.csv", 'a') as csvfile:
+    writer = csv.writer(csvfile,delimiter=';')    
+    new_val = 0
+    new_sol = {}
+    new_trans = {}
+    for i in val:
         if args.debug:
-            print("---> Iter {} fitness: {} transporte: {}".format(i,val[i],trans[i]))
+            print("---> Iter {} alfa {} fitness: {} transporte: {}".format(i,args.a_val,val[i],trans[i]))
+        if args.test:
+            writer.writerow([i,args.lcr,args.a_val,val[i],trans[i]])
         if new_val == 0:
             new_val = val[i]
             new_sol = sol[i]
-            new_trans = trans[i]
+            new_trans =  trans[i]
         elif val[i] < new_val:
             new_val = val[i]
             new_sol = sol[i]
-            new_trans = trans[i]
-    val = new_val
-    sol = new_sol 
-    trans = new_trans
-else:
-    for i in val:
-        for alfa in val[i]:
-            if args.debug:
-                print("---> Iter {} alfa {} fitness: {} transporte: {}".format(i,alfa/int(args.alfa),val[i][alfa],trans[i][alfa]))
-            if new_val == 0:
-                new_val = val[i][alfa]
-                new_sol = sol[i][alfa]
-                new_trans =  trans[i][alfa]
-            elif val[i][alfa] < new_val:
-                new_val = val[i][alfa]
-                new_sol = sol[i][alfa]
-                new_trans =  trans[i][alfa]
+            new_trans =  trans[i]
     val = new_val
     sol = new_sol
     trans = new_trans
 
-if(args.save):
+if(args.save and not args.test):
     with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
         json.dump(sol, outfile)
+
 if args.debug:
     print("---> Mejor fitness: {} Transporte: {}".format(val,trans))   
     print("--- {} seconds ---".format(time.time() - start_time))
