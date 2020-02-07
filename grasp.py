@@ -101,13 +101,6 @@ class Grasp:
                         for f in rango:
                             self.dictStock[idPlataforma][idArticulo][f] = int(self.dictStock[idPlataforma][idArticulo][f]) - cantidad
                         
-                        # if int(idArticulo) == 81 and int(idPlataforma) == 7 :
-                        #     print(cantidad)
-                        #     print(fecha)
-                        #     print(demora)
-                        #     print(self.oriStock['7']["81"].values())
-                        #     print(self.dictStock['7']["81"].values())
-                        #     os._exit(0)
 
                     self.solucion[viaje] = plataforma['Plataforma']
                     del output[viaje]
@@ -249,12 +242,6 @@ class Grasp:
             # evaluacion de los fitness del lcr
             id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
-
-            #ERROR hay unos viajes que el transporte es mayor que el fitness ....
-            if fitness_transporte[id_viaje_select][plataforma_viaje_select] > fitness_valores[id_viaje_select]:
-                print(id_viaje_select,plataforma_viaje_select)
-                print(fitness_valores[id_viaje_select] == fitness_no_alfa[id_viaje_select][plataforma_viaje_select])
-            
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
             coste_transporte = coste_transporte + fitness_transporte[id_viaje_select][plataforma_viaje_select]
             
