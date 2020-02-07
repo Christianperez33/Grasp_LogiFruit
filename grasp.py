@@ -118,7 +118,7 @@ class Grasp:
 
     
 
-    def GRASP_Solution(self, alfa=0.5,LCR=3, iter=0):
+    def GRASP_Solution(self, alfa=0.5,LCR=3, iter=0,test=False):
         
 
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
@@ -293,14 +293,15 @@ class Grasp:
 
                 
         # guardamos el diccionario de stock para poder ver el balanceo
-        dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-        with open("stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w') as csvfile:
-            writer = csv.writer(csvfile,delimiter=';')
-            for p in dictstock:
-                writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
-                writer.writerow([' ']+fechas)
-                for a in dictstock[p]:
-                    writer.writerow([int(a)]+list(dictstock[p][a].values()))
-                writer.writerow([' '])
+        if not test:
+            dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
+            with open("stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w') as csvfile:
+                writer = csv.writer(csvfile,delimiter=';')
+                for p in dictstock:
+                    writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
+                    writer.writerow([' ']+fechas)
+                    for a in dictstock[p]:
+                        writer.writerow([int(a)]+list(dictstock[p][a].values()))
+                    writer.writerow([' '])
                 
         return [self.solucion, total_fitness/len(listaLCR),coste_transporte/len(listaLCR)]
