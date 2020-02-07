@@ -1,9 +1,18 @@
 import time
 from grasp import *
-# from prueba import *
 import argparse
 from tqdm import tqdm
 import json
+
+def str2bool(v):
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument('-r', '--random', help='mezcla de datos al incio del algoritmo', default=True)
@@ -17,10 +26,11 @@ argparser.add_argument('-l', '--lcr', help='Tamaño de la lista de candidatos', 
 argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', default="./data/stock.csv")
 argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml",)
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
-argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True)
+argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 args = argparser.parse_args()
 
 cien = False
+
 old_aval = args.a_val
 if int(args.a_val) > 1:
     args.a_val = int(args.a_val)/100
@@ -30,10 +40,12 @@ sol = {}
 val = {}
 trans = {}
 sum_val = {}
+
 if args.debug:
     print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
+    
 
-for i in tqdm(range(int(args.iteraciones))):
+for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
     if args.alfa == None:
         x = g.GRASP_Solution(float(args.a_val),int(args.lcr))
