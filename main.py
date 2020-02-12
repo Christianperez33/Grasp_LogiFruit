@@ -59,7 +59,7 @@ with open("Resumen_test.csv", 'a') as csvfile:
     new_trans = {}
     for i in val:
         if args.debug:
-            print("---> Iter {} alfa {} fitness: {} transporte: {}".format(i,args.a_val,val[i],trans[i]))
+            print("---> Iter {} alfa {} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,val[i],trans[i]))
         if args.test:
             writer.writerow([i,args.lcr,args.a_val,val[i],trans[i]])
         if new_val == 0:
@@ -79,5 +79,5 @@ if(args.save and not args.test):
         json.dump(sol, outfile)
 
 if args.debug:
-    print("---> Mejor fitness: {} Transporte: {}".format(val,trans))   
+    print("---> Mejor fitness: {:.2f} Transporte: {:.2f}".format(val,trans))   
     print("--- {} seconds ---".format(time.time() - start_time))

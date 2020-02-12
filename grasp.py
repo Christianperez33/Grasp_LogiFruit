@@ -13,6 +13,7 @@ import time
 import random
 import csv
 import copy
+import math
 
 
 class Grasp:
@@ -111,24 +112,22 @@ class Grasp:
 
     
 
-    def GRASP_Solution(self, alfa=0.5,LCR=3, iter=0,test=False):
-        
+    def GRASP_Solution(self, alfa=0.2,LCR=1000, iter=0,test=False):
 
+        factor_alfa = (1-alfa)/len(self.datos)
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
         listaLCR = sorted(listaLCR.items(),
                           key=operator.itemgetter(1),
                           reverse=False)
+
         # viajes con cada una de las plataformas
-        actual = listaLCR[:LCR-1]
-        resto = listaLCR[LCR-1:]
         total_fitness = 0
         coste_transporte = 0
-        while len(actual) > 0 :
+        while len(listaLCR) > 0 :
 
-            if len(resto) > 0:
-                val = resto.pop(0)
-                actual.append(val)
-                fecha = self.dictViajes[val[0]]['FechaDescarga']
+            actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
+            if len(actual) == 0:
+                actual = listaLCR
 
             fitness_viajes = {}
             fitness_valores = {}
@@ -137,11 +136,13 @@ class Grasp:
             fitness_transporte = {}
             fitness_completo_precio = {}
             fitness_no_alfa = {}
+            scheduler_alfa = {}
             for id_viaje, nplat in actual:
                 articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
                 stocks = {}
                 cantidades ={}
                 restos = {}
+                fecha = self.dictViajes[id_viaje]['FechaDescarga']
                 for articulo in articulos:
                     # obtenemos los datos del articulo
                     idArticulo = articulo['Articulo']
@@ -215,8 +216,15 @@ class Grasp:
                     id_plataforma_select = min(dict_precios_positivos.items(), key=operator.itemgetter(1))[0]
                 
                 zero_dict = {x:y for x,y in fitness_plats_precio[id_viaje].items() if y == 0 }
+                
+                if(len({x:y for x,y in fitness_plats_precio[id_viaje].items() if y >= 0 }) <= len({x:y for x,y in fitness_plats_precio[id_viaje].items() if y < 0 })) :
+                    scheduler_alfa[id_viaje] = True
+                else:
+                    scheduler_alfa[id_viaje] = False
+
                 cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
                 precio_dict = {x:fitness_plats_precio[id_viaje][x] for x in zero_dict.keys()}
+
                 # Por cada uno de los precios con 0 calcular el coste del stock y obtener el que mejor indice tenga 
                 if len(list(cantidad_dict.items())) != 0 or len(list(precio_dict.items())) != 0:
                     if fitness_plats_precio[id_viaje][id_plataforma_select] == 0 and len(zero_dict) >= 1 and not all([ int(x) == 0 for x in cantidad_dict.values()]):
@@ -233,22 +241,25 @@ class Grasp:
                         id_plataforma_select = sorted(cantidad_dict.items(),key=operator.itemgetter(1),reverse=False)[mediana][0]
                     else:
                         id_plataforma_select = min(cantidad_dict.items(), key=operator.itemgetter(1))[0]
-
-                fitness_valores[id_viaje] = fitness_no_alfa[id_viaje][id_plataforma_select]
-                fitness_viajes[id_viaje] = id_plataforma_select
                 
+                fitness_valores[id_viaje] = fitness_completo_precio[id_viaje][id_plataforma_select]
+                fitness_viajes[id_viaje] = id_plataforma_select                 
 
 
             # evaluacion de los fitness del lcr
             id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]
+            if scheduler_alfa[id_viaje_select] == True:
+                alfa = alfa + factor_alfa
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
             coste_transporte = coste_transporte + fitness_transporte[id_viaje_select][plataforma_viaje_select]
             
             # eliminamos de la lista el viaje que ya hemos adjudicado
-            list_actual = dict(actual)
-            del list_actual[id_viaje_select]
-            actual = list(list_actual.items()) 
+
+            list_listaLCR = dict(listaLCR)
+            del list_listaLCR[id_viaje_select]
+            listaLCR = list(list_listaLCR.items()) 
+
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
 
@@ -290,5 +301,5 @@ class Grasp:
                     for a in dictstock[p]:
                         writer.writerow([int(a)]+list(dictstock[p][a].values()))
                     writer.writerow([' '])
-                
-        return [self.solucion, total_fitness/len(listaLCR),coste_transporte/len(listaLCR)]
+        print("ALFA FINAL {}".format(alfa))   
+        return [self.solucion, total_fitness/len(self.datos),coste_transporte/len(self.datos)]
