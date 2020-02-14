@@ -38,6 +38,7 @@ start_time = time.time()
 sol = {}
 val = {}
 trans = {}
+alfas = {}
 sum_val = {}
 
 if args.debug:
@@ -50,6 +51,8 @@ for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     sol[i] = x[0]
     val[i] = x[1]
     trans[i] = x[2]
+    alfas[i] = x[3]
+    
 
 
 with open("Resumen_test.csv", 'a') as csvfile:
@@ -59,7 +62,7 @@ with open("Resumen_test.csv", 'a') as csvfile:
     new_trans = {}
     for i in val:
         if args.debug:
-            print("---> Iter {} alfa {} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,val[i],trans[i]))
+            print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
         if args.test:
             writer.writerow([i,args.lcr,args.a_val,val[i],trans[i]])
         if new_val == 0:
