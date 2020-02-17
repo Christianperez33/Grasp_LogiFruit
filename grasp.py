@@ -112,7 +112,7 @@ class Grasp:
 
     
 
-    def GRASP_Solution(self, alfa=0.2,LCR=1000, iter=0,test=False):
+    def GRASP_Solution(self, alfa=0.2,LCR=200, iter=0,test=False):
 
         factor_alfa = (1-alfa)/len(self.datos)
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
@@ -125,7 +125,8 @@ class Grasp:
         coste_transporte = 0
         while len(listaLCR) > 0 :
 
-            actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
+            # actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
+            actual = listaLCR[:LCR]
             if len(actual) == 0:
                 actual = listaLCR
 
@@ -248,8 +249,8 @@ class Grasp:
 
             # evaluacion de los fitness del lcr
             id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]
-            if scheduler_alfa[id_viaje_select] == True:
-                alfa = alfa + factor_alfa
+            # if scheduler_alfa[id_viaje_select] == True:
+            #     alfa = alfa + factor_alfa
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
             coste_transporte = coste_transporte + fitness_transporte[id_viaje_select][plataforma_viaje_select]
