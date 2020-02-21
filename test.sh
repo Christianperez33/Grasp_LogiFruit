@@ -9,5 +9,5 @@ do
     done
 done
 end=`date +%s`
-runtime=$((end-start)/60)
+runtime=$((end-start))
 echo "Tiempo de ejecución: $runtime"
