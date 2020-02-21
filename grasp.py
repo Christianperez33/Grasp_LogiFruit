@@ -71,20 +71,17 @@ class Grasp:
         self.dictPrecios = copy.deepcopy(self.oriPrecios)
 
 
-        output = dict(zip(set(self.dictViajes), [
-                      {} for v in set(self.dictViajes)]))
+        output = dict(zip(set(self.dictViajes), [ {} for v in set(self.dictViajes)]))
         for viaje in self.dictViajes:
 
             fecha = self.dictViajes[viaje]['FechaDescarga']
             if self.dictViajes[viaje]['PlataformasPosibles'] is None: continue
             
             plataformas = self.dictViajes[viaje]['PlataformasPosibles']['CosteTransporte']
-            plataformas = plataformas if isinstance(
-                plataformas, list) else [plataformas]
+            plataformas = plataformas if isinstance( plataformas, list) else [plataformas]
 
             articulos = self.dictViajes[viaje]['Carga']['CantidadModelo']
-            articulos = articulos if isinstance(
-                articulos, list) else [articulos]
+            articulos = articulos if isinstance(articulos, list) else [articulos]
 
             for plataforma in plataformas:
                 idPlataforma = plataforma['Plataforma']
@@ -125,8 +122,8 @@ class Grasp:
         coste_transporte = 0
         while len(listaLCR) > 0 :
 
-            # actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
-            actual = listaLCR[:LCR]
+            actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
+            #actual = listaLCR[:LCR]
             if len(actual) == 0:
                 actual = listaLCR
 
@@ -162,15 +159,18 @@ class Grasp:
                         if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
-                                for d in range(int(demora)):
+                                for d in range(fechas.index(fecha)-int(demora),len(fechas)+1):
                                     resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
                                     if resto_stock < 0:
-                                        costeStock = costeStock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad * precio
-                                resto_stock = (resto_stock/int(demora)) if resto_stock > 0 else 0
+                                        costeStock = costeStock + ((int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad) * precio)
+                                resto_stock = (resto_stock/len(range(fechas.index(fecha)-int(demora),len(fechas)+1))) if resto_stock > 0 else 0
                             else:
-                                resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
-                                if resto_stock < 0:
-                                    costeStock = costeStock + int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad * precio
+                                # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
+                                for d in range(fechas.index(fecha),len(fechas)+1):
+                                    resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    if resto_stock < 0:
+                                        costeStock = costeStock + ((int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad) * precio)
+                                resto_stock = (resto_stock/len(range(fechas.index(fecha),len(fechas)+1))) if resto_stock > 0 else 0
 
                         stocks[idArticulo][id_plataforma] = costeStock
                         restos[idArticulo][id_plataforma] = resto_stock
@@ -218,10 +218,11 @@ class Grasp:
                 
                 zero_dict = {x:y for x,y in fitness_plats_precio[id_viaje].items() if y == 0 }
                 
+                #alfa dinámico
                 if(len({x:y for x,y in fitness_plats_precio[id_viaje].items() if y >= 0 }) <= len({x:y for x,y in fitness_plats_precio[id_viaje].items() if y < 0 })) :
-                    scheduler_alfa[id_viaje] = True
-                else:
                     scheduler_alfa[id_viaje] = False
+                else:
+                    scheduler_alfa[id_viaje] = True
 
                 cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
                 precio_dict = {x:fitness_plats_precio[id_viaje][x] for x in zero_dict.keys()}
@@ -249,8 +250,11 @@ class Grasp:
 
             # evaluacion de los fitness del lcr
             id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]
-            # if scheduler_alfa[id_viaje_select] == True:
-            #     alfa = alfa + factor_alfa
+            if scheduler_alfa[id_viaje_select] == True:
+                 alfa = alfa + factor_alfa
+            else:
+                alfa = alfa - factor_alfa
+                
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
             coste_transporte = coste_transporte + fitness_transporte[id_viaje_select][plataforma_viaje_select]

@@ -28,8 +28,9 @@ argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios',
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=False ,type=str2bool)
 args = argparser.parse_args()
-cien = False
 
+
+cien = False
 old_aval = args.a_val
 if int(args.a_val) > 1:
     args.a_val = int(args.a_val)/100
