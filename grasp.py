@@ -26,6 +26,7 @@ class Grasp:
         __init__ Constructor que inicializa las variables de stock y viajes segun las funciones desarrolladas para la obtención de los datos
         """
         self.solucion = dict()
+        self.solucion_zonas = []
         self.stock = DatosStock(stock)
         self.oriStock = copy.deepcopy(self.stock.dictStock)
         self.viajes = DatosViajes(viajes)
@@ -69,11 +70,10 @@ class Grasp:
         self.dictStock   = copy.deepcopy(self.oriStock)
         self.dictViajes  = copy.deepcopy(self.oriViajes)
         self.dictPrecios = copy.deepcopy(self.oriPrecios)
-
-
+        
+        
         output = dict(zip(set(self.dictViajes), [ {} for v in set(self.dictViajes)]))
         for viaje in self.dictViajes:
-
             fecha = self.dictViajes[viaje]['FechaDescarga']
             if self.dictViajes[viaje]['PlataformasPosibles'] is None: continue
             
@@ -93,7 +93,6 @@ class Grasp:
                         idArticulo = articulo['Articulo']
                         cantidad = int(articulo['Cantidad'])
                         fechas = list(self.dictStock[idPlataforma][idArticulo].keys())
-                        
                         ini_rango = (fechas.index(fecha)) - int(demora)
                         rango = fechas[0 if ini_rango <= 0 else ini_rango:]
                         for f in rango:
@@ -101,10 +100,11 @@ class Grasp:
                         
 
                     self.solucion[viaje] = plataforma['Plataforma']
+                    self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[viaje]['Zona'],plataforma['Plataforma'])]
+
                     del output[viaje]
                 else:
                     output[viaje][plataforma['Plataforma']] = plataforma
-        
         return output
 
     
@@ -267,6 +267,8 @@ class Grasp:
 
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
+            self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[id_viaje_select]['Zona'],plataforma_viaje_select)]
+            
 
             
             #actualizamos el stock para poder ver el balanceo
@@ -296,15 +298,15 @@ class Grasp:
 
                 
         # guardamos el diccionario de stock para poder ver el balanceo
-        if not test:
-            dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-            with open("stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w') as csvfile:
-                writer = csv.writer(csvfile,delimiter=';')
-                for p in dictstock:
-                    writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
-                    writer.writerow([' ']+fechas)
-                    for a in dictstock[p]:
-                        writer.writerow([int(a)]+list(dictstock[p][a].values()))
-                    writer.writerow([' '])
+
+        dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
+        with open("stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w') as csvfile:
+            writer = csv.writer(csvfile,delimiter=';')
+            for p in dictstock:
+                writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
+                writer.writerow([' ']+fechas)
+                for a in dictstock[p]:
+                    writer.writerow([int(a)]+list(dictstock[p][a].values()))
+                writer.writerow([' '])
          
-        return [self.solucion, total_fitness/len(self.datos),coste_transporte/len(self.datos),alfa]
+        return [self.solucion,  total_fitness/len(self.datos),coste_transporte/len(self.datos),alfa,self.solucion_zonas]

@@ -41,6 +41,7 @@ val = {}
 trans = {}
 alfas = {}
 sum_val = {}
+sol_zonas = {}
 
 if args.debug:
     print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
@@ -53,6 +54,7 @@ for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     val[i] = x[1]
     trans[i] = x[2]
     alfas[i] = x[3]
+    sol_zonas[i] = x[4]
     
 
 
@@ -61,6 +63,7 @@ with open("Resumen_test.csv", 'a') as csvfile:
     new_val = 0
     new_sol = {}
     new_trans = {}
+    new_sol_zonas = {}
     for i in val:
         if args.debug:
             print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
@@ -70,17 +73,23 @@ with open("Resumen_test.csv", 'a') as csvfile:
             new_val = val[i]
             new_sol = sol[i]
             new_trans =  trans[i]
+            new_sol_zonas = sol_zonas[i] 
         elif val[i] < new_val:
             new_val = val[i]
             new_sol = sol[i]
             new_trans =  trans[i]
+            new_sol_zonas = sol_zonas[i] 
     val = new_val
     sol = new_sol
     trans = new_trans
+    sol_zonas = new_sol_zonas
 
 if(args.save and not args.test):
     with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
         json.dump(sol, outfile)
+    with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'_ZONAS.json', 'w') as outfile:
+        json.dump(sol_zonas, outfile)
+        
 
 if args.debug:
     print("---> Mejor fitness: {:.2f} Transporte: {:.2f}".format(val,trans))   
