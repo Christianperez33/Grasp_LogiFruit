@@ -34,7 +34,6 @@ class Grasp:
         self.precios = DatosPrecio(precios)
         self.oriPrecios = copy.deepcopy(self.precios.dictPrecios)
 
-
         if shuffle:
             keys_stock = list(self.oriStock.keys())
             keys_viajes = list(self.oriViajes.keys())
@@ -88,23 +87,24 @@ class Grasp:
                 
                 coste = float(plataforma['Precio'])
                 demora = plataforma['Demora']
-                if len(plataformas) == 1:
-                    for articulo in articulos:
-                        idArticulo = articulo['Articulo']
-                        cantidad = int(articulo['Cantidad'])
-                        fechas = list(self.dictStock[idPlataforma][idArticulo].keys())
-                        ini_rango = (fechas.index(fecha)) - int(demora)
-                        rango = fechas[0 if ini_rango <= 0 else ini_rango:]
-                        for f in rango:
-                            self.dictStock[idPlataforma][idArticulo][f] = int(self.dictStock[idPlataforma][idArticulo][f]) - cantidad
+                # if len(plataformas) == 1:
+                #     for articulo in articulos:
+                #         idArticulo = articulo['Articulo']
+                #         cantidad = int(articulo['Cantidad'])
+                #         fechas = list(self.dictStock[idPlataforma][idArticulo].keys())
+                #         ini_rango = (fechas.index(fecha)) - int(demora)
+                #         rango = fechas[0 if ini_rango <= 0 else ini_rango:]
+                #         for f in rango:
+                #             self.dictStock[idPlataforma][idArticulo][f] = int(self.dictStock[idPlataforma][idArticulo][f]) - cantidad
                         
 
-                    self.solucion[viaje] = plataforma['Plataforma']
-                    self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[viaje]['Zona'],plataforma['Plataforma'])]
+                #     self.solucion[viaje] = plataforma['Plataforma']
+                #     self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[viaje]['Zona'],plataforma['Plataforma'])]
 
-                    del output[viaje]
-                else:
-                    output[viaje][plataforma['Plataforma']] = plataforma
+                #     del output[viaje]
+                # else:
+                #     output[viaje][plataforma['Plataforma']] = plataforma
+                output[viaje][plataforma['Plataforma']] = plataforma
         return output
 
     
@@ -119,7 +119,6 @@ class Grasp:
 
         # viajes con cada una de las plataformas
         total_fitness = 0
-        coste_transporte = 0
         while len(listaLCR) > 0 :
 
             actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
@@ -257,7 +256,6 @@ class Grasp:
                 
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
-            coste_transporte = coste_transporte + fitness_transporte[id_viaje_select][plataforma_viaje_select]
             
             # eliminamos de la lista el viaje que ya hemos adjudicado
 
@@ -295,10 +293,15 @@ class Grasp:
                 for f in rango:
                     self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad
 
-
-                
+        coste_transporte = 0
+        for s in self.solucion:
+            cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
+            cosas = cosas if isinstance(cosas, list) else [cosas]
+            for c in cosas:
+                if int(c['Plataforma']) == int(self.solucion[s]):
+                    coste_transporte = coste_transporte + float(c['Precio'])
+                    
         # guardamos el diccionario de stock para poder ver el balanceo
-
         dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
         with open("stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w') as csvfile:
             writer = csv.writer(csvfile,delimiter=';')
@@ -309,4 +312,4 @@ class Grasp:
                     writer.writerow([int(a)]+list(dictstock[p][a].values()))
                 writer.writerow([' '])
          
-        return [self.solucion,  total_fitness/len(self.datos),coste_transporte/len(self.datos),alfa,self.solucion_zonas]
+        return [self.solucion,  total_fitness/len(self.solucion), coste_transporte/len(self.solucion), alfa, self.solucion_zonas]
