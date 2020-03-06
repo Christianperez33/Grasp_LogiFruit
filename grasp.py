@@ -26,13 +26,13 @@ class Grasp:
         __init__ Constructor que inicializa las variables de stock y viajes segun las funciones desarrolladas para la obtención de los datos
         """
         self.solucion = dict()
+        self.solucion_zonas = []
         self.stock = DatosStock(stock)
         self.oriStock = copy.deepcopy(self.stock.dictStock)
         self.viajes = DatosViajes(viajes)
         self.oriViajes = copy.deepcopy(self.viajes.dictViajes)
         self.precios = DatosPrecio(precios)
         self.oriPrecios = copy.deepcopy(self.precios.dictPrecios)
-
 
         if shuffle:
             keys_stock = list(self.oriStock.keys())
@@ -69,69 +69,117 @@ class Grasp:
         self.dictStock   = copy.deepcopy(self.oriStock)
         self.dictViajes  = copy.deepcopy(self.oriViajes)
         self.dictPrecios = copy.deepcopy(self.oriPrecios)
-
-
-        output = dict(zip(set(self.dictViajes), [
-                      {} for v in set(self.dictViajes)]))
+        
+        
+        output = dict(zip(set(self.dictViajes), [ {} for v in set(self.dictViajes)]))
         for viaje in self.dictViajes:
-
-            fecha = self.dictViajes[viaje]['FechaDescarga']
             if self.dictViajes[viaje]['PlataformasPosibles'] is None: continue
             
             plataformas = self.dictViajes[viaje]['PlataformasPosibles']['CosteTransporte']
-            plataformas = plataformas if isinstance(
-                plataformas, list) else [plataformas]
+            plataformas = plataformas if isinstance( plataformas, list) else [plataformas]
 
             articulos = self.dictViajes[viaje]['Carga']['CantidadModelo']
-            articulos = articulos if isinstance(
-                articulos, list) else [articulos]
+            articulos = articulos if isinstance(articulos, list) else [articulos]
 
             for plataforma in plataformas:
-                idPlataforma = plataforma['Plataforma']
-                
-                coste = float(plataforma['Precio'])
-                demora = plataforma['Demora']
-                if len(plataformas) == 1:
-                    for articulo in articulos:
-                        idArticulo = articulo['Articulo']
-                        cantidad = int(articulo['Cantidad'])
-                        fechas = list(self.dictStock[idPlataforma][idArticulo].keys())
-                        
-                        ini_rango = (fechas.index(fecha)) - int(demora)
-                        rango = fechas[0 if ini_rango <= 0 else ini_rango:]
-                        for f in rango:
-                            self.dictStock[idPlataforma][idArticulo][f] = int(self.dictStock[idPlataforma][idArticulo][f]) - cantidad
+                # if len(plataformas) == 1:
+                #     for articulo in articulos:
+                #         idArticulo = articulo['Articulo']
+                #         cantidad = int(articulo['Cantidad'])
+                #         fechas = list(self.dictStock[idPlataforma][idArticulo].keys())
+                #         ini_rango = (fechas.index(fecha)) - int(demora)
+                #         rango = fechas[0 if ini_rango <= 0 else ini_rango:]
+                #         for f in rango:
+                #             self.dictStock[idPlataforma][idArticulo][f] = int(self.dictStock[idPlataforma][idArticulo][f]) - cantidad
                         
 
-                    self.solucion[viaje] = plataforma['Plataforma']
-                    del output[viaje]
-                else:
-                    output[viaje][plataforma['Plataforma']] = plataforma
-        
+                #     self.solucion[viaje] = plataforma['Plataforma']
+                #     self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[viaje]['Zona'],plataforma['Plataforma'])]
+
+                #     del output[viaje]
+                # else:
+                #     output[viaje][plataforma['Plataforma']] = plataforma
+                output[viaje][plataforma['Plataforma']] = plataforma
         return output
 
     
 
-    def GRASP_Solution(self, alfa=0.2,LCR=200, iter=0,test=False):
-
+    def GRASP_Solution(self,mode=1,alfa=0.2,LCR=200, iter=0,test=False):
+        alfa_ini=alfa
         factor_alfa = (1-alfa)/len(self.datos)
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
-        listaLCR = sorted(listaLCR.items(),
-                          key=operator.itemgetter(1),
-                          reverse=False)
+        #QUEREMOS MODIFICAR LA NPLAT 10 POR 9??
+        listaLCR.update((k, 10-v) for k, v in listaLCR.items())
+        #listaLCR.update((k, 8) for k, v in listaLCR.items() if (v == 10 | v == 9))
+        #listaLCR.update((k, 1) for k, v in listaLCR.items() if (v == 2  | v == 3))
+        #for i,row in enumerate(data):
+        #data[i] = {k:(v if v else None) for k,v in row.items()}
+        #print(type(listaLCR))
+        #print(listaLCR)
+        #print("ANTESSSS")
+        if mode==1:
+            listaLCR2=list()
+            listaLCR2 = [(k, v) for k, v in listaLCR.items()]
+            listaLCR2 = sorted(listaLCR2, key = lambda y: (y[1]),reverse=True)
+            #print(listaLCR2)
+            #print("ENTRA1")
+            #listaLCR = sorted(listaLCR.items(),
+            #               key=operator.itemgetter(1),
+            #                reverse=False)
+            print(listaLCR2)
+        elif mode==2:
+            #print("ENTRA2")
 
+            listaLCR2=list()
+            listaLCR2_=list()
+            listaLCR2 = [(k, v) for k, v in listaLCR.items()]
+            listaLCR2_ = [(k, v) for k, v in listaLCR.items()]  
+            #for key, value in listaLCR.items():
+            #    temp = [key, value]
+            #    listaLCR2.append(temp)
+            #    listaLCR2_.append(temp)
+            ii=0
+            for x in listaLCR2:
+                suma_cantidad = 0
+                lista = list(listaLCR2[ii])
+                cual=x[0]
+                articulos = [self.dictViajes[cual]['Carga']['CantidadModelo']] if type(
+                    self.dictViajes[cual]['Carga']['CantidadModelo']) != list else \
+                self.dictViajes[cual]['Carga']['CantidadModelo']
+                articulos = articulos if isinstance(articulos, list) else [articulos]
+                if (len(articulos)==1):
+                    suma_cantidad=abs(int(articulos[0]['Cantidad']))
+                else:
+                    for articulo in articulos:
+                        suma_cantidad = suma_cantidad+abs(int(articulo['Cantidad']))
+                lista.insert(2,suma_cantidad)
+                listaLCR2_[ii]=lista
+                ii=ii+1
+            #print(listaLCR2_)
+            #print("DESPUES")
+            listaLCR= sorted(listaLCR2_, key=operator.itemgetter(1, 2),reverse=True)
+            #listaLCR2_.update((k,10-v) for k, v in listaLCR2_.items())
+            #listaLCR = sorted(listaLCR2_, key = lambda y: (y[1],(y[2])),reverse=True)
+            #print(listaLCR)
+            #print((listaLCR))
+            #print(type(listaLCR))
+            #listaLCR = [ l.pop(2) for l in listaLCR ]
+            for x in listaLCR:
+                del x[2]
+            listaLCR = [tuple(l) for l in listaLCR]
         # viajes con cada una de las plataformas
         total_fitness = 0
-        coste_transporte = 0
+        total_fitness2 = 0
         while len(listaLCR) > 0 :
 
-            # actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
-            actual = listaLCR[:LCR]
+            actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
+            #actual = listaLCR[:LCR]
             if len(actual) == 0:
                 actual = listaLCR
 
             fitness_viajes = {}
             fitness_valores = {}
+            fitness_valores2 = {}
             fitness_plats_precio = {}
             fitness_plats_cantidad = {}
             fitness_transporte = {}
@@ -162,15 +210,20 @@ class Grasp:
                         if fecha in fechas:
                             if fechas.index(fecha)-int(demora) > 0:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
-                                for d in range(int(demora)):
-                                    resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                                    if resto_stock < 0:
-                                        costeStock = costeStock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad * precio
-                                resto_stock = (resto_stock/int(demora)) if resto_stock > 0 else 0
+                                for d in range(fechas.index(fecha)-int(demora),len(fechas)+1):
+                                    resto_unitario =  int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    if resto_unitario < 0:
+                                        costeStock = costeStock + ( resto_unitario * precio)
+                                    resto_stock = resto_stock + resto_unitario
+                                resto_stock = (resto_stock/len(range(fechas.index(fecha)-int(demora),len(fechas)+1))) if resto_stock > 0 else 0
                             else:
-                                resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad
-                                if resto_stock < 0:
-                                    costeStock = costeStock + int(self.dictStock[id_plataforma][idArticulo][fecha]) - cantidad * precio
+                                # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
+                                for d in range(fechas.index(fecha),len(fechas)+1):
+                                    resto_unitario =  int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    if resto_unitario < 0:
+                                        costeStock = costeStock + (resto_unitario * precio)
+                                    resto_stock = resto_stock + resto_unitario
+                                resto_stock = (resto_stock/len(range(fechas.index(fecha),len(fechas)+1))) if resto_stock > 0 else 0
 
                         stocks[idArticulo][id_plataforma] = costeStock
                         restos[idArticulo][id_plataforma] = resto_stock
@@ -218,10 +271,11 @@ class Grasp:
                 
                 zero_dict = {x:y for x,y in fitness_plats_precio[id_viaje].items() if y == 0 }
                 
+                #alfa dinámico
                 if(len({x:y for x,y in fitness_plats_precio[id_viaje].items() if y >= 0 }) <= len({x:y for x,y in fitness_plats_precio[id_viaje].items() if y < 0 })) :
-                    scheduler_alfa[id_viaje] = True
-                else:
                     scheduler_alfa[id_viaje] = False
+                else:
+                    scheduler_alfa[id_viaje] = True
 
                 cantidad_dict = {x:fitness_plats_cantidad[id_viaje][x] for x in zero_dict.keys()}
                 precio_dict = {x:fitness_plats_precio[id_viaje][x] for x in zero_dict.keys()}
@@ -244,17 +298,21 @@ class Grasp:
                         id_plataforma_select = min(cantidad_dict.items(), key=operator.itemgetter(1))[0]
                 
                 fitness_valores[id_viaje] = fitness_completo_precio[id_viaje][id_plataforma_select]
+                fitness_valores2[id_viaje] = fitness_plats_precio[id_viaje][id_plataforma_select]
                 fitness_viajes[id_viaje] = id_plataforma_select                 
-
+                
+                
 
             # evaluacion de los fitness del lcr
-            id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]
-            # if scheduler_alfa[id_viaje_select] == True:
-            #     alfa = alfa + factor_alfa
+            id_viaje_select = min(ç.items(), key=operator.itemgetter(1))[0]
+            if scheduler_alfa[id_viaje_select] == True:
+                 alfa = alfa + factor_alfa
+            else:
+                alfa = alfa - factor_alfa
+                
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
-            coste_transporte = coste_transporte + fitness_transporte[id_viaje_select][plataforma_viaje_select]
-            
+            total_fitness2 = total_fitness2+ fitness_valores2[id_viaje]
             # eliminamos de la lista el viaje que ya hemos adjudicado
 
             list_listaLCR = dict(listaLCR)
@@ -263,6 +321,8 @@ class Grasp:
 
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
+            self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[id_viaje_select]['Zona'],plataforma_viaje_select)]
+            
 
             
             #actualizamos el stock para poder ver el balanceo
@@ -289,18 +349,43 @@ class Grasp:
                 for f in rango:
                     self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad
 
-
-                
+        coste_transporte = 0
+        for s in self.solucion:
+            cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
+            cosas = cosas if isinstance(cosas, list) else [cosas]
+            for c in cosas:
+                if int(c['Plataforma']) == int(self.solucion[s]):
+                    coste_transporte = coste_transporte + float(c['Precio'])
+        
+        articulo_minimo = 0
+        suma_articulos_negativos = 0
+        cuantos_articulos_negativos = 0
+        cual_articulos_minimo = 0
+        cual_plat_articulo_minimo = 0
         # guardamos el diccionario de stock para poder ver el balanceo
-        if not test:
-            dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-            with open("stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w') as csvfile:
-                writer = csv.writer(csvfile,delimiter=';')
-                for p in dictstock:
-                    writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
-                    writer.writerow([' ']+fechas)
-                    for a in dictstock[p]:
-                        writer.writerow([int(a)]+list(dictstock[p][a].values()))
-                    writer.writerow([' '])
-         
-        return [self.solucion, total_fitness/len(self.datos),coste_transporte/len(self.datos),alfa]
+        dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
+        with open("results/"+"stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(alfa*100))+".csv", 'w',newline='') as csvfile:
+            writer = csv.writer(csvfile,delimiter=';')
+            
+            for p in dictstock:
+                writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
+                writer.writerow([' ']+fechas)
+                for a in dictstock[p]:
+                    test_list = list(map(int, list(dictstock[p][a].values())))
+                    neg_count = len(list(filter(lambda x: (x < 0), test_list)))
+                    cuantos_articulos_negativos=cuantos_articulos_negativos+neg_count
+                    if (neg_count>0):
+                        neg_nos = list(filter(lambda x: (x < 0), test_list))
+                        suma_articulos_negativos=suma_articulos_negativos+sum(neg_nos)
+                    if (min(test_list)<articulo_minimo):
+                        articulo_minimo=min(test_list)
+                        cual_articulos_minimo=int(a)
+                        cual_plat_articulo_minimo=int(p)
+                    writer.writerow([int(a)]+list(dictstock[p][a].values()))
+        f= open("results/"+"guru_%.2f_%.2f.txt" % (alfa_ini,alfa),"w+")
+        f.write("La menor cantidad es: %d con cantidad negativa\r\n" % (articulo_minimo))
+        f.write("El articulo es: %d de la plataforma: %d\r\n" % (cual_articulos_minimo,cual_plat_articulo_minimo))
+        f.write("Total de articulos con fechas en negativo %d y la suma de todos ellos %d ,prom: %.2f\r\n" % (cuantos_articulos_negativos,suma_articulos_negativos,suma_articulos_negativos/cuantos_articulos_negativos))
+        
+        f.close() 
+        return [self.solucion,  total_fitness2/len(self.solucion), coste_transporte/len(self.solucion), alfa, self.solucion_zonas]

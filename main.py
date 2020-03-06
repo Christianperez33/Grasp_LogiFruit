@@ -27,9 +27,11 @@ argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', d
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=False ,type=str2bool)
+argparser.add_argument('-m', '--mode', help='Mode de prueba(n_plat,n_plat+sumart...', default=2)
 args = argparser.parse_args()
-cien = False
 
+
+cien = False
 old_aval = args.a_val
 if int(args.a_val) > 1:
     args.a_val = int(args.a_val)/100
@@ -40,6 +42,7 @@ val = {}
 trans = {}
 alfas = {}
 sum_val = {}
+sol_zonas = {}
 
 if args.debug:
     print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
@@ -47,11 +50,12 @@ if args.debug:
 
 for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
-    x = g.GRASP_Solution(float(args.a_val),int(args.lcr),1,test=args.test)
+    x = g.GRASP_Solution(int(args.mode),float(args.a_val),int(args.lcr),1,test=args.test)
     sol[i] = x[0]
     val[i] = x[1]
     trans[i] = x[2]
     alfas[i] = x[3]
+    sol_zonas[i] = x[4]
     
 
 
@@ -60,26 +64,33 @@ with open("Resumen_test.csv", 'a') as csvfile:
     new_val = 0
     new_sol = {}
     new_trans = {}
+    new_sol_zonas = {}
     for i in val:
         if args.debug:
             print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
         if args.test:
-            writer.writerow([i,args.lcr,args.a_val,val[i],trans[i]])
+            writer.writerow([i,args.lcr,args.a_val,round(val[i],2),round(trans[i],2)])
         if new_val == 0:
             new_val = val[i]
             new_sol = sol[i]
             new_trans =  trans[i]
+            new_sol_zonas = sol_zonas[i] 
         elif val[i] < new_val:
             new_val = val[i]
             new_sol = sol[i]
             new_trans =  trans[i]
+            new_sol_zonas = sol_zonas[i] 
     val = new_val
     sol = new_sol
     trans = new_trans
+    sol_zonas = new_sol_zonas
 
 if(args.save and not args.test):
     with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
         json.dump(sol, outfile)
+    with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'_ZONAS.json', 'w') as outfile:
+        json.dump(sol_zonas, outfile)
+        
 
 if args.debug:
     print("---> Mejor fitness: {:.2f} Transporte: {:.2f}".format(val,trans))   
