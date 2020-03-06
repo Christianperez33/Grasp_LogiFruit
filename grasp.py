@@ -159,16 +159,18 @@ class Grasp:
                             if fechas.index(fecha)-int(demora) > 0:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
                                 for d in range(fechas.index(fecha)-int(demora),len(fechas)+1):
-                                    resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                                    if resto_stock < 0:
-                                        costeStock = costeStock + ((int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad) * precio)
+                                    resto_unitario =  int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    if resto_unitario < 0:
+                                        costeStock = costeStock + ( resto_unitario * precio)
+                                    resto_stock = resto_stock + resto_unitario
                                 resto_stock = (resto_stock/len(range(fechas.index(fecha)-int(demora),len(fechas)+1))) if resto_stock > 0 else 0
                             else:
                                 # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
                                 for d in range(fechas.index(fecha),len(fechas)+1):
-                                    resto_stock = resto_stock + int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                                    if resto_stock < 0:
-                                        costeStock = costeStock + ((int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad) * precio)
+                                    resto_unitario =  int(self.dictStock[id_plataforma][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                                    if resto_unitario < 0:
+                                        costeStock = costeStock + (resto_unitario * precio)
+                                    resto_stock = resto_stock + resto_unitario
                                 resto_stock = (resto_stock/len(range(fechas.index(fecha),len(fechas)+1))) if resto_stock > 0 else 0
 
                         stocks[idArticulo][id_plataforma] = costeStock
