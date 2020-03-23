@@ -21,7 +21,6 @@ class Grasp:
     """
      Clase Grasp contiene los metodos necesarios para la correcta obtención de los datos y su procesado para obtener una solución válida
     """
-
     def __init__(self, shuffle=True, seed=None, stock="./data/stock.csv", viajes ="./data/viajes.csv", precios = "./data/precio.csv"):
         """
         __init__ Constructor que inicializa las variables de stock y viajes segun las funciones desarrolladas para la obtención de los datos
@@ -60,44 +59,16 @@ class Grasp:
         #! dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
         self.datos = self.getData()
         
-    def getData(self):
-        """
-        getData Función que preprocesa los datos para su posterior uso
-
-        Returns:
-            dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
-        """
-        self.dictStock   = copy.deepcopy(self.oriStock)
-        self.dictViajes  = copy.deepcopy(self.oriViajes)
-        self.dictPrecios = copy.deepcopy(self.oriPrecios)
-        
-        
-        output = dict(zip(set(self.dictViajes), [ {} for v in set(self.dictViajes)]))
-        for viaje in self.dictViajes:
-            if self.dictViajes[viaje]['PlataformasPosibles'] is None: continue
-            
-            plataformas = self.dictViajes[viaje]['PlataformasPosibles']['CosteTransporte']
-            plataformas = plataformas if isinstance( plataformas, list) else [plataformas]
-
-            articulos = self.dictViajes[viaje]['Carga']['CantidadModelo']
-            articulos = articulos if isinstance(articulos, list) else [articulos]
-
-            for plataforma in plataformas:
-                output[viaje][plataforma['Plataforma']] = plataforma
-        return output
-
-    
-
-    def GRASP_Solution(self,beta=50,mode=1,alfa=0.2,LCR=200, iter=0,test=False):
-        factor_alfa = (1-alfa)/len(self.datos)
-        listaLCR = {s: len(self.datos[s]) for s in self.datos}
+    def select_mode(self,mode,listaLCR,beta):
         if mode==1:
             listaLCR2=list()
             listaLCR2 = [(k, v) for k, v in listaLCR.items()]
-            listaLCR = sorted(listaLCR2, key = lambda y: (y[1]),reverse=True)
+            listaLCR = sorted(listaLCR2, key = lambda y: (y[1]),reverse=False)
         elif mode==2:
             #Se invierte el nplat por cada viaje apra ordenar de mayor a menor el viaje con 1 plat pasa a ser viaje con 9 plat por lo que se escoge antes
-            listaLCR.update((k, 10-v) for k, v in listaLCR.items())
+            Keymax = max(listaLCR, key=listaLCR.get) 
+            n_plat_max=listaLCR[Keymax]
+            listaLCR.update((k,n_plat_max -v) for k, v in listaLCR.items())
             listaLCR2=list()
             listaLCR2_=list()
             listaLCR2 = [(k, v) for k, v in listaLCR.items()]
@@ -119,13 +90,15 @@ class Grasp:
                 lista.insert(2,suma_cantidad)
                 listaLCR2_[ii]=lista
                 ii=ii+1
-
-            listaLCR= sorted(listaLCR2_, key=operator.itemgetter(2,1),reverse=True)
+            listaLCR= sorted(listaLCR2_, key=operator.itemgetter(1,2),reverse=True)
             for x in listaLCR:
                 del x[2]
             listaLCR = [tuple(l) for l in listaLCR]
+
         elif mode==3:
-            listaLCR.update((k, 10-v) for k, v in listaLCR.items())
+            Keymax = max(listaLCR, key=listaLCR.get) 
+            n_plat_max=listaLCR[Keymax]
+            listaLCR.update((k, n_plat_max-v) for k, v in listaLCR.items())
             listaLCR2=list()
             listaLCR2 = [(k, v) for k, v in listaLCR.items()]
             listaLCR2_=list()
@@ -161,7 +134,6 @@ class Grasp:
                 suma_cantidad=0
                 lista = list(listaLCR2[ii])
                 cual=x[0]
-
                 articulos = [self.dictViajes[cual]['Carga']['CantidadModelo']] if type(
                     self.dictViajes[cual]['Carga']['CantidadModelo']) != list else \
                 self.dictViajes[cual]['Carga']['CantidadModelo']
@@ -185,19 +157,17 @@ class Grasp:
                 lista.insert(3,suma_demora)
                 listaLCR2_[ii]=lista
                 ii=ii+1
-            #listaLCR2_=[[ 10-x if i == 1 else x for i, x in enumerate(y)] for y in listaLCR2_]
-            #print(listaLCR)
-            #print("#########################")
             listaLCR = sorted(listaLCR2_, key=operator.itemgetter(3,2),reverse=True)
-            #print(listaLCR)
             for x in listaLCR:
                 del x[2]
                 del x[2]
             listaLCR = [tuple(l) for l in listaLCR]
         elif mode==5:
+            Keymax = max(listaLCR, key=listaLCR.get) 
+            n_plat_max=listaLCR[Keymax]
             suma_demora_total=0
             suma_numero_plat_total=0
-            listaLCR.update((k, 10-v) for k, v in listaLCR.items())
+            listaLCR.update((k, n_plat_max-v) for k, v in listaLCR.items())
             listaLCR2=list()
             listaLCR2 = [(k, v) for k, v in listaLCR.items()]
             listaLCR2_=list()
@@ -246,59 +216,104 @@ class Grasp:
                 del xj[2]
             listaLCR = [tuple(l) for l in listaLCR]
         elif mode==6:
-            suma_demora_total=0
+            Keymax = max(listaLCR, key=listaLCR.get) 
+            #print("####")
+            n_plat_max=listaLCR[Keymax]
+            #print(n_plat_max)
             suma_numero_plat_total=0
-            listaLCR.update((k, 10-v) for k, v in listaLCR.items())
+            listaLCR.update((k, n_plat_max-v) for k, v in listaLCR.items())
             listaLCR2=list()
             listaLCR2 = [(k, v) for k, v in listaLCR.items()]
             listaLCR2_=list()
             listaLCR2_ = [(k, v) for k, v in listaLCR.items()]
             ii=0
             for x in listaLCR2:
+
                 suma_cantidad = 0
                 lista = list(listaLCR2[ii])
+                #print(lista)
                 cual = x[0]
                 articulos = [self.dictViajes[cual]['Carga']['CantidadModelo']] if type(
                     self.dictViajes[cual]['Carga']['CantidadModelo']) != list else \
                 self.dictViajes[cual]['Carga']['CantidadModelo']
                 articulos = articulos if isinstance(articulos, list) else [articulos]
                 plataformas=self.datos[cual]
-
+                suma_demora_total=0
                 if len(plataformas)==1:
                     suma_numero_plat_total=suma_numero_plat_total+1
                     aux=list(plataformas)[0]
                     suma_demora=abs(int(plataformas[aux]['Demora']))
-                    suma_demora_total=suma_demora_total+suma_demora
+                    suma_demora_total=suma_demora_total/n_plat_max
                 else:
                     suma_demora=0
                     for xx in plataformas:
-                        suma_demora=suma_demora+int(plataformas[xx]['Demora'])
+                        suma_demora=int(plataformas[xx]['Demora'])
                         suma_numero_plat_total=suma_numero_plat_total+1
-                    suma_demora_total=suma_demora_total+suma_demora
-                lista.insert(2, suma_demora)
+                        suma_demora_total=suma_demora_total+suma_demora
+                    
+                    suma_demora_total=suma_demora_total/n_plat_max
+                lista.insert(2, suma_demora_total)
                 if (len(articulos)==1):
                     suma_cantidad=abs(int(articulos[0]['Cantidad']))
                 else:
                     for articulo in articulos:
                         suma_cantidad = suma_cantidad+abs(int(articulo['Cantidad']))
+                
                 lista.insert(3,suma_cantidad)
                 listaLCR2_[ii] = lista
                 ii = ii + 1
-            sum_aux_d=[[(int(x)/suma_demora_total) if i == 2 else x for i, x in enumerate(y)] for y in listaLCR2_]
-            sum_aux_p=[[(int(x)/suma_numero_plat_total) if i == 1 else x for i, x in enumerate(y)] for y in sum_aux_d]
-            for xj in sum_aux_p:
-                xj[1]=(beta/100)*xj[1]+((1-(beta/100))*xj[2])
+            #print(listaLCR2_)
+            #os._exit(0)
+            #sum_aux_d=[[(int(x)/suma_demora_total) if i == 2 else x for i, x in enumerate(y)] for y in listaLCR2_]
+            #sum_aux_p=[[(int(x)/suma_numero_plat_total) if i == 1 else x for i, x in enumerate(y)] for y in sum_aux_d]
+            for xj in listaLCR2_:
+                xj[1]=xj[1]+(xj[2]*beta)
                 del xj[2]
-            listaLCR = sorted(sum_aux_p, key=operator.itemgetter(1,2), reverse=True)
+
+            #print("#######################")
+            listaLCR = sorted(listaLCR2_, key=operator.itemgetter(1,2), reverse=True)
+            #print(listaLCR)
+            #os._exit(0)
+            #print(listaLCR)
+            #os._exit(0)
             #print(listaLCR)
             for xj in listaLCR:
-                del xj[2]
+               del xj[2]
             listaLCR = [tuple(l) for l in listaLCR]
-            #    aa=aa+xj[2]
-            #print("ESTE ES"+str(aa))
-            #aux=[[aa+x if i == 2 else x for i, x in enumerate(y)] for y in listaLCR2_]
-            #print(aux)
+        return (listaLCR)
 
+    def getData(self):
+        """
+        getData Función que preprocesa los datos para su posterior uso
+
+        Returns:
+            dict --> {'idViaje':{ 'idPlataforma':{'Precio': str(float), 'Demora':str}, ...}, ...}
+        """
+        self.dictStock   = copy.deepcopy(self.oriStock)
+        self.dictViajes  = copy.deepcopy(self.oriViajes)
+        self.dictPrecios = copy.deepcopy(self.oriPrecios)
+        
+        
+        output = dict(zip(set(self.dictViajes), [ {} for v in set(self.dictViajes)]))
+        for viaje in self.dictViajes:
+            if self.dictViajes[viaje]['PlataformasPosibles'] is None: continue
+            
+            plataformas = self.dictViajes[viaje]['PlataformasPosibles']['CosteTransporte']
+            plataformas = plataformas if isinstance( plataformas, list) else [plataformas]
+
+            articulos = self.dictViajes[viaje]['Carga']['CantidadModelo']
+            articulos = articulos if isinstance(articulos, list) else [articulos]
+
+            for plataforma in plataformas:
+                output[viaje][plataforma['Plataforma']] = plataforma
+        return output
+
+    
+
+    def GRASP_Solution(self,beta=50,mode=1,alfa=0.2,LCR=200, iter=0,test=False):
+        factor_alfa = (1-alfa)/len(self.datos)
+        listaLCR = {s: len(self.datos[s]) for s in self.datos}
+        listaLCR = self.select_mode(mode,listaLCR,beta)
         # viajes con cada una de las plataformas
         total_fitness = 0
         total_fitness2 = 0
@@ -483,6 +498,7 @@ class Grasp:
                     self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad
 
         coste_transporte = 0
+        #print(self.solucion)
         for s in self.solucion:
             cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
             cosas = cosas if isinstance(cosas, list) else [cosas]
@@ -515,3 +531,5 @@ class Grasp:
                     writer.writerow([int(a)]+list(dictstock[p][a].values()))
                 writer.writerow([' '])
         return [self.solucion,  total_fitness2/len(self.solucion), coste_transporte/len(self.solucion), alfa, self.solucion_zonas,articulo_minimo,suma_articulos_negativos,cuantos_articulos_negativos,suma_articulos_negativos/cuantos_articulos_negativos]
+
+        

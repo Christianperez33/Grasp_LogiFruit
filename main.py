@@ -3,7 +3,7 @@ from grasp import *
 import argparse
 from tqdm import tqdm
 import json
-
+from multiprocessing import cpu_count
 def str2bool(v):
     if isinstance(v, bool):
        return v
@@ -27,7 +27,8 @@ argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', d
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=False ,type=str2bool)
-argparser.add_argument('-m', '--mode', help='Mode de prueba(n_plat,n_plat+sumart...', default=2)
+argparser.add_argument('-m', '--mode', help='Mode de prueba(n_plat,n_plat+sumart...', default=5)
+argparser.add_argument('-b', '--beta', help='Mode de balanceo noramlizacion', default=50)
 args = argparser.parse_args()
 
 
@@ -43,6 +44,10 @@ trans = {}
 alfas = {}
 sum_val = {}
 sol_zonas = {}
+art_min = {}
+suma_minimo = {}
+cuantos_minimo = {}
+media_minimo = {}
 
 if args.debug:
     print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
@@ -50,17 +55,22 @@ if args.debug:
 
 for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
-    x = g.GRASP_Solution(int(args.mode),float(args.a_val),int(args.lcr),1,test=args.test)
+    x = g.GRASP_Solution(int(args.beta),int(args.mode),float(args.a_val),int(args.lcr),1,test=args.test)
     sol[i] = x[0]
     val[i] = x[1]
     trans[i] = x[2]
     alfas[i] = x[3]
     sol_zonas[i] = x[4]
+    art_min[i] = x[5]
+    suma_minimo[i] = x[6]
+    cuantos_minimo[i] = x[7]
+    media_minimo[i] = x[8]
     
 
 
-with open("Resumen_test.csv", 'a') as csvfile:
-    writer = csv.writer(csvfile,delimiter=';')    
+with open("Resumen_test.csv", 'a',newline='') as csvfile:
+    writer = csv.writer(csvfile,delimiter=';')
+    writer.writerow([' ',' ','alfa final','Coste stock','Coste transporte','Stock minimo','Total minimos','Numero articulos en minimos','Media'])    
     new_val = 0
     new_sol = {}
     new_trans = {}
@@ -69,7 +79,7 @@ with open("Resumen_test.csv", 'a') as csvfile:
         if args.debug:
             print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
         if args.test:
-            writer.writerow([i,args.lcr,args.a_val,round(val[i],2),round(trans[i],2)])
+            writer.writerow([i,args.a_val,round(alfas[i],2),round(val[i],2),round(trans[i],2),art_min[i],suma_minimo[i],cuantos_minimo[i],round(media_minimo[i],2)])
         if new_val == 0:
             new_val = val[i]
             new_sol = sol[i]
@@ -85,11 +95,15 @@ with open("Resumen_test.csv", 'a') as csvfile:
     trans = new_trans
     sol_zonas = new_sol_zonas
 
-if(args.save and not args.test):
+if(args.save):
+    print(type(sol))
     with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
+        sol.update({'CT':trans})
         json.dump(sol, outfile)
-    with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'_ZONAS.json', 'w') as outfile:
-        json.dump(sol_zonas, outfile)
+    #with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"3333"+str(old_aval)+'.json', 'w') as outfile:
+    #    json.dump(trans, outfile)
+    # with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'_ZONAS.json', 'w') as outfile:
+    #    json.dump(sol_zonas, outfile)
         
 
 if args.debug:
