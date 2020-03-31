@@ -24,45 +24,60 @@ class Genetic:
 def develope(self,iter):
     poblacion = self.datos
     list_CT = self.CT
-    print(self.n_travel) 
+    print(len(poblacion))
     for i in range(iter):
-        self.fitness = get_fitness(list_CT)
-        #print(self.fitness)
-        list_CT2=(self.fitness)
-        k=int(round(len(poblacion)/3,0))
-        
+        ## Obtengo fitness mejor, media fitness y proporcion fitness
+        fitness=get_fitness(list_CT)
+        self.fitness_Global = fitness[0]
+        self.fitness_Best = fitness[1]
+        self.list_fitness=fitness[2]
+        ## k es un parámetro que establece la "competencia a la hora de elegir un padre" si k es igual a el total de soluciones eligiria siempre los mejores
+        #k=int(round(len(poblacion)/3,0))
+        k = int(1+((len(poblacion)/(iter)))*(i))
+        print((k))
         nueva_generacion=list()
         list_candidatos_CT=list()
+        ## Recorro la población dos a dos 
         for j in range(0,self.n_population,2):
             fathers=list()
+            ## SELECCION PROGENITORES : Escojo dos padres para la nueva generacion, metodo torneo
             fathers=choose_fathers(self,k)
+            ## REPRODUCCION : Metodo para crear nuevos individuos a partir de los progenitores
             family=reproduce(self,fathers,50)
-            candidatos=list()
-                            
+            ## SELECCION NUEVA GENERACION: solo por fitness (AGREGAR EDAAD MÁXIMA)
+            candidatos=list()         
+            ## Recorro cada miembro de la familia y calculo su coste de transporte.
             for ss in family:
                 coste_transporte = 0
-                
                 for s in ss:
                     cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
                     cosas = cosas if isinstance(cosas, list) else [cosas]
                     for c in cosas:
                         if int(c['Plataforma']) == int(ss[s]):
                             coste_transporte = coste_transporte + float(c['Precio'])
-                candidatos.append(coste_transporte/self.n_travel)              
-                #print(coste_transporte/self.n_travel)
-            #print(sorted(candidatos))
-            #print(numpy.argsort(candidatos))
+                candidatos.append(coste_transporte/self.n_travel)
+            
+            ## Ordeno los miembros de la familia por fitness
             lista=numpy.argsort(candidatos)
+            ## MUTACION 3% sobre los representantes de la nueva generacion
+            rndm_mutate= random.sample(range(1, 100), 2)
+            ii=0
+            #print(rndm_mutate) 
+            for item in rndm_mutate:
+                if item<=2:
+                    mutation(self,family[lista[ii]])
+                ii=ii+1
+            #if rndm_mutate<=3:
+            #print(rndm_mutate)
+            #print(random.randint(0,100))
+            #print(candidatos)
+            
             #print(lista)
+            #os._exit(0)
             nueva_generacion.append(family[lista[0]])
             nueva_generacion.append(family[lista[1]])
             list_candidatos_CT.append(candidatos[lista[0]])
             list_candidatos_CT.append(candidatos[lista[1]])
-            #print(family[1])
-        #print(nueva_generacion)
-        #
-        # 
-        #list_CT = [(k, v) for k, v in nueva_generacion]  
         list_CT =  list_candidatos_CT
         self.datos = nueva_generacion
     return list_CT        
@@ -82,36 +97,28 @@ def getPopulation():
     return (population,n_population,n_travel,list_CT)
 
 def get_fitness(list_CT):
-    #print(type(list_CT))
-    #list_fitness = [ sub['CT'] for sub in list_CT ]
     fitness_best = min(list_CT) 
     fitness_Global = statistics.mean(list_CT)
     suma_fitness=sum(list_CT)
     new_fit = [round((k/suma_fitness),5) for k in list_CT]
     #print (new_fit)
-    return(new_fit)
+    return(fitness_Global,fitness_best,new_fit)
 
 def choose_fathers(self,k):
     fathers=list()
-    sample_tournament=self.fitness
+    sample_tournament=copy.deepcopy(self.list_fitness)
+    ##copydeepcopy de fitness
     sampling = random.sample(sample_tournament, k=k)
     best_sample=min(sampling)
     ss=(best_sample)
-    res_list = [ii for ii in range(len(self.fitness)) if self.fitness[ii] == ss]
+    res_list = [ii for ii in range(len(self.list_fitness)) if self.list_fitness[ii] == ss]
     fathers.append(res_list[0])
     sample_tournament.remove(best_sample)
     sampling = random.sample(sample_tournament, k=k)
     best_sample=min(sampling)
     ss=(best_sample)
-    res_list = [ii for ii in range(len(self.fitness)) if self.fitness[ii] == ss]
+    res_list = [ii for ii in range(len(self.list_fitness)) if self.list_fitness[ii] == ss]
     fathers.append(res_list[0])
-    #while(fathers[0]==fathers[1]):
-    #    print("esa")
-    #    sampling = random.sample(sample_tournament, k=k)
-    #    best_sample=min(sampling)
-    #    ss=(best_sample)
-    #    res_list = [ii for ii in range(len(self.fitness)) if self.fitness[ii] == ss]
-    #    fathers[1]=(res_list[0])
     return fathers
             
 def reproduce(self,fathers,point_to_divide):
@@ -123,14 +130,37 @@ def reproduce(self,fathers,point_to_divide):
     family.append(father)
     family.append(mother)
     umbral=int(self.n_travel*(point_to_divide/100))
-    aux1 = [(k, v) for k, v in father.items()]
-    aux2 = [(k, v) for k, v in mother.items()]
-
-    hijo1=aux1[0:umbral]+aux2[umbral:self.n_travel]
-    hijo2=aux2[0:umbral]+aux1[umbral:self.n_travel]
+    list_father=random.sample(list(father),umbral)
+    list_mother=list(set(father.keys()) - set(list_father))
+    for item in list_father:
+        hijo1.append((item,father[item]))
+        hijo2.append((item,mother[item]))
+    for item in list_mother:
+        hijo1.append((item,mother[item]))
+        hijo2.append((item,father[item]))
     itemDict = {item[0]: item[1] for item in hijo1}
     family.append(itemDict) 
     itemDict = {item[0]: item[1] for item in hijo2}
     family.append(itemDict) 
 
     return family
+
+def mutation(self,person):
+    #print(person)
+    list_father=random.sample(list(person.keys()),1)
+    cosas = self.oriViajes[list_father[0]]['PlataformasPosibles']['CosteTransporte']
+    cosas = cosas if isinstance(cosas, list) else [cosas]
+    viaje_mutar=list_father[0]
+    lista_mutar = random.sample(cosas,1)
+    plat_mutar = lista_mutar[0]['Plataforma']
+    #print(cosas)
+    #print(random.sample(cosas,1))
+    #print(viaje_mutar)
+    #print(lista_mutar)
+    #print(plat_mutar)
+    #print(person[viaje_mutar])
+    person[viaje_mutar]=plat_mutar
+    #print(person[viaje_mutar])
+    #cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
+    #os._exit(0)
+    return 0
