@@ -27,6 +27,8 @@ argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', d
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=False ,type=str2bool)
+argparser.add_argument('-m', '--mode', help='Mode de prueba(n_plat,n_plat+sumart...', default=5)
+argparser.add_argument('-b', '--beta', help='Mode de balanceo noramlizacion', default=50)
 args = argparser.parse_args()
 
 
@@ -35,6 +37,7 @@ old_aval = args.a_val
 if int(args.a_val) > 1:
     args.a_val = int(args.a_val)/100
     cien = True
+    
 start_time = time.time()
 sol = {}
 val = {}
@@ -49,7 +52,7 @@ if args.debug:
 
 for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
-    x = g.GRASP_Solution(float(args.a_val),int(args.lcr),1,test=args.test)
+    x = g.GRASP_Solution(float(args.a_val),int(args.beta), int(args.mode), int(args.lcr),1,test=args.test)
     sol[i] = x[0]
     val[i] = x[1]
     trans[i] = x[2]

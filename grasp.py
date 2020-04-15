@@ -108,12 +108,11 @@ class Grasp:
         return output
 
     def select_mode(self,mode,listaLCR,beta):
-        if mode==1:
+        if mode==1:   # Ordenado por plataformas
             listaLCR2=list()
             listaLCR2 = [(k, v) for k, v in listaLCR.items()]
             listaLCR = sorted(listaLCR2, key = lambda y: (y[1]),reverse=False)
-        elif mode==2:
-            #Se invierte el nplat por cada viaje apra ordenar de mayor a menor el viaje con 1 plat pasa a ser viaje con 9 plat por lo que se escoge antes
+        elif mode==2: # Ordenado por numero de plataformas y numero de artículos
             Keymax = max(listaLCR, key=listaLCR.get) 
             n_plat_max=listaLCR[Keymax]
             listaLCR.update((k,n_plat_max -v) for k, v in listaLCR.items())
@@ -142,8 +141,7 @@ class Grasp:
             for x in listaLCR:
                 del x[2]
             listaLCR = [tuple(l) for l in listaLCR]
-
-        elif mode==3:
+        elif mode==3: # Ordenado por numero de plataforas y cantidad media de demora
             Keymax = max(listaLCR, key=listaLCR.get) 
             n_plat_max=listaLCR[Keymax]
             listaLCR.update((k, n_plat_max-v) for k, v in listaLCR.items())
@@ -172,7 +170,7 @@ class Grasp:
             for x in listaLCR:
                 del x[2]
             listaLCR = [tuple(l) for l in listaLCR]
-        elif mode==4:
+        elif mode==4: # Ordenado por cantidad media de demora y numero de articulos
             listaLCR2=list()
             listaLCR2 = [(k, v) for k, v in listaLCR.items()]
             listaLCR2_=list()
@@ -210,7 +208,7 @@ class Grasp:
                 del x[2]
                 del x[2]
             listaLCR = [tuple(l) for l in listaLCR]
-        elif mode==5:
+        elif mode==5: # Ordenado por numero de plataformas normalizado + media de demora normalizado y articulos
             Keymax = max(listaLCR, key=listaLCR.get) 
             n_plat_max=listaLCR[Keymax]
             suma_demora_total=0
@@ -263,11 +261,9 @@ class Grasp:
             for xj in listaLCR:
                 del xj[2]
             listaLCR = [tuple(l) for l in listaLCR]
-        elif mode==6:
+        elif mode==6: # Ordenado por numero de plataformas normalizado + media de demora normalizado ponderado al beta 80
             Keymax = max(listaLCR, key=listaLCR.get) 
-            #print("####")
             n_plat_max=listaLCR[Keymax]
-            #print(n_plat_max)
             suma_numero_plat_total=0
             listaLCR.update((k, n_plat_max-v) for k, v in listaLCR.items())
             listaLCR2=list()
@@ -276,10 +272,8 @@ class Grasp:
             listaLCR2_ = [(k, v) for k, v in listaLCR.items()]
             ii=0
             for x in listaLCR2:
-
                 suma_cantidad = 0
                 lista = list(listaLCR2[ii])
-                #print(lista)
                 cual = x[0]
                 articulos = [self.dictViajes[cual]['Carga']['CantidadModelo']] if type(
                     self.dictViajes[cual]['Carga']['CantidadModelo']) != list else \
@@ -310,28 +304,17 @@ class Grasp:
                 lista.insert(3,suma_cantidad)
                 listaLCR2_[ii] = lista
                 ii = ii + 1
-            #print(listaLCR2_)
-            #os._exit(0)
-            #sum_aux_d=[[(int(x)/suma_demora_total) if i == 2 else x for i, x in enumerate(y)] for y in listaLCR2_]
-            #sum_aux_p=[[(int(x)/suma_numero_plat_total) if i == 1 else x for i, x in enumerate(y)] for y in sum_aux_d]
             for xj in listaLCR2_:
                 xj[1]=xj[1]+(xj[2]*beta)
                 del xj[2]
 
-            #print("#######################")
             listaLCR = sorted(listaLCR2_, key=operator.itemgetter(1,2), reverse=True)
-            #print(listaLCR)
-            #os._exit(0)
-            #print(listaLCR)
-            #os._exit(0)
-            #print(listaLCR)
             for xj in listaLCR:
                del xj[2]
             listaLCR = [tuple(l) for l in listaLCR]
         return (listaLCR)
 
-    def GRASP_Solution(self,mode=2,beta=50,alfa=0.2,LCR=200, iter=0,test=False):
-
+    def GRASP_Solution(self,alfa=0.5,beta=50,mode=1,LCR=200, iter=0,test=False):
         factor_alfa = (1-alfa)/len(self.datos)
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
         listaLCR = self.select_mode(mode,listaLCR,beta)
@@ -342,7 +325,7 @@ class Grasp:
         # viajes con cada una de las plataformas
         total_fitness = 0
         while len(listaLCR) > 0 :
-
+            
             actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
             #actual = listaLCR[:LCR]
             if len(actual) == 0:
@@ -474,10 +457,11 @@ class Grasp:
             # evaluacion de los fitness del lcr
             id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]
             if scheduler_alfa[id_viaje_select] == True:
-                 alfa = alfa + factor_alfa
+                alfa = alfa + factor_alfa
             else:
                 alfa = alfa - factor_alfa
                 
+
             plataforma_viaje_select = fitness_viajes[id_viaje_select]
             total_fitness = total_fitness + fitness_valores[id_viaje_select]
             
