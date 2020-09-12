@@ -5,7 +5,7 @@ do
     for a in {0..100..10}
     do
         echo -ne "Progress Iter: $[ (100/1)*($i) ]% - Progress Alfa: $[ $a*100/100 ]% \n";
-        python main.py -i $i -av $a -b 90 -m 2 -s 12 -g True -t True -x ./data/StockSolucionResolver.csv -y ./data/viajes_zonas.xml --debug True
+        python3 main.py -i $i -av $a -b 90 -m 2 -s 12 -g True -t True -x ./data/stock_4enero20.csv -y ./data/viajes_4enero20.xml --debug True
     done
 done
 end=`date +%s`

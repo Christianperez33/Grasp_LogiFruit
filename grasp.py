@@ -313,14 +313,16 @@ class Grasp:
     def GRASP_Solution(self,beta=50,mode=1,alfa=0.2,LCR=200, iter=0,test=False):
         factor_alfa = (1-alfa)/len(self.datos)
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
-        listaLCR = self.select_mode(mode,listaLCR,beta)
+        listaLCR = [(k, v) for k, v in listaLCR.items()]
+        # listaLCR = self.select_mode(mode,listaLCR,beta)
         # viajes con cada una de las plataformas
         total_fitness = 0
         total_fitness2 = 0
         while len(listaLCR) > 0 :
 
-            actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
+            # actual = listaLCR[:(math.floor(len(listaLCR)/3))-1]
             #actual = listaLCR[:LCR]
+            actual = listaLCR
             if len(actual) == 0:
                 actual = listaLCR
 
@@ -399,7 +401,8 @@ class Grasp:
                     #  Calculos para el coste del stock
                     # Función fitness
                     fitness_plats_precio[id_viaje][id_plataforma] = stocks[id_plataforma]
-                    fitness_completo_precio[id_viaje][id_plataforma] = alfa * fitness_transporte[id_viaje][id_plataforma] + (1 - alfa) * fitness_plats_precio[id_viaje][id_plataforma]
+                    # fitness_completo_precio[id_viaje][id_plataforma] = alfa * fitness_transporte[id_viaje][id_plataforma] + (1 - alfa) * fitness_plats_precio[id_viaje][id_plataforma]
+                    fitness_completo_precio[id_viaje][id_plataforma] = fitness_transporte[id_viaje][id_plataforma] +  fitness_plats_precio[id_viaje][id_plataforma]
                     fitness_no_alfa[id_viaje][id_plataforma] = fitness_transporte[id_viaje][id_plataforma] + fitness_plats_precio[id_viaje][id_plataforma]
                     #  Calculos para la cantidad de stock
                     # Función fitness en el caso de que todas las plataformas tengan stock positivo

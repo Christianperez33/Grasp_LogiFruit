@@ -76,8 +76,8 @@ with open("Resumen_test.csv", 'a',newline='') as csvfile:
     new_trans = {}
     new_sol_zonas = {}
     for i in val:
-        if args.debug:
-            print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
+
+        print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
         if args.test:
             writer.writerow([i,args.a_val,round(alfas[i],2),round(val[i],2),round(trans[i],2),art_min[i],suma_minimo[i],cuantos_minimo[i],round(media_minimo[i],2)])
         if new_val == 0:
@@ -100,8 +100,8 @@ if(args.save):
     with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
         sol.update({'CT':trans})
         json.dump(sol, outfile)
-    #with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"3333"+str(old_aval)+'.json', 'w') as outfile:
-    #    json.dump(trans, outfile)
+    with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"3333"+str(old_aval)+'.json', 'w') as outfile:
+       json.dump(trans, outfile)
     # with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'_ZONAS.json', 'w') as outfile:
     #    json.dump(sol_zonas, outfile)
         
