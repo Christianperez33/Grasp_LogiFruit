@@ -313,7 +313,92 @@ class Grasp:
                del xj[2]
             listaLCR = [tuple(l) for l in listaLCR]
         return (listaLCR)
+    def calculate_fitness(self,member,alfa): # Esta función calcula la formula del fitness para una solucion, dado un alfa con el que realizar el calculo con coste de transporte(CT) y coste de stock (CS)
+        ## FORMULA FITNESS: (ALFA * CT)  + ((1-ALFA) * CS)
+        ## CT-> Coste de transporte, para cda viaje sumar el coste de transporte de su plataforma asignada
+        self.dictStock  = copy.deepcopy(self.oriStock)
+        coste_transporte = 0
+        for s in member:
+            cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
+            cosas = cosas if isinstance(cosas, list) else [cosas]
+            for c in cosas:
+                if int(c['Plataforma']) == int(member[s]):
+                    coste_transporte = coste_transporte + float(c['Precio'])
+        ## CS-> Coste de stock, recorremos todos los viajes plataforma de la solucion, comprobando si el stock de las plataformas es negativo y sumando el coste de reponer ese stock
+        coste_stock=0
+        for id_viaje,id_plat in member.items():
+            articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
+            stocks = {}
+            cantidades ={}
+            restos = {}
+            fecha = self.dictViajes[id_viaje]['FechaDescarga']
+            ## Es necesario obtener la demora de la plataforma para el viaje estudiado
+            plataformas = self.oriViajes[id_viaje]['PlataformasPosibles']['CosteTransporte']
+            plataformas = plataformas if isinstance(plataformas, list) else [plataformas]
+        
+            demora = [p["Demora"] for p in plataformas if str(p['Plataforma']) == str(id_plat)]
+            demora = demora[0]
 
+            """articulos = self.oriViajes[id_viaje_select]['Carga']['CantidadModelo']
+                articulos = articulos if isinstance(articulos, list) else [articulos]
+                for articulo in articulos:
+                    idArticulo = articulo['Articulo']
+                    cantidad = abs(int(articulo['Cantidad']))
+                    fecha = self.dictViajes[id_viaje_select]['FechaDescarga']
+                    fechas = list(self.dictStock[plataforma_viaje_select][idArticulo].keys())
+                    
+                    ini_rango = (fechas.index(fecha)) - int(demora)
+                    rango = fechas[0 if ini_rango <= 0 else ini_rango:]
+                    for f in rango:
+                        self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad"""
+            ## Recorremos los articulos de cada viaje   
+            for articulo in articulos:
+                idArticulo = articulo['Articulo']
+                cantidad = abs(int(articulo['Cantidad']))
+                precio = self.oriPrecios[idArticulo]["PrecioUnitario"]
+                stocks[idArticulo] = {}
+                cantidades[idArticulo] = {}
+                restos[idArticulo] = {}
+                ## Obtenemos las fechas del diccionario de stock para cruzar con las fechas del viaje y su demora
+                fechas = list(self.dictStock[id_plat][idArticulo].keys())
+                coste_stock_aux = 0
+                resto_stock = 0
+                # verificamos si es una fecha válida
+                if fecha in fechas:
+                    if fechas.index(fecha)-int(demora) > 0:
+                        # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
+                        for d in range(fechas.index(fecha)-int(demora),len(fechas)+1):
+                            resto_unitario =  int(self.dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                            if resto_unitario < 0:
+                                coste_stock_aux = coste_stock_aux + ( resto_unitario * precio)
+                            resto_stock = resto_stock + resto_unitario
+                        resto_stock = (resto_stock/len(range(fechas.index(fecha)-int(demora),len(fechas)+1))) if resto_stock > 0 else 0
+                    else:
+                        # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
+                        for d in range(fechas.index(fecha),len(fechas)+1):
+                            resto_unitario =  int(self.dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                            if resto_unitario < 0:
+                                coste_stock_aux = coste_stock_aux + (resto_unitario * precio)
+                            resto_stock = resto_stock + resto_unitario
+                        resto_stock = (resto_stock/len(range(fechas.index(fecha),len(fechas)+1))) if resto_stock > 0 else 0
+                #coste_stock_articulo=coste_stock_articulo+coste_stock_aux
+                stocks[idArticulo] = coste_stock_aux
+
+                fechas = list(self.dictStock[id_plat][idArticulo].keys())
+                    
+                ini_rango = (fechas.index(fecha)) - int(demora)
+                rango = fechas[0 if ini_rango <= 0 else ini_rango:]
+                for f in rango:
+                    self.dictStock[id_plat][idArticulo][f] = int(self.dictStock[id_plat][idArticulo][f]) - cantidad
+
+            coste_stock=coste_stock+abs(sum(stocks.values()))
+
+        # Función fitness
+        fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
+
+        return ((fitness_completo_precio/len(member)),(coste_transporte/len(member)),(coste_stock/len(member)))
+    
+    
     def GRASP_Solution(self,alfa=0.5,beta=50,mode=1,LCR=200, iter=0,test=False):
         factor_alfa = (1-alfa)/len(self.datos)
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
@@ -502,6 +587,9 @@ class Grasp:
                     self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad
 
         coste_transporte = 0
+        
+        print(self.calculate_fitness(self.solucion,alfa))
+        os._exit(0)
         for s in self.solucion:
             cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
             cosas = cosas if isinstance(cosas, list) else [cosas]
