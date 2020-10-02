@@ -313,8 +313,8 @@ class Grasp:
     def GRASP_Solution(self,beta=50,mode=1,alfa=0.2,LCR=200, iter=0,test=False):
         factor_alfa = (1-alfa)/len(self.datos)
         listaLCR = {s: len(self.datos[s]) for s in self.datos}
-        listaLCR = [(k, v) for k, v in listaLCR.items()]
-        # listaLCR = self.select_mode(mode,listaLCR,beta)
+        # listaLCR = [(k, v) for k, v in listaLCR.items()]
+        listaLCR = self.select_mode(mode,listaLCR,beta)
         # viajes con cada una de las plataformas
         total_fitness = 0
         total_fitness2 = 0
