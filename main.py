@@ -27,7 +27,7 @@ argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', d
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=False ,type=str2bool)
-argparser.add_argument('-m', '--mode', help='Mode de prueba(n_plat,n_plat+sumart...', default=5)
+argparser.add_argument('-m', '--mode', help='Mode de prueba(n_plat,n_plat+sumart...', default=2)
 argparser.add_argument('-b', '--beta', help='Mode de balanceo noramlizacion', default=50)
 args = argparser.parse_args()
 

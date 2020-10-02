@@ -472,7 +472,7 @@ class Grasp:
 
             # añadimos a la solcuión el viaje calculado
             self.solucion[id_viaje_select] = plataforma_viaje_select
-            self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[id_viaje_select]['Zona'],plataforma_viaje_select)]
+            # self.solucion_zonas = self.solucion_zonas + [(self.dictViajes[id_viaje_select]['Zona'],plataforma_viaje_select)]
             
 
             
@@ -517,7 +517,7 @@ class Grasp:
         dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
         with open("results/"+"stock_sol_"+str(iter+1)+"_"+str(LCR)+"_"+str(int(round(alfa*100,2)))+".csv", 'w',newline='') as csvfile:
             writer = csv.writer(csvfile,delimiter=';')
-            
+    
             for p in dictstock:
                 writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
                 writer.writerow([' ']+fechas)

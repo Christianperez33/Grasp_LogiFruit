@@ -2,6 +2,8 @@ import time
 from genetic import *
 import argparse
 from tqdm import tqdm
+import os
+
 def str2bool(v):
     if isinstance(v, bool):
        return v
@@ -26,10 +28,9 @@ start_time = time.time()
 if int(args.n_son)+2>=int(args.n_sup):
     g = Genetic(int(args.alfa))
     [x,y] = develope(g,int(args.iter),int(args.mutate),int(args.crossover),int(args.alfa),int(args.max_age),int(args.n_son),int(args.n_sup))
+    best=get_best_solution(x)
+    create_excel(g,best,y,"final")
+    print("--- {} seconds ---".format(time.time() - start_time))
 else:
     print("ERROR PARAMETROS DE ENTRADA: El numero de miembros de la nueva generacion no peude ser mayor que el numero de hijos")
     os._exit(0)
-print(x)
-best=get_best_solution(x)
-create_excel(g,best,y,"final")
-print("--- {} seconds ---".format(time.time() - start_time))

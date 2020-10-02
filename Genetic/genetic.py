@@ -11,9 +11,10 @@ import csv
 import copy
 import numpy
 from tqdm import tqdm
+import numpy as np
 
 class Genetic:
-    def __init__(self,af,viajes ="./data_grasp/viajes_zonas.xml",stock="./data_grasp/StockSolucionResolver.csv",precios = "./data_grasp/precios.csv"):
+    def __init__(self,af,viajes ="./data_grasp/5JULIO/viajes.xml",stock="./data_grasp/5JULIO/stock.csv",precios = "./data_grasp/precios.csv"):
         self.alfa=af
         self.viajes = DatosViajes(viajes)
         self.oriViajes = copy.deepcopy(self.viajes.dictViajes)
@@ -40,6 +41,34 @@ class Genetic:
         self.CS = values[4] ## diccionario con el coste de stock de cada miembro de la poblacion
         ## {'Solucion_1':'CS_X',...,'Solucion_N':'CS_Y'}
 def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
+    # ###################################
+    # #  VOLVEMOS A GENERAR LAS LISTAS ##
+    # ###################################
+    # self.viajes = DatosViajes(viajes)
+    # self.oriViajes = copy.deepcopy(self.viajes.dictViajes)
+    # self.dictViajes  = copy.deepcopy(self.oriViajes)
+    # self.stock = DatosStock(stock)  
+    # self.oriStock = copy.deepcopy(self.stock.dictStock)
+    # self.dictStock   = copy.deepcopy(self.oriStock)
+    # self.precios = DatosPrecio(precios)
+    # self.oriPrecios = copy.deepcopy(self.precios.dictPrecios)
+    # values=getPopulation(self,alfa)
+    # self.datos = values[0] ## diccionario poblacion donde la clave es el índice de la solucion y el valor otro diccionario con los viajes-plataforma seleccionados
+    # ## {'Solucion_1': { 'Viaje_0' : 'Plataforma_12' , 'Viaje_1' : 'Plataforma_3'... }, 'Solucion_2' : {'Viaje_0' : 'Plataforma_8' , 'Viaje_1' : 'Plataforma_7'... }}
+    # self.age=values[1] ## diccionario con las edades de cada miembro de la poblacion
+    # ## {'Solucion_1':'Edad_ 0',...,'Solucion_N':'Edad_1'}
+    # self.oriage=copy.deepcopy(self.age)
+    # self.fitness = values[2] ## diccionario con el fitness de cada miembro de la poblacion
+    # ## {'Solucion_1':'Fitness_210',...,'Solucion_N':'Fitness_205'}
+    # suma_fitness=sum(self.fitness.values())
+    # lista_fitness=[round((k/suma_fitness),5) for k in self.fitness.values()]
+    # self.list_fitness= {str(x+1) : lista_fitness[x] for x in range(len(lista_fitness))} ## diccionario con la proporcion del fitness en relacion a la suma total (SELECCIÓN MODO TORNEO)
+    # ## {'Solucion_1':'Fitness_%_0.007',...,'Solucion_N':'Fitness_%_0.0089'}
+    # self.CT = values[3] ## diccionario con el coste de transporte de cada miembro de la poblacion
+    # ## {'Solucion_1':'CT_X',...,'Solucion_N':'CT_Y'}
+    # self.CS = values[4] ## diccionario con el coste de stock de cada miembro de la poblacion
+    # ## {'Solucion_1':'CS_X',...,'Solucion_N':'CS_Y'}
+    
     ## Edad máxima individuo en funcion de las iteraciones
     max_age=int((max_age/100)*iter)
     ## Escritura del encabezado del seguimiento del fitness a lo largo de la iteraciones
@@ -55,6 +84,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.fitness_Best = fitness_values[1]   ## Mejor valor 
             self.index_best_fitness=fitness_values[0]   ## Indice mejor valor
             self.list_fitness=fitness_values[3] ## Lista proporcion fitness( torneo)
+            
             create_excel(self,fitness_values[0],poblacion,str(i))
             """print("lista FITNESS")
             print(self.fitness)
@@ -164,7 +194,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     return list_new_generation_fitness,nueva_generacion        
 
 def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
-    list_population = os.listdir(path='./data') # PATH donde se alojan las soluciones del GRASP que son la pobalcion inicial del AG
+    list_population = os.listdir(path='./data_grasp/5JULIO/solution/') # PATH donde se alojan las soluciones del GRASP que son la pobalcion inicial del AG
     # Diccionarios con los datos necesarios durante todo el AG
     population = {}
     age = {}
@@ -174,19 +204,35 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     i = 0
     for json_ in list_population:
         i = i+1
-        with open('./data/'+json_) as f:
+        with open('./data_grasp/5JULIO/solution/'+json_) as f:
             someone = json.load(f) # Cargo una solucion GRASP 
-            someone=  {k: v for k,v in sorted(someone.items(), key=itemgetter(0))}# Ordeno la solucion por IdViaje
+            someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por IdViaje
             age[str(i)] = 0 # Diccionario con la edad de cada miembro de la pobacion o solucion 
             population[str(i)] = someone # Diccionario con la asignacacion de viajes-plataforma en la solucion
             if i==1:
                 self.n_travel = len(population.get("1")) # Inicializacion numero de viajes de las soluciones
-            values_fitness = calculate_fitness(self,someone,alfa) ## Funcion de calculo del fitness dad una solucion
+            values_fitness = calculate_fitness(self,population[str(i)],alfa) ## Funcion de calculo del fitness dad una solucion
             fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
             CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
             CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+    
+    pkeys = {k:[] for k in list(np.unique([x for i in population for x in list(population[i].keys())]))}
+
+    for ii in population:
+        for kk in population[ii]:
+            pkeys[kk].append(population[ii][kk])
+            
+    for n in range(47):
+        population[str(n+i)] = {x:random.choice(pkeys[x]) for x in list(pkeys.keys())}
+        age[str(n+i)] = 0
+        values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
+        fitness[str(n+i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+        CT[str(n+i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+        CS[str(n+i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+        
     self.n_population = len(population) # Inicializacion numero de miembros de la poblacion inicial
     return (population,age,fitness,CT,CS)
+
 
 def get_fitness(dict_fitness,dict_CT,dict_CS):
     index_fitness_best = min(dict_fitness, key=dict_fitness.get) # Indice mejor fitness de las soluciones
@@ -283,14 +329,9 @@ def calculate_fitness(self,member,alfa): # Esta función calcula la formula del 
         for c in cosas:
             if int(c['Plataforma']) == int(member[s]):
                 coste_transporte = coste_transporte + float(c['Precio'])
-
     ## CS-> Coste de stock, recorremos todos los viajes plataforma de la solucion, comprobando si el stock de las plataformas es negativo y sumando el coste de reponer ese stock
     coste_stock=0
-    index_viaje=0
     for id_viaje,id_plat in member.items():
-        #print(index_viaje)
-        #print("vaije`"+id_viaje)
-        index_viaje=index_viaje+1
         articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
         stocks = {}
         cantidades ={}
@@ -299,14 +340,10 @@ def calculate_fitness(self,member,alfa): # Esta función calcula la formula del 
         ## Es necesario obtener la demora de la plataforma para el viaje estudiado
         plataformas = self.oriViajes[id_viaje]['PlataformasPosibles']['CosteTransporte']
         plataformas = plataformas if isinstance(plataformas, list) else [plataformas]
-        for plataforma in plataformas:
-            if str(plataforma['Plataforma']) == str(id_plat):
-                demora = plataforma['Demora']
-                #if id_viaje=='790':
-                #    print(demora)
-                #    os._exit(0)
-                #print
-                break
+       
+        demora = [p["Demora"] for p in plataformas if str(p['Plataforma']) == str(id_plat)]
+        demora = demora[0]
+
         """articulos = self.oriViajes[id_viaje_select]['Carga']['CantidadModelo']
             articulos = articulos if isinstance(articulos, list) else [articulos]
             for articulo in articulos:
@@ -371,6 +408,10 @@ def get_best_solution(list_proportion_fitness): # Funcion que obtiene el indice 
 
 def create_excel(self,index,populate,index_solution):
     self.dictStock  = copy.deepcopy(self.oriStock)
+    # print(type(index))
+    # print(type(list(populate.keys())[0]))
+    # print(populate[index].items())
+    # os._exit(0)
     for id_viaje_select,plataforma_viaje_select in populate[index].items():
         articulos = self.oriViajes[plataforma_viaje_select]['Carga']['CantidadModelo']
         articulos = articulos if isinstance(articulos, list) else [articulos]
