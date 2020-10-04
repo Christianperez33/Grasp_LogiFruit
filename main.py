@@ -23,7 +23,7 @@ argparser.add_argument('-g', '--save', help='Guarda la solución en un fichero l
 argparser.add_argument('-n', '--name', help='nombre del archivo que guarda la solucion"', default="solution_")
 argparser.add_argument('-l', '--lcr', help='Tamaño de la lista de candidatos', default=3)
 argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', default="./data/stock.csv")
-argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml",)
+argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml")
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=True ,type=str2bool)
@@ -53,8 +53,9 @@ if args.debug:
     print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
     
 
+g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
+
 for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
-    g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
     x = g.GRASP_Solution(int(args.beta),int(args.mode),float(args.a_val),int(args.lcr),1,test=args.test)
     sol[i] = x[0]
     val[i] = x[1]
@@ -65,6 +66,7 @@ for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     suma_minimo[i] = x[6]
     cuantos_minimo[i] = x[7]
     media_minimo[i] = x[8]
+    print((val[i],trans[i]))
     
 
 

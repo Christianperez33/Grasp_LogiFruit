@@ -14,7 +14,8 @@ from tqdm import tqdm
 import numpy as np
 
 class Genetic:
-    def __init__(self,af,viajes ="./data_grasp/5JULIO/viajes.xml",stock="./data_grasp/5JULIO/stock.csv",precios = "./data_grasp/precios.csv"):
+    def __init__(self,af,viajes ="./data_grasp/5JULIO/viajes.xml",stock="./data_grasp/5JULIO/stock.csv",precios = "./Genetic/data_grasp/precios.csv", solpath=""):
+        self.solpath = solpath
         self.alfa=af
         self.viajes = DatosViajes(viajes)
         self.oriViajes = copy.deepcopy(self.viajes.dictViajes)
@@ -72,7 +73,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     ## Edad máxima individuo en funcion de las iteraciones
     max_age=int((max_age/100)*iter)
     ## Escritura del encabezado del seguimiento del fitness a lo largo de la iteraciones
-    with open("results/"+"seguimiento fitness.csv", 'w',newline='') as csvfile:
+    with open("./Genetic/results/"+"seguimiento fitness.csv", 'w',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
         writer.writerow(["Iteracion","Fitness global","Mejor fitness","Coste transporte","Coste de stock"])
         # Bucle de las iteraciones del AG
@@ -194,7 +195,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     return list_new_generation_fitness,nueva_generacion        
 
 def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
-    list_population = os.listdir(path='./data_grasp/5JULIO/solution/') # PATH donde se alojan las soluciones del GRASP que son la pobalcion inicial del AG
+    list_population = os.listdir(path=self.solpath) # PATH donde se alojan las soluciones del GRASP que son la pobalcion inicial del AG
     # Diccionarios con los datos necesarios durante todo el AG
     population = {}
     age = {}
@@ -204,7 +205,7 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     i = 0
     for json_ in list_population:
         i = i+1
-        with open('./data_grasp/5JULIO/solution/'+json_) as f:
+        with open(self.solpath+json_) as f:
             someone = json.load(f) # Cargo una solucion GRASP 
             someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por IdViaje
             age[str(i)] = 0 # Diccionario con la edad de cada miembro de la pobacion o solucion 
@@ -436,7 +437,7 @@ def create_excel(self,index,populate,index_solution):
 
     # guardamos el diccionario de stock para poder ver el balanceo
     dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-    with open("results/results_stock/"+"stock_sol_"+index_solution+"+.csv", 'w',newline='') as csvfile:
+    with open("./Genetic/results/results_stock/"+"stock_sol_"+index_solution+"+.csv", 'w',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
         cuantos_articulos_negativos = 0
         articulo_minimo = 0

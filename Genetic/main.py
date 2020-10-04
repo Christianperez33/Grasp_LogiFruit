@@ -22,13 +22,18 @@ argparser.add_argument('-a', '--alfa', help='parametro alfa del fitness', defaul
 argparser.add_argument('-ag', '--max_age', help='proporción de edad maxíma en referncia a las iteraciones', default=10)
 argparser.add_argument('-ns', '--n_son', help='numero de hijos en la funcion de reproduccion', default=2)
 argparser.add_argument('-ng', '--n_sup', help='numero de representantes de una familia que avanza de generacion', default=2)
+argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', default="./data/stock.csv")
+argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml")
+argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./Genetic/data_grasp/precios.csv")
+argparser.add_argument('-s', '--solpath')
 args = argparser.parse_args()
 start_time = time.time()
 
 if int(args.n_son)+2>=int(args.n_sup):
-    g = Genetic(int(args.alfa))
+    g = Genetic(int(args.alfa),args.viajes,args.stock,args.precios,args.solpath)
     [x,y] = develope(g,int(args.iter),int(args.mutate),int(args.crossover),int(args.alfa),int(args.max_age),int(args.n_son),int(args.n_sup))
     best=get_best_solution(x)
+    print(best)
     create_excel(g,best,y,"final")
     print("--- {} seconds ---".format(time.time() - start_time))
 else:
