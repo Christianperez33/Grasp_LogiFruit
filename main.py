@@ -66,7 +66,6 @@ for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     suma_minimo[i] = x[6]
     cuantos_minimo[i] = x[7]
     media_minimo[i] = x[8]
-    print((val[i],trans[i]))
     
 
 
@@ -92,18 +91,19 @@ with open("Resumen_test.csv", 'a',newline='') as csvfile:
             new_sol = sol[i]
             new_trans =  trans[i]
             new_sol_zonas = sol_zonas[i] 
+        with open(args.name+str(i)+"_"+str(args.iteraciones)+'.json', 'w') as outfile:
+            json.dump(new_sol, outfile)
     val = new_val
     sol = new_sol
     trans = new_trans
     sol_zonas = new_sol_zonas
 
-if(args.save):
-    print(type(sol))
-    with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
-        sol.update({'CT':trans})
-        json.dump(sol, outfile)
-    with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"3333"+str(old_aval)+'.json', 'w') as outfile:
-       json.dump(trans, outfile)
+# if(args.save):
+    # print(type(sol))
+    # with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'.json', 'w') as outfile:
+    #     json.dump(sol, outfile)
+    # with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"3333"+str(old_aval)+'.json', 'w') as outfile:
+    #    json.dump(trans, outfile)
     # with open(args.name+str(args.iteraciones)+"_"+str(args.lcr)+"_"+str(old_aval)+'_ZONAS.json', 'w') as outfile:
     #    json.dump(sol_zonas, outfile)
         

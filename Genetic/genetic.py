@@ -14,7 +14,7 @@ from tqdm import tqdm
 import numpy as np
 
 class Genetic:
-    def __init__(self,af,viajes ="./data_grasp/5JULIO/viajes.xml",stock="./data_grasp/5JULIO/stock.csv",precios = "./Genetic/data_grasp/precios.csv", solpath=""):
+    def __init__(self,af,viajes ="./data_grasp/5JULIO/viajes.xml",stock="./data_grasp/5JULIO/stock.csv",precios = "./data_grasp/precios.csv", solpath=""):
         self.solpath = solpath
         self.alfa=af
         self.viajes = DatosViajes(viajes)
@@ -41,39 +41,12 @@ class Genetic:
         ## {'Solucion_1':'CT_X',...,'Solucion_N':'CT_Y'}
         self.CS = values[4] ## diccionario con el coste de stock de cada miembro de la poblacion
         ## {'Solucion_1':'CS_X',...,'Solucion_N':'CS_Y'}
+        
 def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
-    # ###################################
-    # #  VOLVEMOS A GENERAR LAS LISTAS ##
-    # ###################################
-    # self.viajes = DatosViajes(viajes)
-    # self.oriViajes = copy.deepcopy(self.viajes.dictViajes)
-    # self.dictViajes  = copy.deepcopy(self.oriViajes)
-    # self.stock = DatosStock(stock)  
-    # self.oriStock = copy.deepcopy(self.stock.dictStock)
-    # self.dictStock   = copy.deepcopy(self.oriStock)
-    # self.precios = DatosPrecio(precios)
-    # self.oriPrecios = copy.deepcopy(self.precios.dictPrecios)
-    # values=getPopulation(self,alfa)
-    # self.datos = values[0] ## diccionario poblacion donde la clave es el índice de la solucion y el valor otro diccionario con los viajes-plataforma seleccionados
-    # ## {'Solucion_1': { 'Viaje_0' : 'Plataforma_12' , 'Viaje_1' : 'Plataforma_3'... }, 'Solucion_2' : {'Viaje_0' : 'Plataforma_8' , 'Viaje_1' : 'Plataforma_7'... }}
-    # self.age=values[1] ## diccionario con las edades de cada miembro de la poblacion
-    # ## {'Solucion_1':'Edad_ 0',...,'Solucion_N':'Edad_1'}
-    # self.oriage=copy.deepcopy(self.age)
-    # self.fitness = values[2] ## diccionario con el fitness de cada miembro de la poblacion
-    # ## {'Solucion_1':'Fitness_210',...,'Solucion_N':'Fitness_205'}
-    # suma_fitness=sum(self.fitness.values())
-    # lista_fitness=[round((k/suma_fitness),5) for k in self.fitness.values()]
-    # self.list_fitness= {str(x+1) : lista_fitness[x] for x in range(len(lista_fitness))} ## diccionario con la proporcion del fitness en relacion a la suma total (SELECCIÓN MODO TORNEO)
-    # ## {'Solucion_1':'Fitness_%_0.007',...,'Solucion_N':'Fitness_%_0.0089'}
-    # self.CT = values[3] ## diccionario con el coste de transporte de cada miembro de la poblacion
-    # ## {'Solucion_1':'CT_X',...,'Solucion_N':'CT_Y'}
-    # self.CS = values[4] ## diccionario con el coste de stock de cada miembro de la poblacion
-    # ## {'Solucion_1':'CS_X',...,'Solucion_N':'CS_Y'}
-    
     ## Edad máxima individuo en funcion de las iteraciones
     max_age=int((max_age/100)*iter)
     ## Escritura del encabezado del seguimiento del fitness a lo largo de la iteraciones
-    with open("./Genetic/results/"+"seguimiento fitness.csv", 'w',newline='') as csvfile:
+    with open("./Genetic/results/"+"seguimiento fitness.csv", 'a+',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
         writer.writerow(["Iteracion","Fitness global","Mejor fitness","Coste transporte","Coste de stock"])
         # Bucle de las iteraciones del AG
@@ -217,14 +190,22 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
             CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
             CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
     
-    pkeys = {k:[] for k in list(np.unique([x for i in population for x in list(population[i].keys())]))}
-
-    for ii in population:
-        for kk in population[ii]:
-            pkeys[kk].append(population[ii][kk])
-            
-    for n in range(47):
-        population[str(n+i)] = {x:random.choice(pkeys[x]) for x in list(pkeys.keys())}
+    plats = {k:[] for k in self.dictViajes.keys()}
+    # todas las posibles plataformas para un viaje
+    for v in self.dictViajes:
+        p = list(self.dictViajes[str(v)]["PlataformasPosibles"].items())[0]
+        for xx in ([p[1]] if isinstance(p[1],dict) else p[1]):
+            plats[str(v)].append(xx["Plataforma"])
+    # for n in range(50):
+    #     population[str(n+i)] = population[str(1)]
+    #     age[str(n+i)] = 0
+    #     values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
+    #     fitness[str(n+i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+    #     CT[str(n+i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+    #     CS[str(n+i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+        
+    for n in range(100-len(list_population)):
+        population[str(n+i)] = {x:random.choice(plats[x]) for x in list(plats.keys())}
         age[str(n+i)] = 0
         values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
         fitness[str(n+i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
@@ -319,7 +300,6 @@ def mutation(self,person):  # funcion mutation a partir de un miembro de la fami
     return 0
 
 def calculate_fitness(self,member,alfa): # Esta función calcula la formula del fitness para una solucion, dado un alfa con el que realizar el calculo con coste de transporte(CT) y coste de stock (CS)
-    
     ## FORMULA FITNESS: (ALFA * CT)  + ((1-ALFA) * CS)
     ## CT-> Coste de transporte, para cda viaje sumar el coste de transporte de su plataforma asignada
     self.dictStock  = copy.deepcopy(self.oriStock)
