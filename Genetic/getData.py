@@ -63,6 +63,7 @@ class DatosStock:
         self.dictStock = self.getDict()
         self.idsPlataforma = self.getIdsPlataformas()
         self.idsPedidos = self.getIdsPedidos()
+        
     
     def getTableById(self,id,colini=None,colend=None):
         if(colini is None and colend is None):
@@ -117,11 +118,3 @@ class DatosPrecio:
             res[str(self.csv.iloc[id,0])]= dict(zip(columnas,valores))
         
         return res  
-
-   
-# s = DatosStock("data/stock.csv")
-# print(s.dictStock['1'])
-# v = DatosViajes("data/viajes_especial.xml")
-# print(v.dictViajes["2091"]) 
-# d = DatosPrecio("./data/precio.csv")
-# print(d.getDict())

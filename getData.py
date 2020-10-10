@@ -3,10 +3,13 @@ import json
 import numpy as np
 import pandas as pd
 import csv 
+import random
+import copy
+import os
 
 class DatosViajes:
     def __init__(self,path):
-        file = open(path,"r") 
+        file = open(path,"r")
         json_orig = xmltodict.parse(file.read())["ArrayOfViajesLite"]
         json_viajes = json_orig["ViajesLite"]
         self.listaViajes = json_viajes
@@ -22,6 +25,36 @@ class DatosViajes:
         
     def getIds(self):
         return [viaje["Id"] for viaje in self.listaViajes]
+    
+    def shuffle(self,dictViajes):
+        viajecopy = copy.deepcopy(dictViajes)
+        plat = {}
+        art = {}
+        for x in viajecopy:
+            p = viajecopy[x]["Carga"]["CantidadModelo"] if isinstance(viajecopy[x]["Carga"]["CantidadModelo"], list) else [viajecopy[x]["Carga"]["CantidadModelo"]]
+            for a in p:
+                if a["Articulo"] not in list(art.keys()):
+                    art[a["Articulo"]] = []
+                art[a["Articulo"]].append(a)
+                
+        for x in viajecopy:
+            p = viajecopy[x]["PlataformasPosibles"]["CosteTransporte"] if isinstance(viajecopy[x]["PlataformasPosibles"]["CosteTransporte"], list) else [viajecopy[x]["PlataformasPosibles"]["CosteTransporte"]]
+            for a in p:
+                if a["Plataforma"] not in list(plat.keys()):
+                    plat[a["Plataforma"]] = []
+                plat[a["Plataforma"]].append(a)
+              
+        
+        for x in viajecopy:
+            modelo = viajecopy[x]["Carga"]["CantidadModelo"] if isinstance(viajecopy[x]["Carga"]["CantidadModelo"], list) else [viajecopy[x]["Carga"]["CantidadModelo"]]
+            new = [random.choice(art[a["Articulo"]]) for a in modelo]
+            viajecopy[x]["Carga"]["CantidadModelo"] = new
+            plataformas = viajecopy[x]["PlataformasPosibles"]["CosteTransporte"] if isinstance(viajecopy[x]["PlataformasPosibles"]["CosteTransporte"], list) else [viajecopy[x]["PlataformasPosibles"]["CosteTransporte"]]
+            new = [random.choice(plat[a["Plataforma"]]) for a in plataformas]
+            viajecopy[x]["PlataformasPosibles"]["CosteTransporte"] = new
+        return viajecopy
+            
+        
 
 class DatosStock:
     def __init__(self,path):
@@ -29,7 +62,7 @@ class DatosStock:
         self.csv = data
         self.dictStock = self.getDict()
         self.idsPlataforma = self.getIdsPlataformas()
-        # self.idsPedidos = self.getIdsPedidos()
+        self.idsPedidos = self.getIdsPedidos()
     
     def getTableById(self,id,colini=None,colend=None):
         if(colini is None and colend is None):
@@ -51,21 +84,22 @@ class DatosStock:
     def getDict(self):
         res = {}
         fechas = ['lunes', 'martes', 'miercoles', 'jueves','viernes','sabado','domingo']
-        lastId = 0
         for id in range(len(self.csv)):
             data = self.csv.iloc[id,:]
             toadm = list(data)
             baseid = toadm[0]
             resto = toadm[1:-1]
-            if str(baseid) != "nan" and str(baseid) != ' ':
-                if all([str(x) == "nan" or str(x) == " " for x in resto]) :
+            if str(baseid) != "nan":
+                if all([str(x) == "nan" for x in resto]) :
                    res[str(int(baseid))] = {}
                    lastId = int(baseid)
                 else:
                     res[str(lastId)][str(int(baseid))] = dict(zip(fechas,toadm[1:-1]))
             else:
-                fechas = toadm[1:-1]        
+                fechas = toadm[1:-1]
         return res
+    
+
 
 class DatosPrecio:
     def __init__(self,path):
@@ -84,10 +118,3 @@ class DatosPrecio:
         
         return res  
 
-   
-# s = DatosStock("./RESULTADOS/paper/5JULIO/StockSolucionResolver5Julio.csv")
-# print(s.dictStock['1'])
-# v = DatosViajes("./RESULTADOS/paper/5JULIO/viajes_zonas5Julio.xml")
-# print(v.dictViajes) 
-# d = DatosPrecio("./data/precio.csv")
-# print(d.getDict())

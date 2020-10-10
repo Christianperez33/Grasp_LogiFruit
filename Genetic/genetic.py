@@ -41,6 +41,10 @@ class Genetic:
         ## {'Solucion_1':'CT_X',...,'Solucion_N':'CT_Y'}
         self.CS = values[4] ## diccionario con el coste de stock de cada miembro de la poblacion
         ## {'Solucion_1':'CS_X',...,'Solucion_N':'CS_Y'}
+        # init = [(self.CS[x]/len(self.datos[x]))+self.CT[x] for x in self.CS]
+        # # print( [ (self.CS[x],self.CT[x],(self.CS[x]/len(self.datos[x]))+self.CT[x]) for x in self.CS])
+        # print( [ (self.CT[x],self.CS[x],(self.CS[x]/len(self.datos[x]))+self.CT[x]) for x in self.CS])
+        # os._exit(0)
         
 def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     ## Edad máxima individuo en funcion de las iteraciones
@@ -54,20 +58,13 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             poblacion = self.datos
             ## Obtenemos los valores del fitness de la poblacion
             fitness_values=get_fitness(self.fitness,self.CT,self.CS)
+            
             self.fitness_Global = fitness_values[2] ## Media
             self.fitness_Best = fitness_values[1]   ## Mejor valor 
             self.index_best_fitness=fitness_values[0]   ## Indice mejor valor
             self.list_fitness=fitness_values[3] ## Lista proporcion fitness( torneo)
             
             create_excel(self,fitness_values[0],poblacion,str(i))
-            """print("lista FITNESS")
-            print(self.fitness)
-            print("lista coste de TRANSPORTE")
-            print(self.CT)
-            print("lista coste de STOCK")
-            print(self.CS)
-            print("#######################################")"""
-
             ## Escribo los resultados para el seguimiento
             writer.writerow([int(i),int(self.fitness_Global),int(self.fitness_Best),int(fitness_values[4]),int(fitness_values[5])])
             #csvfile.close()
@@ -98,6 +95,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                     mother_die=True
                 ## REPRODUCCION : Metodo para crear nuevos individuos a partir de los progenitores
                 family=reproduce(self,fathers,k_crossover,n_son)
+                print(family)
                 ## SELECCION NUEVA GENERACION: solo por fitness
                 fitness_candidatos=list()
                 list_cs=list()    
@@ -119,7 +117,10 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                         list_cs.append(cs)
                         list_ct.append(ct)
                     i_f=i_f+1
-
+                for i in range(len(fitness_candidatos)):
+                    print([fitness_candidatos[i],list_ct[i]+list_cs[i]/1906])    
+                
+                input()
                 ## Ordeno los indices de los miembros de la familia por fitness
                 lista_indices_candidatos=numpy.argsort(fitness_candidatos)
                 # Ejemplo familia con tres hijos [0 1 2 3 4] donde 0 y 1 son los padres con variable "fitness_candidatos" [298 276 250 278 295]
@@ -168,6 +169,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     return list_new_generation_fitness,nueva_generacion        
 
 def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
+    
     list_population = os.listdir(path=self.solpath) # PATH donde se alojan las soluciones del GRASP que son la pobalcion inicial del AG
     # Diccionarios con los datos necesarios durante todo el AG
     population = {}
@@ -177,15 +179,15 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     CS = {}
     i = 0
     for json_ in list_population:
-        i = i+1
+        i += 1
         with open(self.solpath+json_) as f:
             someone = json.load(f) # Cargo una solucion GRASP 
-            someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por IdViaje
+            # someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por IdViaje
             age[str(i)] = 0 # Diccionario con la edad de cada miembro de la pobacion o solucion 
             population[str(i)] = someone # Diccionario con la asignacacion de viajes-plataforma en la solucion
             if i==1:
                 self.n_travel = len(population.get("1")) # Inicializacion numero de viajes de las soluciones
-            values_fitness = calculate_fitness(self,population[str(i)],alfa) ## Funcion de calculo del fitness dad una solucion
+            values_fitness = calculate_fitness(self,someone,alfa,True) ## Funcion de calculo del fitness dad una solucion
             fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
             CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
             CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
@@ -196,15 +198,15 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
         p = list(self.dictViajes[str(v)]["PlataformasPosibles"].items())[0]
         for xx in ([p[1]] if isinstance(p[1],dict) else p[1]):
             plats[str(v)].append(xx["Plataforma"])
-    # for n in range(50):
-    #     population[str(n+i)] = population[str(1)]
-    #     age[str(n+i)] = 0
-    #     values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
-    #     fitness[str(n+i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
-    #     CT[str(n+i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
-    #     CS[str(n+i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+    for n in range(50-len(population)):
+        population[str(n+i)] = population[str(1)]
+        age[str(n+i)] = 0
+        values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
+        fitness[str(n+i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+        CT[str(n+i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+        CS[str(n+i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
         
-    for n in range(100-len(list_population)):
+    for n in range(100-len(population)):
         population[str(n+i)] = {x:random.choice(plats[x]) for x in list(plats.keys())}
         age[str(n+i)] = 0
         values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
@@ -299,7 +301,7 @@ def mutation(self,person):  # funcion mutation a partir de un miembro de la fami
 
     return 0
 
-def calculate_fitness(self,member,alfa): # Esta función calcula la formula del fitness para una solucion, dado un alfa con el que realizar el calculo con coste de transporte(CT) y coste de stock (CS)
+def calculate_fitness(self,member,alfa,init=False): # Esta función calcula la formula del fitness para una solucion, dado un alfa con el que realizar el calculo con coste de transporte(CT) y coste de stock (CS)
     ## FORMULA FITNESS: (ALFA * CT)  + ((1-ALFA) * CS)
     ## CT-> Coste de transporte, para cda viaje sumar el coste de transporte de su plataforma asignada
     self.dictStock  = copy.deepcopy(self.oriStock)
@@ -312,8 +314,10 @@ def calculate_fitness(self,member,alfa): # Esta función calcula la formula del 
                 coste_transporte = coste_transporte + float(c['Precio'])
     ## CS-> Coste de stock, recorremos todos los viajes plataforma de la solucion, comprobando si el stock de las plataformas es negativo y sumando el coste de reponer ese stock
     coste_stock=0
+
     for id_viaje,id_plat in member.items():
         articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
+
         stocks = {}
         cantidades ={}
         restos = {}
@@ -325,18 +329,6 @@ def calculate_fitness(self,member,alfa): # Esta función calcula la formula del 
         demora = [p["Demora"] for p in plataformas if str(p['Plataforma']) == str(id_plat)]
         demora = demora[0]
 
-        """articulos = self.oriViajes[id_viaje_select]['Carga']['CantidadModelo']
-            articulos = articulos if isinstance(articulos, list) else [articulos]
-            for articulo in articulos:
-                idArticulo = articulo['Articulo']
-                cantidad = abs(int(articulo['Cantidad']))
-                fecha = self.dictViajes[id_viaje_select]['FechaDescarga']
-                fechas = list(self.dictStock[plataforma_viaje_select][idArticulo].keys())
-                
-                ini_rango = (fechas.index(fecha)) - int(demora)
-                rango = fechas[0 if ini_rango <= 0 else ini_rango:]
-                for f in rango:
-                    self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad"""
         ## Recorremos los articulos de cada viaje   
         for articulo in articulos:
             idArticulo = articulo['Articulo']
@@ -371,17 +363,15 @@ def calculate_fitness(self,member,alfa): # Esta función calcula la formula del 
             stocks[idArticulo] = coste_stock_aux
 
             fechas = list(self.dictStock[id_plat][idArticulo].keys())
-                
             ini_rango = (fechas.index(fecha)) - int(demora)
             rango = fechas[0 if ini_rango <= 0 else ini_rango:]
             for f in rango:
                 self.dictStock[id_plat][idArticulo][f] = int(self.dictStock[id_plat][idArticulo][f]) - cantidad
-
         coste_stock=coste_stock+abs(sum(stocks.values()))
-
-     # Función fitness
+    # Función fitness
     fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
-
+    if init:
+        self.dictStock  = copy.deepcopy(self.oriStock)
     return ((fitness_completo_precio/self.n_travel),(coste_transporte/self.n_travel),(coste_stock/self.n_travel))
 
 def get_best_solution(list_proportion_fitness): # Funcion que obtiene el indice del miembro de la poblacion con mejor fitness
