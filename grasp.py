@@ -16,11 +16,11 @@ import copy
 import math
 
 
+
 class Grasp:
     """
      Clase Grasp contiene los metodos necesarios para la correcta obtención de los datos y su procesado para obtener una solución válida
     """
-
     def __init__(self, shuffle=True, seed=None, stock="./data/stock.csv", viajes ="./data/viajes.csv", precios = "./data/precio.csv"):
         """
         __init__ Constructor que inicializa las variables de stock y viajes segun las funciones desarrolladas para la obtención de los datos
@@ -418,6 +418,7 @@ class Grasp:
 
             fitness_viajes = {}
             fitness_valores = {}
+            fitness_valores2 = {}
             fitness_plats_precio = {}
             fitness_plats_cantidad = {}
             fitness_transporte = {}
@@ -490,7 +491,8 @@ class Grasp:
                     #  Calculos para el coste del stock
                     # Función fitness
                     fitness_plats_precio[id_viaje][id_plataforma] = stocks[id_plataforma]
-                    fitness_completo_precio[id_viaje][id_plataforma] = alfa * fitness_transporte[id_viaje][id_plataforma] + (1 - alfa) * fitness_plats_precio[id_viaje][id_plataforma]
+                    # fitness_completo_precio[id_viaje][id_plataforma] = alfa * fitness_transporte[id_viaje][id_plataforma] + (1 - alfa) * fitness_plats_precio[id_viaje][id_plataforma]
+                    fitness_completo_precio[id_viaje][id_plataforma] = fitness_transporte[id_viaje][id_plataforma] +  fitness_plats_precio[id_viaje][id_plataforma]
                     fitness_no_alfa[id_viaje][id_plataforma] = fitness_transporte[id_viaje][id_plataforma] + fitness_plats_precio[id_viaje][id_plataforma]
                     #  Calculos para la cantidad de stock
                     # Función fitness en el caso de que todas las plataformas tengan stock positivo
@@ -527,17 +529,20 @@ class Grasp:
                         
                         factor=1.0/ (sum(precio_dict.values()) if sum(precio_dict.values()) != 0 else 1)
                         precio_dict = Counter({x:precio_dict[x]*factor for x in precio_dict.keys()})
-                        
+                        #print
                         cantidad_dict.update(precio_dict)
                         cantidad_dict = dict(cantidad_dict)
                         mediana = len(cantidad_dict.items())//2
+                        #print(cantidad_dict)
                         id_plataforma_select = sorted(cantidad_dict.items(),key=operator.itemgetter(1),reverse=False)[mediana][0]
                     else:
                         id_plataforma_select = min(cantidad_dict.items(), key=operator.itemgetter(1))[0]
                 
                 fitness_valores[id_viaje] = fitness_completo_precio[id_viaje][id_plataforma_select]
+                fitness_valores2[id_viaje] = fitness_plats_precio[id_viaje][id_plataforma_select]
                 fitness_viajes[id_viaje] = id_plataforma_select                 
-
+                
+                
 
             # evaluacion de los fitness del lcr
             id_viaje_select = min(fitness_valores.items(), key=operator.itemgetter(1))[0]

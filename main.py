@@ -3,7 +3,7 @@ from grasp import *
 import argparse
 from tqdm import tqdm
 import json
-
+from multiprocessing import cpu_count
 def str2bool(v):
     if isinstance(v, bool):
        return v
@@ -19,11 +19,11 @@ argparser.add_argument('-r', '--random', help='mezcla de datos al incio del algo
 argparser.add_argument('-i', '--iteraciones',help='numero de iteraciones que hace el algoritmo', default=5)
 argparser.add_argument('-s', '--seed', help='semilla que utilizamos para el randomizado de los datos', default=None)
 argparser.add_argument('-av', '--a_val', help='valor de inicio de alfa', default=0.5)
-argparser.add_argument('-g', '--save', help='Guarda la solución en un fichero llamado "solution_json.json"', default=False)
+argparser.add_argument('-g', '--save', help='Guarda la solución en un fichero llamado "solution_json.json"', default=True)
 argparser.add_argument('-n', '--name', help='nombre del archivo que guarda la solucion"', default="solution_")
 argparser.add_argument('-l', '--lcr', help='Tamaño de la lista de candidatos', default=3)
 argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', default="./data/stock.csv")
-argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml",)
+argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data/viajes.xml")
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data/precios.csv")
 argparser.add_argument('-d', '--debug', help='Muestra por pantalla los resultados de las diferentes ejecuciones', default=True ,type=str2bool)
 argparser.add_argument('-t', '--test', help='Modo hard para testeo de todos los tipos de valores', default=False ,type=str2bool)
@@ -50,6 +50,8 @@ if args.debug:
     print("Config: Inter -> {},\n \tAlfa -> {},\n \tLCR ->{},\n \tAutosave -> {}".format(args.iteraciones,args.a_val ,args.lcr,args.save))
     
 
+g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
+
 for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     g = Grasp(args.random, args.seed, args.stock,args.viajes,args.precios)
     x = g.GRASP_Solution(float(args.a_val),int(args.beta), int(args.mode), int(args.lcr),1,test=args.test)
@@ -61,17 +63,18 @@ for i in tqdm(range(int(args.iteraciones)),disable=(not args.debug)):
     
 
 
-with open("Resumen_test.csv", 'a') as csvfile:
-    writer = csv.writer(csvfile,delimiter=';')    
+with open("Resumen_test.csv", 'a',newline='') as csvfile:
+    writer = csv.writer(csvfile,delimiter=';')
+    writer.writerow([' ',' ','alfa final','Coste stock','Coste transporte','Stock minimo','Total minimos','Numero articulos en minimos','Media'])    
     new_val = 0
     new_sol = {}
     new_trans = {}
     new_sol_zonas = {}
     for i in val:
-        if args.debug:
-            print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
+
+        print("---> Iter {} alfa_ini {} alfa_fin {:.5f} fitness: {:.2f} transporte: {:.2f}".format(i,args.a_val,alfas[i],val[i],trans[i]))
         if args.test:
-            writer.writerow([i,args.lcr,args.a_val,val[i],trans[i]])
+            writer.writerow([i,args.a_val,round(alfas[i],2),round(val[i],2),round(trans[i],2),art_min[i],suma_minimo[i],cuantos_minimo[i],round(media_minimo[i],2)])
         if new_val == 0:
             new_val = val[i]
             new_sol = sol[i]

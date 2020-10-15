@@ -3,10 +3,13 @@ import json
 import numpy as np
 import pandas as pd
 import csv 
+import random
+import copy
+import os
 
 class DatosViajes:
     def __init__(self,path):
-        file = open(path,"r") 
+        file = open(path,"r")
         json_orig = xmltodict.parse(file.read())["ArrayOfViajesLite"]
         json_viajes = json_orig["ViajesLite"]
         self.listaViajes = json_viajes
@@ -22,6 +25,36 @@ class DatosViajes:
         
     def getIds(self):
         return [viaje["Id"] for viaje in self.listaViajes]
+    
+    def shuffle(self,dictViajes):
+        viajecopy = copy.deepcopy(dictViajes)
+        plat = {}
+        art = {}
+        for x in viajecopy:
+            p = viajecopy[x]["Carga"]["CantidadModelo"] if isinstance(viajecopy[x]["Carga"]["CantidadModelo"], list) else [viajecopy[x]["Carga"]["CantidadModelo"]]
+            for a in p:
+                if a["Articulo"] not in list(art.keys()):
+                    art[a["Articulo"]] = []
+                art[a["Articulo"]].append(a)
+                
+        for x in viajecopy:
+            p = viajecopy[x]["PlataformasPosibles"]["CosteTransporte"] if isinstance(viajecopy[x]["PlataformasPosibles"]["CosteTransporte"], list) else [viajecopy[x]["PlataformasPosibles"]["CosteTransporte"]]
+            for a in p:
+                if a["Plataforma"] not in list(plat.keys()):
+                    plat[a["Plataforma"]] = []
+                plat[a["Plataforma"]].append(a)
+              
+        
+        for x in viajecopy:
+            modelo = viajecopy[x]["Carga"]["CantidadModelo"] if isinstance(viajecopy[x]["Carga"]["CantidadModelo"], list) else [viajecopy[x]["Carga"]["CantidadModelo"]]
+            new = [random.choice(art[a["Articulo"]]) for a in modelo]
+            viajecopy[x]["Carga"]["CantidadModelo"] = new
+            plataformas = viajecopy[x]["PlataformasPosibles"]["CosteTransporte"] if isinstance(viajecopy[x]["PlataformasPosibles"]["CosteTransporte"], list) else [viajecopy[x]["PlataformasPosibles"]["CosteTransporte"]]
+            new = [random.choice(plat[a["Plataforma"]]) for a in plataformas]
+            viajecopy[x]["PlataformasPosibles"]["CosteTransporte"] = new
+        return viajecopy
+            
+        
 
 class DatosStock:
     def __init__(self,path):
@@ -64,9 +97,9 @@ class DatosStock:
                     res[str(lastId)][str(int(baseid))] = dict(zip(fechas,toadm[1:-1]))
             else:
                 fechas = toadm[1:-1]
-                
-                
         return res
+    
+
 
 class DatosPrecio:
     def __init__(self,path):
