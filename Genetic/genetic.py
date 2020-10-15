@@ -5,7 +5,6 @@ from getData import DatosViajes
 from getData import DatosPrecio 
 from getData import DatosStock
 from collections import OrderedDict
-import statistics
 import random
 import csv
 import copy
@@ -41,10 +40,7 @@ class Genetic:
         ## {'Solucion_1':'CT_X',...,'Solucion_N':'CT_Y'}
         self.CS = values[4] ## diccionario con el coste de stock de cada miembro de la poblacion
         ## {'Solucion_1':'CS_X',...,'Solucion_N':'CS_Y'}
-        # init = [(self.CS[x]/len(self.datos[x]))+self.CT[x] for x in self.CS]
-        # # print( [ (self.CS[x],self.CT[x],(self.CS[x]/len(self.datos[x]))+self.CT[x]) for x in self.CS])
-        # print( [ (self.CT[x],self.CS[x],(self.CS[x]/len(self.datos[x]))+self.CT[x]) for x in self.CS])
-        # os._exit(0)
+
         
 def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     ## Edad máxima individuo en funcion de las iteraciones
@@ -56,9 +52,9 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
         # Bucle de las iteraciones del AG
         for i in tqdm(range(iter)):
             poblacion = self.datos
+
             ## Obtenemos los valores del fitness de la poblacion
-            fitness_values=get_fitness(self.fitness,self.CT,self.CS)
-            
+            fitness_values=get_fitness(self.fitness,self.CT,self.CS,len(poblacion[list(poblacion.keys())[0]]))
             self.fitness_Global = fitness_values[2] ## Media
             self.fitness_Best = fitness_values[1]   ## Mejor valor 
             self.index_best_fitness=fitness_values[0]   ## Indice mejor valor
@@ -70,7 +66,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             #csvfile.close()
             
             ## k es un parámetro que establece la "competencia a la hora de elegir un padre" si k es igual a el total de soluciones eligiria siempre los mejores
-            k=int(round(len(poblacion)/3,0))
+            # k=int(round(len(poblacion)/3,0))
             #k = int(1+((len(poblacion)/(iter)))*(i))
             #if k >=len(poblacion):
             #    k=k-1
@@ -82,20 +78,25 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             lista_edad=list()  # Lista donde se almacenena la edad de  la nueva generacion
 
             ## Recorro la población dos a dos 
-            for j in range(0,self.n_population,2):
+            par = set(list(poblacion.keys())[::2])
+            impar = set(list(poblacion.keys())) - par
+            minlen = min((len(par),len(impar)))
+            fff = [list(f) for f in zip(list(par)[:minlen],list(impar)[:minlen])]
+            # for j in range(0,self.n_population,2):
+            for fathers in fff:
                 # Variables booleanas para decidir si los padres han alcanzado la edad máxmima
                 father_die=False
                 mother_die=False
-                ## SELECCION PROGENITORES : Escojo dos padres para la nueva generacion, metodo torneo
-                fathers=choose_fathers(self,k) # Lista donde se almacenan los padres "fathers"->(padre,madre) , los valores se refieren al indice de la solucion
                 # COMPROBACION EDAD MAXIMA: Compruebo en el diccionario de la edad de las soluciones si los padres escogidos han alcanzado la edad maxima
                 if self.oriage[str(fathers[0])]>=max_age:
                     father_die=True
                 if self.oriage[str(fathers[1])]>=max_age:
                     mother_die=True
                 ## REPRODUCCION : Metodo para crear nuevos individuos a partir de los progenitores
+
                 family=reproduce(self,fathers,k_crossover,n_son)
-                print(family)
+                
+                
                 ## SELECCION NUEVA GENERACION: solo por fitness
                 fitness_candidatos=list()
                 list_cs=list()    
@@ -103,11 +104,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                 i_f=0     
                 ## Recorro cada NUEVO miembro de la familia y calculo el fitness y su coste de TRANSPORTE Y STOCK .
                 for member in family:
-                    if i_f==0:  # El primero de la familia es el padre, consulto diccionarios
-                        fitness_candidatos.append(self.fitness.get(str(fathers[0])))
-                        list_ct.append(self.CT.get(str(fathers[0])))
-                        list_cs.append(self.CS.get(str(fathers[0])))
-                    elif i_f==1:  # El segundo de la familia es la madre, consulto diccionarios
+                    if i_f<=1:
                         fitness_candidatos.append(self.fitness.get(str(fathers[1])))
                         list_ct.append(self.CT.get(str(fathers[1])))
                         list_cs.append(self.CS.get(str(fathers[1])))
@@ -116,49 +113,36 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                         fitness_candidatos.append(fitness)
                         list_cs.append(cs)
                         list_ct.append(ct)
-                    i_f=i_f+1
-                for i in range(len(fitness_candidatos)):
-                    print([fitness_candidatos[i],list_ct[i]+list_cs[i]/1906])    
-                
-                input()
+                    i_f+=1
+                    # MUTACION POR CADA MIEMBRO DE LA FAMILIA
+                    if k_mut > random.choice(list(range(1,100))):
+                        mutation(self,member)
+                    
                 ## Ordeno los indices de los miembros de la familia por fitness
+                
                 lista_indices_candidatos=numpy.argsort(fitness_candidatos)
+
                 # Ejemplo familia con tres hijos [0 1 2 3 4] donde 0 y 1 son los padres con variable "fitness_candidatos" [298 276 250 278 295]
                 # Despues de ordenar por fitness , "lista_indices_candidatos" [2 1 3 4 0]
-
-                # Compruebo si el padre, madre o ambos han llegado a la edad maxima y si esa asi los elimino de la "lista_indices_candidatos"
-                if father_die and mother_die:
+                #EDAD MÁXIMA
+                if father_die:
                     lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 0]
+                if mother_die:
                     lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 1]
-                elif father_die and not mother_die:
-                    lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 0]
-                elif mother_die and not father_die:
-                    lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 1]
-
-                ## MUTACION:  Obtengo tantos valores random entre 0-100 como numero de supervivientes de la familia (n_sup)
-                rndm_mutate= random.sample(range(1, 100), n_sup) # Ejemplo tres supervivientes (13,45,2)
-                ii=0
-                # Recoremos la lista con los valores del random 
-                for item in rndm_mutate:
-                    if item<=k_mut: # Si es menor que el valor de mutacion (3), el individuo sufre mutacion
-                        mutation(self,family[lista_indices_candidatos[ii]])
-                    ii=ii+1
-
+                
                 ## Por cada miembro que pasa a la nueva generacion construimos los diccionarios correspondientes
                 for i_new in range(n_sup):
                     nueva_generacion.append(family[lista_indices_candidatos[i_new]])
                     list_new_generation_fitness.append(fitness_candidatos[lista_indices_candidatos[i_new]])
                     list_new_generation_ct.append(list_ct[lista_indices_candidatos[i_new]])
                     list_new_generation_cs.append(list_cs[lista_indices_candidatos[i_new]])
-
-                ## Recorro todos los miembros que avanzan de generacion (n_sup) y añado el diccionario de la edad
-                for member_index in range(n_sup):
-                    if lista_indices_candidatos[member_index] >=2: # Si el valor es mayor o igual a dos es un hijo el que avanza de generacion
+                    ## Recorro todos los miembros que avanzan de generacion (n_sup) y añado el diccionario de la edad
+                    if lista_indices_candidatos[i_new] >=2: # Si el valor es mayor o igual a dos es un hijo el que avanza de generacion
                         lista_edad.append(0) # Si es un hijo el que avanza de generacion inicializamos la edad a cero
                     else: # Si el valor es menor a dos es un padre el que avanza de generacion
-                        lista_edad.append(self.oriage[str(fathers[lista_indices_candidatos[member_index]])]+1) # Busco su edad en el diccionario con la clave que obtenemos de la lista de padres en funcion de que sea 0 (padre) o 1 (madre)
-
-            # Una vez acaba la iteracion, actualizamos los valores de la clase GENETIC            
+                        lista_edad.append(self.oriage[str(fathers[lista_indices_candidatos[i_new]])]+1) # Busco su edad en el diccionario con la clave que obtenemos de la lista de padres en funcion de que sea 0 (padre) o 1 (madre)
+                        
+            # Una vez acaba la iteracion, actualizamos los valores de la clase GENETIC
             self.datos = {str(x+1) : nueva_generacion[x] for x in range(len(nueva_generacion))} # Actualizo poblacion
             self.oriage = {str(x+1) : lista_edad[x] for x in range(len(lista_edad))} # Actualizo la edad de la poblacion
             self.fitness= {str(x+1) : list_new_generation_fitness[x] for x in range(len(list_new_generation_fitness))} # Actualizo el fitness de la poblacion
@@ -166,7 +150,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.CS= {str(x+1) : list_new_generation_cs[x] for x in range(len(list_new_generation_cs))} # Actualizo el coste de stock de la poblacion
             self.n_population = len(self.datos) # Actualizo el tamaño de la poblacion
 
-    return list_new_generation_fitness,nueva_generacion        
+    return self.fitness,self.datos        
 
 def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     
@@ -198,33 +182,38 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
         p = list(self.dictViajes[str(v)]["PlataformasPosibles"].items())[0]
         for xx in ([p[1]] if isinstance(p[1],dict) else p[1]):
             plats[str(v)].append(xx["Plataforma"])
+    tamn = list(range(1,len(population)+1))
+    
     for n in range(50-len(population)):
-        population[str(n+i)] = population[str(1)]
-        age[str(n+i)] = 0
-        values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
-        fitness[str(n+i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
-        CT[str(n+i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
-        CS[str(n+i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+        i += 1
+        population[str(i)] = population[str(random.choice(tamn))]
+        age[str(i)] = 0
+        values_fitness = calculate_fitness(self,population[str(i)],alfa) ## Funcion de calculo del fitness dad una solucion
+        fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+        CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+        CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
         
     for n in range(100-len(population)):
-        population[str(n+i)] = {x:random.choice(plats[x]) for x in list(plats.keys())}
-        age[str(n+i)] = 0
-        values_fitness = calculate_fitness(self,population[str(n+i)],alfa) ## Funcion de calculo del fitness dad una solucion
-        fitness[str(n+i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
-        CT[str(n+i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
-        CS[str(n+i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+        i += 1
+        population[str(i)] = {x:random.choice(plats[x]) for x in list(plats.keys())}        
+        age[str(i)] = 0
+        values_fitness = calculate_fitness(self,population[str(i)],alfa) ## Funcion de calculo del fitness dad una solucion
+        fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+        CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+        CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
         
     self.n_population = len(population) # Inicializacion numero de miembros de la poblacion inicial
     return (population,age,fitness,CT,CS)
 
 
-def get_fitness(dict_fitness,dict_CT,dict_CS):
-    index_fitness_best = min(dict_fitness, key=dict_fitness.get) # Indice mejor fitness de las soluciones
-    fitness_best=dict_fitness.get(index_fitness_best) # Valor mejor fitness  
-    fitness_Global = statistics.mean(dict_fitness.values()) # Media del fitness de la poblacion
-    suma_fitness=sum(dict_fitness.values()) # Suma del fitness de la poblacion
-    lista_fitness = [round((k/suma_fitness),5) for k in dict_fitness.values()] # Proporcion del fitness en función de la suma global
+def get_fitness(dict_fitness,dict_CT,dict_CS,lensol):
+    fit = {id: dict_CT[id]+(dict_CS[id]/lensol)  for id in dict_fitness}
+    index_fitness_best = min(fit, key=fit.get) # Indice mejor fitness de las soluciones
+    fitness_Global = np.mean(list(fit.values())) # Media del fitness de la poblacion
+    suma_fitness=sum(fit.values()) # Suma del fitness de la poblacion
+    lista_fitness = [round((k/suma_fitness),5) for k in fit.values()] # Proporcion del fitness en función de la suma global
     lista_fitness= {str(x+1) : lista_fitness[x] for x in range(len(lista_fitness))} 
+    fitness_best=fit.get(index_fitness_best) # Valor mejor fitness  
     CT_best=dict_CT.get(index_fitness_best) # Mejor coste de transporte
     CS_best=dict_CS.get(index_fitness_best) # Mejor coste de stock
 
@@ -255,22 +244,26 @@ def choose_fathers(self,k): # Funcion de seleccion de los padres de la pobalcion
             
 def reproduce(self,fathers,point_to_divide,n_son): # Funcion que obtiene nueva descendencia a partir de los padres escogidas en la funcion anterior
     family=list() # Lista donde almaceno la familia
-    hijo=list() # Lista donde almaceno los hijos
     father=self.datos[str(fathers[0])] # Obtengo el indice de la solucion del padre
     mother=self.datos[str(fathers[1])] # Obtengo el indice de la solucion de la madre
+
     family.append(father) # Actualizo la familia con el padre
     family.append(mother) # Actualizo la familia con la madre
     umbral=int(self.n_travel*(point_to_divide/100)) # Variable con el % de viajes que se cruzan en la nueva descendencia de padre-madre
     ## Bucle por cada hijo de la nueva generacion
     for i in range(n_son):
+        hijo={} # Lista donde almaceno los hijos
         list_father=random.sample(list(father),umbral) # Obtengo de manera aleatoria "umbral%" de los viajes del padre
         list_mother=list(set(father.keys()) - set(list_father))# Obtengo el resto de viajes de la madre
-        for item in list_father: # Añado los viajes-plataforma del padre
-            hijo.append((item,father[item]))
-        for item in list_mother: # Añado los viajes-plataforma de la madre
-            hijo.append((item,mother[item]))
-        itemDict = {item[0]: item[1] for item in hijo} # Lo convierto en un diccionario
-        family.append(itemDict) 
+        # for item in list_father: # Añado los viajes-plataforma del padre
+        #     hijo.append((item,father[item]))
+        # for item in list_mother: # Añado los viajes-plataforma de la madre
+        #     hijo.append((item,mother[item]))
+        # itemDict = {item[0]: item[1] for item in hijo} # Lo convierto en un diccionario
+        hijo.update({i:father[i] for i in list_father})
+        hijo.update({i:mother[i] for i in list_mother})
+        
+        family.append(hijo) 
 
     return family
 
@@ -304,6 +297,7 @@ def mutation(self,person):  # funcion mutation a partir de un miembro de la fami
 def calculate_fitness(self,member,alfa,init=False): # Esta función calcula la formula del fitness para una solucion, dado un alfa con el que realizar el calculo con coste de transporte(CT) y coste de stock (CS)
     ## FORMULA FITNESS: (ALFA * CT)  + ((1-ALFA) * CS)
     ## CT-> Coste de transporte, para cda viaje sumar el coste de transporte de su plataforma asignada
+    # if init:
     self.dictStock  = copy.deepcopy(self.oriStock)
     coste_transporte = 0
     for s in member:
@@ -369,9 +363,8 @@ def calculate_fitness(self,member,alfa,init=False): # Esta función calcula la f
                 self.dictStock[id_plat][idArticulo][f] = int(self.dictStock[id_plat][idArticulo][f]) - cantidad
         coste_stock=coste_stock+abs(sum(stocks.values()))
     # Función fitness
-    fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
-    if init:
-        self.dictStock  = copy.deepcopy(self.oriStock)
+    # fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
+    fitness_completo_precio=  coste_transporte + coste_stock/self.n_travel
     return ((fitness_completo_precio/self.n_travel),(coste_transporte/self.n_travel),(coste_stock/self.n_travel))
 
 def get_best_solution(list_proportion_fitness): # Funcion que obtiene el indice del miembro de la poblacion con mejor fitness
@@ -406,17 +399,17 @@ def create_excel(self,index,populate,index_solution):
                 self.dictStock[plataforma_viaje_select][idArticulo][f] = int(self.dictStock[plataforma_viaje_select][idArticulo][f]) - cantidad
 
     # guardamos el diccionario de stock para poder ver el balanceo
-    dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
+    # dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
     with open("./Genetic/results/results_stock/"+"stock_sol_"+index_solution+"+.csv", 'w',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
         cuantos_articulos_negativos = 0
         articulo_minimo = 0
         suma_articulos_negativos = 0
-        for p in dictstock:
+        for p in self.dictStock:
             writer.writerow([int(p),' ',' ',' ',' ',' ',' ',' ',' '])
             writer.writerow([' ']+fechas)
-            for a in dictstock[p]:
-                test_list = list(map(int, list(dictstock[p][a].values())))
+            for a in self.dictStock[p]:
+                test_list = list(map(int, list(self.dictStock[p][a].values())))
                 neg_count = len(list(filter(lambda x: (x < 0), test_list)))
                 cuantos_articulos_negativos=cuantos_articulos_negativos+neg_count
                 if (neg_count>0):
@@ -425,5 +418,5 @@ def create_excel(self,index,populate,index_solution):
                 if (min(test_list)<articulo_minimo):
                     articulo_minimo=min(test_list)
 
-                writer.writerow([int(a)]+list(dictstock[p][a].values()))
+                writer.writerow([int(a)]+list(self.dictStock[p][a].values()))
             writer.writerow([' '])

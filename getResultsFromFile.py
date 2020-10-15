@@ -43,7 +43,7 @@ def calculate_fitness(member,alfa,n_travel): # Esta función calcula la formula 
     coste_stock=0
     for id_viaje,id_plat in member.items():
         articulos = [dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else dictViajes[id_viaje]['Carga']['CantidadModelo']
-
+        
         stocks = {}
         cantidades ={}
         restos = {}
