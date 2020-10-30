@@ -1,8 +1,14 @@
 Iteracion;Fitness global;Mejor fitness;Coste transporte;Coste de stock
-0;325;248;240;14639
+0;283;251;251;572
+1;276;251;251;572
+2;272;251;251;572
+3;269;251;251;572
+4;268;251;251;572
 Iteracion;Fitness global;Mejor fitness;Coste transporte;Coste de stock
-0;324;248;240;14639
-1;294;246;240;11839
-2;286;246;240;11803
-3;279;246;240;11849
-4;275;246;240;12014
+0;485;400;223;325820
+Iteracion;Fitness global;Mejor fitness;Coste transporte;Coste de stock
+0;497;422;251;315932
+1;467;422;251;315932
+2;459;422;251;315932
+3;457;422;251;315932
+4;453;422;251;315932

@@ -34,7 +34,6 @@ if int(args.n_son)+2>=int(args.n_sup):
     g = Genetic(int(args.alfa),args.viajes,args.stock,args.precios,args.solpath)
     [x,y] = develope(g,int(args.iter),float(args.mutate),int(args.crossover),int(args.alfa),int(args.max_age),int(args.n_son),int(args.n_sup))
     best,bfitness=min(x.items(),key=lambda x:x[1])
-    print(bfitness)
     with open('./Genetic/solution'+str(args.solpath.split("/")[-3])+'_'+args.iter+'.json', 'w') as outfile:
         json.dump(y[best], outfile)
     create_excel(g,best,y,"final")

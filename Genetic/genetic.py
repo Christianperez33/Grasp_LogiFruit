@@ -51,6 +51,9 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
         writer.writerow(["Iteracion","Fitness global","Mejor fitness","Coste transporte","Coste de stock"])
         # Bucle de las iteraciones del AG
         for i in tqdm(range(iter)):
+            self.dictStock   = copy.deepcopy(self.oriStock)
+            
+            
             poblacion = self.datos
 
             ## Obtenemos los valores del fitness de la poblacion
@@ -305,73 +308,53 @@ def calculate_fitness(self,member,alfa,init=False): # Esta función calcula la f
         cosas = cosas if isinstance(cosas, list) else [cosas]
         for c in cosas:
             if int(c['Plataforma']) == int(member[s]):
-                coste_transporte = coste_transporte + float(c['Precio'])
+                coste_transporte += float(c['Precio'])
+    
     ## CS-> Coste de stock, recorremos todos los viajes plataforma de la solucion, comprobando si el stock de las plataformas es negativo y sumando el coste de reponer ese stock
-    coste_stock=0
+    coste_stock={}
 
     for id_viaje,id_plat in member.items():
-        articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if type(self.dictViajes[id_viaje]['Carga']['CantidadModelo']) != list else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
+        articulos = [self.dictViajes[id_viaje]['Carga']['CantidadModelo']] if not isinstance(self.dictViajes[id_viaje]['Carga']['CantidadModelo'], list) else self.dictViajes[id_viaje]['Carga']['CantidadModelo']
 
         stocks = {}
-        cantidades ={}
-        restos = {}
+        cantidades = {}
         fecha = self.dictViajes[id_viaje]['FechaDescarga']
         ## Es necesario obtener la demora de la plataforma para el viaje estudiado
         plataformas = self.oriViajes[id_viaje]['PlataformasPosibles']['CosteTransporte']
         plataformas = plataformas if isinstance(plataformas, list) else [plataformas]
        
-        demora = [p["Demora"] for p in plataformas if str(p['Plataforma']) == str(id_plat)]
-        demora = demora[0]
+        demora = [p["Demora"] for p in plataformas if str(p['Plataforma']) == str(id_plat)][0]
 
         ## Recorremos los articulos de cada viaje   
         for articulo in articulos:
             idArticulo = articulo['Articulo']
             cantidad = abs(int(articulo['Cantidad']))
             precio = self.oriPrecios[idArticulo]["PrecioUnitario"]
-            stocks[idArticulo] = {}
             cantidades[idArticulo] = {}
-            restos[idArticulo] = {}
             ## Obtenemos las fechas del diccionario de stock para cruzar con las fechas del viaje y su demora
             fechas = list(self.dictStock[id_plat][idArticulo].keys())
             coste_stock_aux = 0
-            resto_stock = 0
-            # verificamos si es una fecha válida
-            if fecha in fechas:
-                if fechas.index(fecha)-int(demora) > 0:
-                    # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
-                    for d in range(fechas.index(fecha)-int(demora),len(fechas)+1):
-                        resto_unitario =  int(self.dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                        if resto_unitario < 0:
-                            coste_stock_aux = coste_stock_aux + ( resto_unitario * precio)
-                        resto_stock = resto_stock + resto_unitario
-                    resto_stock = (resto_stock/len(range(fechas.index(fecha)-int(demora),len(fechas)+1))) if resto_stock > 0 else 0
-                else:
-                    # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
-                    for d in range(fechas.index(fecha),len(fechas)+1):
-                        resto_unitario =  int(self.dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                        if resto_unitario < 0:
-                            coste_stock_aux = coste_stock_aux + (resto_unitario * precio)
-                        resto_stock = resto_stock + resto_unitario
-                    resto_stock = (resto_stock/len(range(fechas.index(fecha),len(fechas)+1))) if resto_stock > 0 else 0
-            #coste_stock_articulo=coste_stock_articulo+coste_stock_aux
+
+            init =fechas.index(fecha)-int(demora) if fechas.index(fecha)-int(demora) > 0 else fechas.index(fecha)
+
+            # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
+            for d in range(init,len(fechas)+1):
+                resto_unitario =  int(self.dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                coste_stock_aux += (abs(resto_unitario) * precio if resto_unitario < 0 else 0)
+                # self.dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]] = resto_unitario
+
             stocks[idArticulo] = coste_stock_aux
 
-            fechas = list(self.dictStock[id_plat][idArticulo].keys())
-            ini_rango = (fechas.index(fecha)) - int(demora)
-            rango = fechas[0 if ini_rango <= 0 else ini_rango:]
-            for f in rango:
-                self.dictStock[id_plat][idArticulo][f] = int(self.dictStock[id_plat][idArticulo][f]) - cantidad
-        coste_stock=coste_stock+abs(sum(stocks.values()))
+        coste_stock[id_viaje] = sum(stocks.values())
     # Función fitness
-    # fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
-    fitness_completo_precio=  coste_transporte + coste_stock/self.n_travel
-    return ((fitness_completo_precio/self.n_travel),(coste_transporte/self.n_travel),(coste_stock/self.n_travel))
+    fitness_completo_precio= ((alfa/100) * coste_transporte/len(member)) + ((1 - (alfa/100)) * (sum(coste_stock.values())/len(coste_stock)))
+    # fitness_completo_precio=  coste_transporte + coste_stock/self.n_travel
+    return ((fitness_completo_precio),(coste_transporte/len(member)),(sum(coste_stock.values())/len(coste_stock)))
 
 def get_best_solution(list_proportion_fitness): # Funcion que obtiene el indice del miembro de la poblacion con mejor fitness
     return(list_proportion_fitness.index(min(list_proportion_fitness)))
 
 def create_excel(self,index,populate,index_solution):
-    self.dictStock  = copy.deepcopy(self.oriStock)
     # print(type(index))
     # print(type(list(populate.keys())[0]))
     # print(populate[index].items())

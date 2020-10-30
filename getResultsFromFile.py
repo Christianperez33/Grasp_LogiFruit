@@ -107,5 +107,5 @@ for filename in os.listdir(args.dir):
     sol = json.loads(file.read())
     fit,ct,cs= calculate_fitness(sol,90,len(sol))
     ss += str((ct,cs,ct+cs/1906))+", "
-
+    print((filename,ct,cs,ct+cs/1906))
 print("["+ss+"]")
