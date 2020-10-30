@@ -33,10 +33,14 @@ start_time = time.time()
 if int(args.n_son)+2>=int(args.n_sup):
     g = Genetic(int(args.alfa),args.viajes,args.stock,args.precios,args.solpath)
     [x,y] = develope(g,int(args.iter),float(args.mutate),int(args.crossover),int(args.alfa),int(args.max_age),int(args.n_son),int(args.n_sup))
+    print(x)
     best,bfitness=min(x.items(),key=lambda x:x[1])
-    with open('./Genetic/solution'+str(args.solpath.split("/")[-3])+'_'+args.iter+'.json', 'w') as outfile:
+    print(best)
+    print(bfitness)
+    input()
+    with open('./Genetic/results/json/solution'+str(args.solpath.split("/")[-3])+'_'+args.iter+'.json', 'w') as outfile:
         json.dump(y[best], outfile)
-    create_excel(g,best,y,"final")
+    # create_excel(g,best,y,"final")
     
     print("--- {} seconds ---".format(time.time() - start_time))
 else:
