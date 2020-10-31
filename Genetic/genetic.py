@@ -110,7 +110,6 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                         # list_cs.append(self.CS.get(str(fathers[i_f])))
                     # else: # A partir del tercer miembro de la familia (hijo) hay que calcular su fitnness
                     [fitness,ct,cs]=calculate_fitness(self,member,alfa)
-                    print((fitness,ct,cs))
                     fitness_candidatos.append(fitness)
                     list_cs.append(cs)
                     list_ct.append(ct)
@@ -149,6 +148,9 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.CS= {str(x+1) : list_new_generation_cs[x] for x in range(len(list_new_generation_cs))} # Actualizo el coste de stock de la poblacion
             self.n_population = len(self.datos) # Actualizo el tamaño de la poblacion
             
+            # print(self.n_population)
+            # id,xx =min(self.fitness.items(),key=lambda x:x[1])
+            # print((self.CT[id],self.CS[id]))
     return self.fitness,self.datos        
 
 def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
@@ -200,8 +202,22 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
         fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
         CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
         CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
-        
+    
+    # list_poolsol = os.listdir("./Genetic/poolsol/")
+    # for json_ in list_poolsol:
+    #     i += 1
+    #     with open("./Genetic/poolsol/"+json_) as f:
+    #         someone = json.load(f) # Cargo una solucion GRASP 
+    #         # someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por IdViaje
+    #         age[str(i)] = 0 # Diccionario con la edad de cada miembro de la pobacion o solucion 
+    #         population[str(i)] = someone # Diccionario con la asignacacion de viajes-plataforma en la solucion
+    #         values_fitness = calculate_fitness(self,someone,alfa,True) ## Funcion de calculo del fitness dad una solucion
+    #         fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+    #         CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+    #         CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+            
     self.n_population = len(population) # Inicializacion numero de miembros de la poblacion inicial
+    print(self.n_population)
     return (population,age,fitness,CT,CS)
 
 
