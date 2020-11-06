@@ -217,7 +217,7 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     #         CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
             
     self.n_population = len(population) # Inicializacion numero de miembros de la poblacion inicial
-    print(self.n_population)
+    # print(self.n_population)
     return (population,age,fitness,CT,CS)
 
 
