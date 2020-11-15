@@ -9,6 +9,7 @@ import random
 import csv
 import copy
 import numpy
+import time
 from tqdm import tqdm
 import numpy as np
 
@@ -55,6 +56,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.dictStock   = copy.deepcopy(self.oriStock)            
 
             ## Obtenemos los valores del fitness de la poblacion
+
             fitness_values=get_fitness(self.fitness,self.CT,self.CS,len(poblacion[list(poblacion.keys())[0]]))
             self.fitness_Global = fitness_values[2] ## Media
             self.fitness_Best = fitness_values[1]   ## Mejor valor 
@@ -65,12 +67,6 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             ## Escribo los resultados para el seguimiento
             writer.writerow([int(i),int(self.fitness_Global),int(self.fitness_Best),int(fitness_values[4]),int(fitness_values[5])])
             #csvfile.close()
-            
-            ## k es un parámetro que establece la "competencia a la hora de elegir un padre" si k es igual a el total de soluciones eligiria siempre los mejores
-            # k=int(round(len(poblacion)/3,0))
-            #k = int(1+((len(poblacion)/(iter)))*(i))
-            #if k >=len(poblacion):
-            #    k=k-1
 
             nueva_generacion=list() # Lista donde se almacenenan la asignacion viaje-platafornma de la nueva generacion
             list_new_generation_fitness=list()  # Lista donde se almacenena el fitness de la nueva generacion
@@ -83,16 +79,16 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             impar = set(list(poblacion.keys())) - par
             minlen = min((len(par),len(impar)))
             fff = [list(f) for f in zip(list(par)[:minlen],list(impar)[:minlen])]
-            # for j in range(0,self.n_population,2):
+
             for fathers in fff:
                 # Variables booleanas para decidir si los padres han alcanzado la edad máxmima
-                # father_die=False
-                # mother_die=False
+                father_die=False
+                mother_die=False
                 # # COMPROBACION EDAD MAXIMA: Compruebo en el diccionario de la edad de las soluciones si los padres escogidos han alcanzado la edad maxima
-                # if self.oriage[str(fathers[0])]>=max_age:
-                #     father_die=True
-                # if self.oriage[str(fathers[1])]>=max_age:
-                #     mother_die=True
+                if self.oriage[str(fathers[0])]>=max_age:
+                    father_die=True
+                if self.oriage[str(fathers[1])]>=max_age:
+                    mother_die=True
                 ## REPRODUCCION : Metodo para crear nuevos individuos a partir de los progenitores
 
                 family=reproduce(self,fathers,k_crossover,n_son)
@@ -100,20 +96,13 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                 ## SELECCION NUEVA GENERACION: solo por fitness
                 fitness_candidatos=list()
                 list_cs=list()    
-                list_ct=list()
-                # i_f=0     
+                list_ct=list() 
                 ## Recorro cada NUEVO miembro de la familia y calculo el fitness y su coste de TRANSPORTE Y STOCK .
                 for member in family:
-                    # if i_f<=1:
-                        # fitness_candidatos.append(self.fitness.get(str(fathers[i_f])))
-                        # list_ct.append(self.CT.get(str(fathers[i_f])))
-                        # list_cs.append(self.CS.get(str(fathers[i_f])))
-                    # else: # A partir del tercer miembro de la familia (hijo) hay que calcular su fitnness
                     [fitness,ct,cs]=calculate_fitness(self,member,alfa)
                     fitness_candidatos.append(fitness)
                     list_cs.append(cs)
                     list_ct.append(ct)
-                    # i_f+=1
                     # MUTACION POR CADA MIEMBRO DE LA FAMILIA
                     if k_mut > random.choice(list(range(1,100))):
                         mutation(self,member)
@@ -123,10 +112,10 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                 # Ejemplo familia con tres hijos [0 1 2 3 4] donde 0 y 1 son los padres con variable "fitness_candidatos" [298 276 250 278 295]
                 # Despues de ordenar por fitness , "lista_indices_candidatos" [2 1 3 4 0]
                 #EDAD MÁXIMA
-                # if father_die:
-                #     lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 0]
-                # if mother_die:
-                #     lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 1]
+                if father_die:
+                    lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 0]
+                if mother_die:
+                    lista_indices_candidatos = lista_indices_candidatos[lista_indices_candidatos != 1]
                 
                 ## Por cada miembro que pasa a la nueva generacion construimos los diccionarios correspondientes
                 for i_new in range(n_sup):
@@ -148,9 +137,9 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.CS= {str(x+1) : list_new_generation_cs[x] for x in range(len(list_new_generation_cs))} # Actualizo el coste de stock de la poblacion
             self.n_population = len(self.datos) # Actualizo el tamaño de la poblacion
             
-            # print(self.n_population)
-            # id,xx =min(self.fitness.items(),key=lambda x:x[1])
-            # print((self.CT[id],self.CS[id]))
+            print(self.n_population)
+            id,xx =min(self.fitness.items(),key=lambda x:x[1])
+            print((self.fitness[id],self.CT[id],self.CS[id]))
     return self.fitness,self.datos        
 
 def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
