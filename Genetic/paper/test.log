@@ -1,0 +1,404 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.7.9)  21 OCT 2020 16:00
+entering extended mode
+**e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/test.tex
+(e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/test.tex
+LaTeX2e <2018-12-01>
+(E:\Latex\tex/latex/base\article.cls
+Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
+(E:\Latex\tex/latex/base\size10.clo
+File: size10.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (e:/Chris\UPV\PHD\papers\GreenCoplas2020-publish\aaai20.sty
+Conference Style for AAAI for LaTeX 2e -- version for the AAAI-20 conference
+\titlebox=\skip43
+) (E:\Latex\tex/latex/psnfss\times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+) (E:\Latex\tex/latex/psnfss\helvet.sty
+Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
+ (E:\Latex\tex/latex/graphics\keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)) (E:\Latex\tex/latex/psnfss\courier.sty
+Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
+) (E:\Latex\tex/latex/url\url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+) (E:\Latex\tex/latex/graphics\graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+ (E:\Latex\tex/latex/graphics\graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+ (E:\Latex\tex/latex/graphics\trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (E:\Latex\tex/latex/graphics-cfg\graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+ (E:\Latex\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+) (E:\Latex\tex/latex/algorithms\algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
+ (E:\Latex\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count88
+\float@exts=\toks15
+\float@box=\box27
+\@float@everytoks=\toks16
+\@floatcapt=\box28
+) (E:\Latex\tex/latex/base\ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks17
+\c@algorithm=\count89
+) (E:\Latex\tex/latex/algorithms\algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+\c@ALC@unique=\count90
+\c@ALC@line=\count91
+\c@ALC@rem=\count92
+\c@ALC@depth=\count93
+\ALC@tlm=\skip44
+\algorithmicindent=\skip45
+) (E:\Latex\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2018/12/01 v2.17b AMS math features
+\@mathmargin=\skip46
+
+For additional information on amsmath, use the `?' option.
+(E:\Latex\tex/latex/amsmath\amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+ (E:\Latex\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen105
+)) (E:\Latex\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen106
+) (E:\Latex\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count94
+LaTeX Info: Redefining \frac on input line 223.
+\uproot@=\count95
+\leftroot@=\count96
+LaTeX Info: Redefining \overline on input line 385.
+\classnum@=\count97
+\DOTSCASE@=\count98
+LaTeX Info: Redefining \ldots on input line 482.
+LaTeX Info: Redefining \dots on input line 485.
+LaTeX Info: Redefining \cdots on input line 606.
+\Mathstrutbox@=\box29
+\strutbox@=\box30
+\big@size=\dimen107
+LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
+\macc@depth=\count99
+\c@MaxMatrixCols=\count100
+\dotsspace@=\muskip11
+\c@parentequation=\count101
+\dspbrk@lvl=\count102
+\tag@help=\toks19
+\row@=\count103
+\column@=\count104
+\maxfields@=\count105
+\andhelp@=\toks20
+\eqnshift@=\dimen108
+\alignsep@=\dimen109
+\tagshift@=\dimen110
+\tagwidth@=\dimen111
+\totwidth@=\dimen112
+\lineht@=\dimen113
+\@envbody=\toks21
+\multlinegap=\skip47
+\multlinetaggap=\skip48
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2844.
+LaTeX Info: Redefining \] on input line 2845.
+) (E:\Latex\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (E:\Latex\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (E:\Latex\tex/latex/caption\subcaption.sty
+Package: subcaption 2018/05/01 v1.1-162 Sub-captions (AR)
+ (E:\Latex\tex/latex/caption\caption.sty
+Package: caption 2018/10/06 v3.3-154 Customizing captions (AR)
+ (E:\Latex\tex/latex/caption\caption3.sty
+Package: caption3 2018/09/12 v1.8c caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 64.
+\captionmargin=\dimen114
+\captionmargin@=\dimen115
+\captionwidth=\dimen116
+\caption@tempdima=\dimen117
+\caption@indent=\dimen118
+\caption@parindent=\dimen119
+\caption@hangindent=\dimen120
+)
+\c@caption@flags=\count106
+\c@ContinuedFloat=\count107
+Package caption Info: float package is loaded.
+)
+\c@subfigure=\count108
+\c@subtable=\count109
+) (e:/Chris\UPV\PHD\papers\GreenCoplas2020-publish\test.aux
+
+LaTeX Warning: Label `eq:fitness' multiply defined.
+
+
+LaTeX Warning: Label `eq:fitness' multiply defined.
+
+)
+\openout1 = `test.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 101.
+ (E:\Latex\tex/latex/psnfss\ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+) (E:\Latex\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count110
+\scratchdimen=\dimen121
+\scratchbox=\box31
+\nofMPsegments=\count111
+\nofMParguments=\count112
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count113
+\MPscratchDim=\dimen122
+\MPnumerator=\count114
+\makeMPintoPDFobject=\count115
+\everyMPtoPDFconversion=\toks24
+) (E:\Latex\tex/latex/oberdiek\epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+ (E:\Latex\tex/generic/oberdiek\infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+) (E:\Latex\tex/latex/oberdiek\grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+ (E:\Latex\tex/generic/oberdiek\kvdefinekeys.sty
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+ (E:\Latex\tex/generic/oberdiek\ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+))) (E:\Latex\tex/latex/oberdiek\kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+ (E:\Latex\tex/generic/oberdiek\kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+ (E:\Latex\tex/generic/oberdiek\etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+ (E:\Latex\tex/generic/oberdiek\ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)))) (E:\Latex\tex/generic/oberdiek\pdftexcmds.sty
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO)
+ (E:\Latex\tex/generic/oberdiek\ifpdf.sty
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 103.
+LaTeX Font Info:    Try loading font information for U+msa on input line 103.
+ (E:\Latex\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 103.
+ (E:\Latex\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 103.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 103.
+ (E:\Latex\tex/latex/psnfss\omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 103.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 106.
+
+Underfull \hbox (badness 1132) in paragraph at lines 114--115
+[]\OT1/ptm/m/n/10 VRPs can be rep-re-sented as the-o-ret-i-cal prob-lems in
+ []
+
+[1{C:/Users/chris/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+
+
+]
+<img/covers.png, id=11, 1015.795pt x 549.05125pt>
+File: img/covers.png Graphic file (type png)
+<use img/covers.png>
+Package pdftex.def Info: img/covers.png  used on input line 134.
+(pdftex.def)             Requested size: 170.71652pt x 92.27348pt.
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 151.
+ [2 <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/covers.png>]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 209.
+ [3]
+Underfull \hbox (badness 1092) in paragraph at lines 229--230
+\OT1/ptm/m/n/10 Taking into ac-count the struc-ture of the above greedy
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 280--281
+[]\OT1/ptm/b/n/10 Sort by ware-houses plus stan-dard-ized de-lay and
+ []
+
+
+Underfull \vbox (badness 1127) has occurred while \output is active []
+
+ [4]
+<img/costcomparisionMODEL.png, id=29, 383.18156pt x 245.41687pt>
+File: img/costcomparisionMODEL.png Graphic file (type png)
+<use img/costcomparisionMODEL.png>
+Package pdftex.def Info: img/costcomparisionMODEL.png  used on input line 336.
+(pdftex.def)             Requested size: 170.71652pt x 109.33934pt.
+<img/averagestocknegativeMODEL.png, id=30, 358.33875pt x 213.79875pt>
+File: img/averagestocknegativeMODEL.png Graphic file (type png)
+<use img/averagestocknegativeMODEL.png>
+Package pdftex.def Info: img/averagestocknegativeMODEL.png  used on input line 349.
+(pdftex.def)             Requested size: 252.94499pt x 150.92061pt.
+<img/itemsstocknegativeMODEL.png, id=31, 359.84438pt x 214.55156pt>
+File: img/itemsstocknegativeMODEL.png Graphic file (type png)
+<use img/itemsstocknegativeMODEL.png>
+Package pdftex.def Info: img/itemsstocknegativeMODEL.png  used on input line 355.
+(pdftex.def)             Requested size: 252.94499pt x 150.82018pt.
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 347--359
+[]$[]$
+ []
+
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 347--359
+[]$ 
+ []
+
+[5 <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/costcomparisionMODEL.png>]
+<img/comparisoncostIMPROV.png, id=37, 577.40718pt x 217.5628pt>
+File: img/comparisoncostIMPROV.png Graphic file (type png)
+<use img/comparisoncostIMPROV.png>
+Package pdftex.def Info: img/comparisoncostIMPROV.png  used on input line 367.
+(pdftex.def)             Requested size: 170.71652pt x 64.32321pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+<img/averagestocknegativeIMPROV.png, id=38, 436.63126pt x 219.82124pt>
+File: img/averagestocknegativeIMPROV.png Graphic file (type png)
+<use img/averagestocknegativeIMPROV.png>
+Package pdftex.def Info: img/averagestocknegativeIMPROV.png  used on input line 377.
+(pdftex.def)             Requested size: 170.71652pt x 85.9446pt.
+<img/quatitytocknegativeIMPROV.png, id=39, 358.33875pt x 215.30438pt>
+File: img/quatitytocknegativeIMPROV.png Graphic file (type png)
+<use img/quatitytocknegativeIMPROV.png>
+Package pdftex.def Info: img/quatitytocknegativeIMPROV.png  used on input line 382.
+(pdftex.def)             Requested size: 170.71652pt x 102.57288pt.
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 375--385
+[]$[]$
+ []
+
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 375--385
+[]$ 
+ []
+
+<img/averagestocknegativeALGOTH.png, id=40, 362.10281pt x 264.23718pt>
+File: img/averagestocknegativeALGOTH.png Graphic file (type png)
+<use img/averagestocknegativeALGOTH.png>
+Package pdftex.def Info: img/averagestocknegativeALGOTH.png  used on input line 396.
+(pdftex.def)             Requested size: 170.71652pt x 124.57855pt.
+<img/cost.png, id=41, 786.94pt x 501.875pt>
+File: img/cost.png Graphic file (type png)
+<use img/cost.png>
+Package pdftex.def Info: img/cost.png  used on input line 402.
+(pdftex.def)             Requested size: 170.71652pt x 108.87358pt.
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 394--406
+[]$[]$
+ []
+
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 394--406
+[]$ 
+ []
+
+[6 <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/averagestocknegativeMODEL.png> <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/itemsstocknegativeMODEL.png> <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/comparisoncostIMPROV.png> <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/averagestocknegativeIMPROV.png> <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/quatitytocknegativeIMPROV.png>]
+<img/itemsstocknegativeALGOTH.png, id=50, 353.82187pt x 273.27094pt>
+File: img/itemsstocknegativeALGOTH.png Graphic file (type png)
+<use img/itemsstocknegativeALGOTH.png>
+Package pdftex.def Info: img/itemsstocknegativeALGOTH.png  used on input line 416.
+(pdftex.def)             Requested size: 170.71652pt x 131.85239pt.
+<img/FINAL.png, id=51, 429.10312pt x 268.75406pt>
+File: img/FINAL.png Graphic file (type png)
+<use img/FINAL.png>
+Package pdftex.def Info: img/FINAL.png  used on input line 422.
+(pdftex.def)             Requested size: 170.71652pt x 106.9215pt.
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 414--426
+[]$[]$
+ []
+
+
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 414--426
+[]$ 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7 <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/averagestocknegativeALGOTH.png> <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/cost.png> <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/itemsstocknegativeALGOTH.png> <e:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/img/FINAL.png>] (e:/Chris\UPV\PHD\papers\GreenCoplas2020-publish\test.bbl) [8
+
+] (e:/Chris\UPV\PHD\papers\GreenCoplas2020-publish\test.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 4048 strings out of 492895
+ 58146 string characters out of 3142328
+ 140668 words of memory out of 3000000
+ 7877 multiletter control sequences out of 15000+200000
+ 21603 words of font info for 45 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 42i,13n,40p,1091b,459s stack positions out of 5000i,500n,10000p,200000b,50000s
+{E:/Latex/fonts/enc/dvips/base/8r.enc}<E:/Latex/fonts/type1/public/amsfonts/cm/cmex10.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmmi10.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmmi5.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmmi7.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmr10.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmr7.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmsy10.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmsy7.pfb><E:/Latex/fonts/type1/public/amsfonts/cm/cmsy9.pfb><E:/Latex/fonts/type1/public/amsfonts/symbols/msbm10.pfb><E:/Latex/fonts/type1/urw/times/utmb8a.pfb><E:/Latex/fonts/type1/urw/times/utmr8a.pfb><E:/Latex/fonts/type1/urw/times/utmri8a.pfb>
+Output written on e:/Chris\UPV\PHD\papers\GreenCoplas2020-publish\test.pdf (8 pages, 393276 bytes).
+PDF statistics:
+ 105 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+
