@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mlt LC_NUMERIC="C" version="6.23.0" title="Shotcut version 20.09.27" producer="main_bin">
+  <profile description="PAL 4:3 DV or DVD" width="1920" height="1080" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="16" display_aspect_den="9" frame_rate_num="25" frame_rate_den="1" colorspace="709"/>
+  <producer id="producer0" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0001.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">69d46c9899f8d6d51a8599c492db22da</property>
+  </producer>
+  <producer id="producer1" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0002.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">3dd34756728a5a04d5fea10086b54844</property>
+  </producer>
+  <producer id="producer2" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0003.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">33a4e4ad95a6e91f7fc30fd8cc2186de</property>
+  </producer>
+  <producer id="producer3" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0004.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">83bf0eb7a44431a0f1ad530bc71a891e</property>
+  </producer>
+  <producer id="producer4" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0005.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">f692400e8fc37f36aa86cb574df503d8</property>
+  </producer>
+  <producer id="producer5" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0006.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">4b29e4356a994d2bb31d1569d2e3ca09</property>
+  </producer>
+  <producer id="producer6" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0007.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">71cae6b2f8e3588fce96a5329e981d28</property>
+  </producer>
+  <producer id="producer7" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0008.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">137b412fa5dc002c133286482c4d9d5e</property>
+  </producer>
+  <producer id="producer8" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0009.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">aab6d25c4ec207d0ffb19b7f6b2ea80c</property>
+  </producer>
+  <producer id="producer9" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0010.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">46e78e6185059175938a37e0e96d31e5</property>
+  </producer>
+  <producer id="producer10" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0011.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">2582f1595efc6cc3c2dfa6e3ef3090f3</property>
+  </producer>
+  <producer id="producer11" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0012.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">82fc4fd19845c30e765163215cdda489</property>
+  </producer>
+  <producer id="producer12" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0013.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">b358e988fd7944ba939d7ff736e11cd6</property>
+  </producer>
+  <producer id="producer13" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0014.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">d493546b8dff56cc9b6d7da3e0823ee0</property>
+  </producer>
+  <producer id="producer14" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0015.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">479ff902ab8c53aa1590680f6c3b22e1</property>
+  </producer>
+  <producer id="producer15" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0016.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">30876d55c66edaddf994cff6885d2296</property>
+  </producer>
+  <producer id="producer16" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0017.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">6e3a69cb97956f7c2bb62a6be2497d6d</property>
+  </producer>
+  <producer id="producer17" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0018.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">78da97d56d66c1ff21cf3abb800ff3b2</property>
+  </producer>
+  <producer id="producer18" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0019.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">b7a6ec9573e5f5a157e20191313a0426</property>
+  </producer>
+  <producer id="producer19" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0020.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">725417bcd0cc3560b48f6374152db116</property>
+  </producer>
+  <producer id="producer20" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0021.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">e0fceae41dd2646e8a717d0f0f482813</property>
+  </producer>
+  <producer id="producer21" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0022.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">b5d9ab8cf24758b7564719a213cc55cc</property>
+  </producer>
+  <producer id="producer22" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0023.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">5e21ec0e6fe38a93f66553e81ccaac57</property>
+  </producer>
+  <producer id="producer23" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0024.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">69d46c9899f8d6d51a8599c492db22da</property>
+  </producer>
+  <playlist id="main_bin">
+    <property name="xml_retain">1</property>
+    <entry producer="producer0" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer1" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer2" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer3" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer4" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer5" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer6" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer7" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer8" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer9" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer10" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer11" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer12" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer13" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer14" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer15" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer16" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer17" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer18" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer19" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer20" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer21" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer22" in="00:00:00.000" out="00:00:03.960"/>
+    <entry producer="producer23" in="00:00:00.000" out="00:00:03.960"/>
+  </playlist>
+  <producer id="black" in="00:00:00.000" out="00:17:46.480">
+    <property name="length">00:17:46.520</property>
+    <property name="eof">pause</property>
+    <property name="resource">0</property>
+    <property name="aspect_ratio">1</property>
+    <property name="mlt_service">color</property>
+    <property name="mlt_image_format">rgb24a</property>
+    <property name="set.test_audio">0</property>
+  </producer>
+  <playlist id="background">
+    <entry producer="black" in="00:00:00.000" out="00:17:46.480"/>
+  </playlist>
+  <producer id="producer24" in="00:00:00.000" out="00:02:29.760">
+    <property name="length">00:02:29.800</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/chris/Documents/Grabaciones de sonido/Grabación.m4a</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-10-20T18:14:08</property>
+    <property name="shotcut:hash">911779ec43c60eb829063fad1ad20d65</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Grabación.m4a</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer25" in="00:00:00.000" out="00:02:01.400">
+    <property name="length">00:02:01.440</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/chris/Documents/Grabaciones de sonido/Grabación (2).m4a</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-10-20T18:16:19</property>
+    <property name="shotcut:hash">4396f0dc5c191cdd21778f8079d15e54</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Grabación (2).m4a</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer26" in="00:00:00.000" out="00:06:33.360">
+    <property name="length">00:06:33.400</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/chris/Documents/Grabaciones de sonido/Grabación (3).m4a</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-10-20T18:30:17</property>
+    <property name="shotcut:hash">044faa9684a2cb39116ef7bf57bc1647</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Grabación (3).m4a</property>
+    <property name="xml">was here</property>
+  </producer>
+  <tractor id="tractor0" global_feed="1" in="00:00:00.000" out="00:00:00.360">
+    <property name="shotcut:transition">lumaMix</property>
+    <track producer="producer25" in="00:02:01.040" out="00:02:01.400"/>
+    <track producer="producer26" in="00:00:00.000" out="00:00:00.360"/>
+    <transition id="transition0" out="00:00:00.360">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="factory">loader</property>
+      <property name="mlt_service">luma</property>
+      <property name="alpha_over">1</property>
+    </transition>
+    <transition id="transition1" out="00:00:00.360">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="start">-1</property>
+      <property name="accepts_blanks">1</property>
+    </transition>
+  </tractor>
+  <producer id="producer27" in="00:00:00.000" out="00:06:33.360">
+    <property name="length">00:06:33.400</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/chris/Documents/Grabaciones de sonido/Grabación (3).m4a</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-10-20T18:30:17</property>
+    <property name="shotcut:hash">044faa9684a2cb39116ef7bf57bc1647</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Grabación (3).m4a</property>
+    <property name="xml">was here</property>
+  </producer>
+  <producer id="producer28" in="00:00:00.000" out="00:06:43.200">
+    <property name="length">00:06:43.240</property>
+    <property name="eof">pause</property>
+    <property name="resource">c:/Users/chris/Documents/Grabaciones de sonido/Grabación (4).m4a</property>
+    <property name="audio_index">0</property>
+    <property name="video_index">-1</property>
+    <property name="mute_on_pause">0</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="creation_time">2020-10-20T18:45:38</property>
+    <property name="shotcut:hash">450772daef634e66ce5d0ee2079d4cae</property>
+    <property name="global_feed">1</property>
+    <property name="shotcut:caption">Grabación (4).m4a</property>
+  </producer>
+  <playlist id="playlist0">
+    <property name="shotcut:audio">1</property>
+    <property name="shotcut:name">A1</property>
+    <entry producer="producer24" in="00:00:00.000" out="00:02:29.760"/>
+    <entry producer="producer25" in="00:00:00.000" out="00:02:01.000"/>
+    <entry producer="tractor0" in="00:00:00.000" out="00:00:00.360"/>
+    <entry producer="producer26" in="00:00:00.400" out="00:04:33.960"/>
+    <entry producer="producer27" in="00:04:34.960" out="00:06:33.360"/>
+    <entry producer="producer28" in="00:00:00.000" out="00:06:43.200"/>
+  </playlist>
+  <producer id="producer29" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0001.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">69d46c9899f8d6d51a8599c492db22da</property>
+    <property name="shotcut:caption">presentation_1_page-0001.jpg</property>
+  </producer>
+  <producer id="producer30" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0002.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">3dd34756728a5a04d5fea10086b54844</property>
+    <property name="shotcut:caption">presentation_1_page-0002.jpg</property>
+  </producer>
+  <producer id="producer31" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0003.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">33a4e4ad95a6e91f7fc30fd8cc2186de</property>
+    <property name="shotcut:caption">presentation_1_page-0003.jpg</property>
+  </producer>
+  <producer id="producer32" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0004.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">83bf0eb7a44431a0f1ad530bc71a891e</property>
+    <property name="shotcut:caption">presentation_1_page-0004.jpg</property>
+  </producer>
+  <producer id="producer33" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0005.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:17</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">f692400e8fc37f36aa86cb574df503d8</property>
+    <property name="shotcut:caption">presentation_1_page-0005.jpg</property>
+  </producer>
+  <producer id="producer34" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0006.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">4b29e4356a994d2bb31d1569d2e3ca09</property>
+    <property name="shotcut:caption">presentation_1_page-0006.jpg</property>
+  </producer>
+  <producer id="producer35" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0007.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">71cae6b2f8e3588fce96a5329e981d28</property>
+    <property name="shotcut:caption">presentation_1_page-0007.jpg</property>
+  </producer>
+  <producer id="producer36" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0008.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">137b412fa5dc002c133286482c4d9d5e</property>
+    <property name="shotcut:caption">presentation_1_page-0008.jpg</property>
+  </producer>
+  <producer id="producer37" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0009.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">aab6d25c4ec207d0ffb19b7f6b2ea80c</property>
+    <property name="shotcut:caption">presentation_1_page-0009.jpg</property>
+  </producer>
+  <producer id="producer38" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0010.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">46e78e6185059175938a37e0e96d31e5</property>
+    <property name="shotcut:caption">presentation_1_page-0010.jpg</property>
+  </producer>
+  <producer id="producer39" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0011.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">2582f1595efc6cc3c2dfa6e3ef3090f3</property>
+    <property name="shotcut:caption">presentation_1_page-0011.jpg</property>
+  </producer>
+  <producer id="producer40" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0012.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">82fc4fd19845c30e765163215cdda489</property>
+    <property name="shotcut:caption">presentation_1_page-0012.jpg</property>
+  </producer>
+  <producer id="producer41" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0013.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">b358e988fd7944ba939d7ff736e11cd6</property>
+    <property name="shotcut:caption">presentation_1_page-0013.jpg</property>
+  </producer>
+  <producer id="producer42" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0014.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">d493546b8dff56cc9b6d7da3e0823ee0</property>
+    <property name="shotcut:caption">presentation_1_page-0014.jpg</property>
+  </producer>
+  <producer id="producer43" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0015.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">479ff902ab8c53aa1590680f6c3b22e1</property>
+    <property name="shotcut:caption">presentation_1_page-0015.jpg</property>
+  </producer>
+  <producer id="producer44" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0016.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">30876d55c66edaddf994cff6885d2296</property>
+    <property name="shotcut:caption">presentation_1_page-0016.jpg</property>
+  </producer>
+  <producer id="producer45" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0017.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">6e3a69cb97956f7c2bb62a6be2497d6d</property>
+    <property name="shotcut:caption">presentation_1_page-0017.jpg</property>
+  </producer>
+  <producer id="producer46" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0018.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">78da97d56d66c1ff21cf3abb800ff3b2</property>
+    <property name="shotcut:caption">presentation_1_page-0018.jpg</property>
+  </producer>
+  <producer id="producer47" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0019.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">b7a6ec9573e5f5a157e20191313a0426</property>
+    <property name="shotcut:caption">presentation_1_page-0019.jpg</property>
+  </producer>
+  <producer id="producer48" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0020.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">725417bcd0cc3560b48f6374152db116</property>
+    <property name="shotcut:caption">presentation_1_page-0020.jpg</property>
+  </producer>
+  <producer id="producer49" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0021.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">e0fceae41dd2646e8a717d0f0f482813</property>
+    <property name="shotcut:caption">presentation_1_page-0021.jpg</property>
+  </producer>
+  <producer id="producer50" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0022.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">b5d9ab8cf24758b7564719a213cc55cc</property>
+    <property name="shotcut:caption">presentation_1_page-0022.jpg</property>
+  </producer>
+  <producer id="producer51" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0023.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">5e21ec0e6fe38a93f66553e81ccaac57</property>
+    <property name="shotcut:caption">presentation_1_page-0023.jpg</property>
+  </producer>
+  <producer id="producer52" in="00:00:00.000" out="03:59:59.960">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">E:/Chris/UPV/PHD/papers/GreenCoplas2020-publish/BEAMER-SLIDES/presentacion en imagenes/presentation_1_page-0024.jpg</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2020-10-20T19:17:18</property>
+    <property name="global_feed">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">69d46c9899f8d6d51a8599c492db22da</property>
+    <property name="shotcut:caption">presentation_1_page-0024.jpg</property>
+  </producer>
+  <playlist id="playlist1">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V1</property>
+    <entry producer="producer29" in="00:00:00.000" out="00:00:18.320"/>
+    <entry producer="producer30" in="00:00:00.000" out="00:00:29.840"/>
+    <entry producer="producer31" in="00:00:00.000" out="00:00:37.680"/>
+    <entry producer="producer32" in="00:00:00.000" out="00:00:29.200"/>
+    <entry producer="producer33" in="00:00:00.000" out="00:00:34.560"/>
+    <entry producer="producer34" in="00:00:00.000" out="00:01:12.600"/>
+    <entry producer="producer35" in="00:00:00.000" out="00:00:48.360"/>
+    <entry producer="producer36" in="00:00:00.000" out="00:00:28.520"/>
+    <entry producer="producer37" in="00:00:00.000" out="00:00:51.080"/>
+    <entry producer="producer38" in="00:00:00.000" out="00:01:10.800"/>
+    <entry producer="producer39" in="00:00:00.000" out="00:01:08.440"/>
+    <entry producer="producer40" in="00:00:00.000" out="00:00:12.720"/>
+    <entry producer="producer41" in="00:00:00.000" out="00:00:42.200"/>
+    <entry producer="producer42" in="00:00:00.000" out="00:00:45.920"/>
+    <entry producer="producer43" in="00:00:00.000" out="00:00:33.120"/>
+    <entry producer="producer44" in="00:00:00.000" out="00:00:39.280"/>
+    <entry producer="producer45" in="00:00:00.000" out="00:00:56.880"/>
+    <entry producer="producer46" in="00:00:00.000" out="00:00:48.800"/>
+    <entry producer="producer47" in="00:00:00.000" out="00:00:42.240"/>
+    <entry producer="producer48" in="00:00:00.000" out="00:01:10.080"/>
+    <entry producer="producer49" in="00:00:00.000" out="00:00:50.560"/>
+    <entry producer="producer50" in="00:00:00.000" out="00:00:49.440"/>
+    <entry producer="producer51" in="00:00:00.000" out="00:01:09.840"/>
+    <entry producer="producer52" in="00:00:00.000" out="00:00:15.080"/>
+  </playlist>
+  <tractor id="tractor1" title="Shotcut version 20.09.27" global_feed="1" in="00:00:00.000" out="00:17:46.480">
+    <property name="shotcut">1</property>
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">1</property>
+    <property name="shotcut:scaleFactor">0.226</property>
+    <property name="shotcut:trackHeight">65</property>
+    <track producer="background"/>
+    <track producer="playlist0" hide="video"/>
+    <track producer="playlist1"/>
+    <transition id="transition2">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition3">
+      <property name="a_track">0</property>
+      <property name="b_track">2</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition4">
+      <property name="a_track">1</property>
+      <property name="b_track">2</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="disable">0</property>
+    </transition>
+  </tractor>
+</mlt>
