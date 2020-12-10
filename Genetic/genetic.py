@@ -99,13 +99,13 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                 list_ct=list() 
                 ## Recorro cada NUEVO miembro de la familia y calculo el fitness y su coste de TRANSPORTE Y STOCK .
                 for member in family:
+                    # MUTACION POR CADA MIEMBRO DE LA FAMILIA
+                    if k_mut > random.choice(list(range(1,100))):
+                        mutation(self,member)
                     [fitness,ct,cs]=calculate_fitness(self,member,alfa)
                     fitness_candidatos.append(fitness)
                     list_cs.append(cs)
                     list_ct.append(ct)
-                    # MUTACION POR CADA MIEMBRO DE LA FAMILIA
-                    if k_mut > random.choice(list(range(1,100))):
-                        mutation(self,member)
                 ## Ordeno los indices de los miembros de la familia por fitness
                 lista_indices_candidatos=numpy.argsort(fitness_candidatos)
 
