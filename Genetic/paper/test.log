@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.2)  4 DEC 2020 11:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.4)  10 DEC 2020 10:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/test.tex
-(/home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/test.tex
+**/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex
+(/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
@@ -22,7 +22,7 @@ File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen134
-) (/home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/aaai20.sty
+) (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/aaai20.sty
 Conference Style for AAAI for LaTeX 2e -- version for the AAAI-20 conference
 \titlebox=\skip49
 ) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
@@ -163,7 +163,7 @@ Package caption Info: float package is loaded.
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count197
 \l__pdf_internal_box=\box49
-) (/home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/test.aux
+) (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux
 
 LaTeX Warning: Label `eq:fitness' multiply defined.
 
@@ -222,153 +222,149 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 103.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-Underfull \hbox (badness 1132) in paragraph at lines 114--115
-[]\OT1/ptm/m/n/10 VRPs can be rep-re-sented as the-o-ret-i-cal prob-lems in
- []
-
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ]
-<img/covers.png, id=11, 1015.795pt x 549.05125pt>
-File: img/covers.png Graphic file (type png)
-<use img/covers.png>
-Package pdftex.def Info: img/covers.png  used on input line 134.
-(pdftex.def)             Requested size: 170.71652pt x 92.27348pt.
- [2 </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/covers.png>] [3]
-Underfull \hbox (badness 1092) in paragraph at lines 229--230
+Underfull \hbox (badness 1092) in paragraph at lines 197--198
 \OT1/ptm/m/n/10 Taking into ac-count the struc-ture of the above greedy
  []
 
-
-Underfull \hbox (badness 1888) in paragraph at lines 280--281
+[2]
+Underfull \hbox (badness 1888) in paragraph at lines 248--249
 []\OT1/ptm/b/n/10 Sort by ware-houses plus stan-dard-ized de-lay and
  []
 
-
-Underfull \vbox (badness 1127) has occurred while \output is active []
-
- [4]
-<img/costcomparisionMODEL.png, id=29, 383.18156pt x 245.41687pt>
+[3]
+<img/costcomparisionMODEL.png, id=24, 383.18156pt x 245.41687pt>
 File: img/costcomparisionMODEL.png Graphic file (type png)
 <use img/costcomparisionMODEL.png>
-Package pdftex.def Info: img/costcomparisionMODEL.png  used on input line 336.
+Package pdftex.def Info: img/costcomparisionMODEL.png  used on input line 304.
 (pdftex.def)             Requested size: 170.71652pt x 109.33934pt.
-<img/averagestocknegativeMODEL.png, id=30, 358.33875pt x 213.79875pt>
+<img/averagestocknegativeMODEL.png, id=26, 358.33875pt x 213.79875pt>
 File: img/averagestocknegativeMODEL.png Graphic file (type png)
 <use img/averagestocknegativeMODEL.png>
-Package pdftex.def Info: img/averagestocknegativeMODEL.png  used on input line 349.
+Package pdftex.def Info: img/averagestocknegativeMODEL.png  used on input line 317.
 (pdftex.def)             Requested size: 252.94499pt x 150.92061pt.
-<img/itemsstocknegativeMODEL.png, id=31, 359.84438pt x 214.55156pt>
+<img/itemsstocknegativeMODEL.png, id=27, 359.84438pt x 214.55156pt>
 File: img/itemsstocknegativeMODEL.png Graphic file (type png)
 <use img/itemsstocknegativeMODEL.png>
-Package pdftex.def Info: img/itemsstocknegativeMODEL.png  used on input line 355.
+Package pdftex.def Info: img/itemsstocknegativeMODEL.png  used on input line 323.
 (pdftex.def)             Requested size: 252.94499pt x 150.82018pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 347--359
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 315--327
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 347--359
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 315--327
 []$ 
  []
 
-[5 </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/costcomparisionMODEL.png>]
-<img/comparisoncostIMPROV.png, id=37, 577.40718pt x 217.5628pt>
+<img/comparisoncostIMPROV.png, id=28, 577.40718pt x 217.5628pt>
 File: img/comparisoncostIMPROV.png Graphic file (type png)
 <use img/comparisoncostIMPROV.png>
-Package pdftex.def Info: img/comparisoncostIMPROV.png  used on input line 367.
+Package pdftex.def Info: img/comparisoncostIMPROV.png  used on input line 335.
 (pdftex.def)             Requested size: 170.71652pt x 64.32321pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<img/averagestocknegativeIMPROV.png, id=38, 436.63126pt x 219.82124pt>
+ [4 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/costcomparisionMODEL.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeMODEL.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/itemsstocknegativeMODEL.png>]
+<img/averagestocknegativeIMPROV.png, id=35, 436.63126pt x 219.82124pt>
 File: img/averagestocknegativeIMPROV.png Graphic file (type png)
 <use img/averagestocknegativeIMPROV.png>
-Package pdftex.def Info: img/averagestocknegativeIMPROV.png  used on input line 377.
+Package pdftex.def Info: img/averagestocknegativeIMPROV.png  used on input line 345.
 (pdftex.def)             Requested size: 170.71652pt x 85.9446pt.
-<img/quatitytocknegativeIMPROV.png, id=39, 358.33875pt x 215.30438pt>
+<img/quatitytocknegativeIMPROV.png, id=36, 358.33875pt x 215.30438pt>
 File: img/quatitytocknegativeIMPROV.png Graphic file (type png)
 <use img/quatitytocknegativeIMPROV.png>
-Package pdftex.def Info: img/quatitytocknegativeIMPROV.png  used on input line 382.
+Package pdftex.def Info: img/quatitytocknegativeIMPROV.png  used on input line 350.
 (pdftex.def)             Requested size: 170.71652pt x 102.57288pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 375--385
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 343--353
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 375--385
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 343--353
 []$ 
  []
 
-<img/averagestocknegativeALGOTH.png, id=40, 362.10281pt x 264.23718pt>
+<img/averagestocknegativeALGOTH.png, id=37, 362.10281pt x 264.23718pt>
 File: img/averagestocknegativeALGOTH.png Graphic file (type png)
 <use img/averagestocknegativeALGOTH.png>
-Package pdftex.def Info: img/averagestocknegativeALGOTH.png  used on input line 396.
+Package pdftex.def Info: img/averagestocknegativeALGOTH.png  used on input line 364.
 (pdftex.def)             Requested size: 170.71652pt x 124.57855pt.
-<img/cost.png, id=41, 786.94pt x 501.875pt>
+<img/cost.png, id=38, 786.94pt x 501.875pt>
 File: img/cost.png Graphic file (type png)
 <use img/cost.png>
-Package pdftex.def Info: img/cost.png  used on input line 402.
+Package pdftex.def Info: img/cost.png  used on input line 370.
 (pdftex.def)             Requested size: 170.71652pt x 108.87358pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 394--406
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 362--374
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 394--406
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 362--374
 []$ 
  []
 
-[6 </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeMODEL.png> </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/itemsstocknegativeMODEL.png> </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/comparisoncostIMPROV.png> </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeIMPROV.png> </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/quatitytocknegativeIMPROV.png>]
-<img/itemsstocknegativeALGOTH.png, id=50, 353.82187pt x 273.27094pt>
+<img/itemsstocknegativeALGOTH.png, id=39, 353.82187pt x 273.27094pt>
 File: img/itemsstocknegativeALGOTH.png Graphic file (type png)
 <use img/itemsstocknegativeALGOTH.png>
-Package pdftex.def Info: img/itemsstocknegativeALGOTH.png  used on input line 416.
+Package pdftex.def Info: img/itemsstocknegativeALGOTH.png  used on input line 384.
 (pdftex.def)             Requested size: 170.71652pt x 131.85239pt.
-<img/FINAL.png, id=51, 429.10312pt x 268.75406pt>
+<img/FINAL.png, id=40, 429.10312pt x 268.75406pt>
 File: img/FINAL.png Graphic file (type png)
 <use img/FINAL.png>
-Package pdftex.def Info: img/FINAL.png  used on input line 422.
+Package pdftex.def Info: img/FINAL.png  used on input line 390.
 (pdftex.def)             Requested size: 170.71652pt x 106.9215pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 414--426
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 382--394
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 414--426
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 382--394
 []$ 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [7 </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeALGOTH.png> </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/cost.png> </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/itemsstocknegativeALGOTH.png> </home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/img/FINAL.png>] (/home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/test.bbl) [8
+ [5 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/comparisoncostIMPROV.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeIMPROV.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/quatitytocknegativeIMPROV.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeALGOTH.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/cost.png>] (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl
 
-] (/home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/test.aux)
+/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl:3: LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \end{thebibliography}
+                         
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+) [6 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/itemsstocknegativeALGOTH.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/FINAL.png>] (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4038 strings out of 481239
- 59733 string characters out of 5920377
- 306546 words of memory out of 5000000
- 19244 multiletter control sequences out of 15000+600000
+ 4017 strings out of 481239
+ 59435 string characters out of 5920377
+ 302005 words of memory out of 5000000
+ 19224 multiletter control sequences out of 15000+600000
  550674 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,13n,46p,1093b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,13n,46p,1092b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on /home/cripeber/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (8 pages, 375130 bytes).
+Output written on /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (6 pages, 216647 bytes).
 PDF statistics:
- 103 PDF objects out of 1000 (max. 8388607)
- 58 compressed objects within 1 object stream
+ 93 PDF objects out of 1000 (max. 8388607)
+ 52 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

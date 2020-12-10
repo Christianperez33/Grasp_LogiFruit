@@ -2,48 +2,47 @@ This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: test.aux
 The style file: aaai.bst
+I found no \citation commands---while reading file test.aux
 Database file #1: bib.bib
-Warning--empty journal in Li1991
-Warning--empty journal in Syed-abdullah2018
-You've used 12 entries,
+You've used 0 entries,
             2568 wiz_defined-function locations,
-            659 strings with 6886 characters,
-and the built_in function-call counts, 5079 in all, are:
-= -- 551
-> -- 221
+            574 strings with 4551 characters,
+and the built_in function-call counts, 19 in all, are:
+= -- 0
+> -- 0
 < -- 0
-+ -- 74
-- -- 74
-* -- 463
-:= -- 839
-add.period$ -- 60
-call.type$ -- 12
-change.case$ -- 85
-chr.to.int$ -- 12
-cite$ -- 14
-duplicate$ -- 167
-empty$ -- 335
-format.name$ -- 104
-if$ -- 1002
++ -- 0
+- -- 0
+* -- 0
+:= -- 9
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 13
-newline$ -- 75
-num.names$ -- 36
-pop$ -- 58
+missing$ -- 0
+newline$ -- 3
+num.names$ -- 0
+pop$ -- 0
 preamble$ -- 1
-purify$ -- 97
+purify$ -- 0
 quote$ -- 0
-skip$ -- 130
+skip$ -- 1
 stack$ -- 0
-substring$ -- 313
-swap$ -- 22
+substring$ -- 0
+swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 92
-warning$ -- 2
-while$ -- 44
-width$ -- 14
-write$ -- 168
-(There were 2 warnings)
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 2
+(There was 1 error message)

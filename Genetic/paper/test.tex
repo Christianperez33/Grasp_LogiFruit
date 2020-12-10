@@ -22,7 +22,7 @@
 % For /Author, add all authors within the parentheses, separated by commas. No accents or commands.
 % For /Title, add Title in Mixed Case. No accents or commands. Retain the parentheses.
 \pdfinfo{
-/Title (A GRASP-based search technique for scheduling travel-optimized warehouses in a logistics company.)
+/Title (Hybridization of GRASP algorithm with genetic algorithm.)
 /Author (Christian Perez, Miguel A. Salido)
 %/Author (Christian Perez, Miguel A. Salido, David Gurrea)
 } %Leave this	
@@ -83,14 +83,14 @@
 %
 \setlength\titlebox{2.5in} % If your paper contains an overfull \vbox too high warning at the beginning of the document, use this
 % command to correct it. You may not alter the value below 2.5 in
-\title{A GRASP-based search technique for scheduling travel-optimized warehouses in a logistics company.}
+\title{Hybridization of GRASP algorithm with genetic algorithm.}
 %Your title must be in mixed case, not sentence case.
 % That means all verbs (including short verbs like be, is, using,and go),
 % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
 % articles, conjunctions, and prepositions are lower case unless they
 % directly follow a colon or long dash
 % \author{}
-\author{\Large \textbf{Christian Perez, Miguel A. Salido, David Gurrea}\\ % All authors must be in the same font size and format. Use \Large and \textbf to achieve this result when breaking a line
+\author{\Large \textbf{Christian Perez, Miguel A. Salido}\\ % All authors must be in the same font size and format. Use \Large and \textbf to achieve this result when breaking a line
 \textsuperscript{\rm 1}Universitat Politécnica de Valencia\\
 % Institute for Automation and Industrial Computing\\ %If you have multiple authors and multiple affiliations
 % use superscripts in text and roman font to identify them. For example, Sunil Issar,\textsuperscript{\rm 2} J. Scott Penberthy\textsuperscript{\rm 3} George Ferguson,\textsuperscript{\rm 4} Hans Guesgen\textsuperscript{\rm 5}. Note that the comma should be placed BEFORE the superscript for optimum readability
@@ -100,52 +100,20 @@ cripeber@doctor.upv.es, msalido@dsic.upv.es % email address must be in roman tex
 }
  \begin{document}
 
-\maketitle
+ \maketitle
 
 
 \begin{abstract}
-    In many transport companies, one of the main objectives is to optimize the travel cost of their fleet. Other objectives are related to delivery time, fuel savings, etc. However warehouse stock management is not properly considered. Warehouse stock control is based on the correct allocation of resources to each order. In this paper, we combine the warehouse stock management problem and the routing problem to be applied in a real company that allows negative stock in their warehouses. The proposed multi-objective problem is modeled and solved by the greedy randomized adaptive search (GRASP) algorithm. The results shows that the proposed algorithm outperforms the current search technique used by the company mainly in stock balancing, improving the negative average stock by up to 82\%.
-
+    (Por escribir)
 \end{abstract}
 \section*{Introduction}
-Nowadays, transport companies focus on obtaining automatic forecasts and order planning within a given time frame. Many different techniques can be found in the literature to solve this kind of problem. There is a set of problems that brings together many of the cases of graphics-related problems in the context of transport design. The multi-objective transportation network design provides a framework that lists all types of transportation problems together. In this context, a first level taxonomy is developed in which methods and techniques are grouped by mathematical structure or the purpose of the problem formulation \cite{Current1993}.
-The Multi-objective Transportation Network Design (MTND) is set of definitions that try to address all different cases in transportation problems. In this paper, we focus on two types of problems, the vehicle routing problems (VRP) and the assignment problems (AP).
 
-VRPs can be represented as theoretical problems in graphs. Given a complete network $G = \{ V,A \}$ in which $V$ is a list of vertices and $A$ is a list of arcs, most problems represent the zero vertex as the starting point and the rest of the vertices as customers to be passed through to deliver an order. The list of arcs is made up of $i,j$ pairs that connect two vertices. These arcs have a cost associated with going from the $i$ vertex to the $j$ vertex \cite{Eksioglu2009}. From this point on, the wide development of solutions for diverse problems has generated an extensive amount literature. VRP problems are mainly multi-target problems in which there are certain features that combine with each other to deal with other types of problems. However, there is a more specific set of real-life problems that traditional VRP approaches cannot solve, such as: the Open VRP, the Dynamic VRP, the Time-Dependent VRP problems.
+(Por Escribir)
 
-In the Open VRP (OVRP) problems, the main feature that interests us is that the vehicles are not forced to return to the starting point, so problems of this type seek to minimize the number of vehicles used and the total distance traveled (e.g., \cite{Subramanian2013,Cao2014}). Some real life problems can be modelled as OVRP \cite{Lopez-Sanchez2014,Salari2010}.
-
-Taking into account the rapid evolution of technologies, we can obtain a large amount of data in real time, including not only the status of the vehicle or the order but also the time of delivery to the customer, the status of the route that will be use oby the vehicle, etc. That is why the development of Dynamic VRP (DVRP) is so important; it allows us to assume changes in the solutions obtained and modify them with the updated data, generating optimal solutions until the last moment \cite{Barkaoui2013,Pillac2013}.
-
-Another problem affecting VRPs is that the travel time between one vertex and another is deterministic; However in real life, the travel time between vertices is not deterministic since there are many variables that can affect it. These problems are defined as Time-dependent VRP, in which it is assumed that the trip is not deterministic and does not have constant times in the trips between vertices \cite{Li2012}.
-
-\quad
-
-The Assignment problems (AP) deal with the question of how to assign $n$ items (vehicles, machines, agents, etc.) to $m$ different tasks or procedures. However, it is normal to take into account some limitations that allow the algorithm to focus on a specific case and make it more specific \cite{Burkard2009}. One of the most commonly used assignment problems is called The Quadratic Assignment Problem (QAP). This kind of AP does not require all objective functions to be linear, focusing on assigning a set of $n$ elements in $m$ locations. The cost of QAP is composed of a series of smaller costs that are minimized to find the minimum cost.
-
-Taking into account the existing QAP, this paper focus specifically on the storage assignment location problem (SLAP). SLAP involves a group of problems that refers to the allocation of products in a storage space and the optimization of material handling costs, among others. The SLAP problem usually depends on parameters such as the distance between the source and the destination with respect to the items and the warehouses, the availability of stock, the physical characteristics of the items, the stock refill price, etc. The main optimization approaches are related to storage space usage and the cycle time of order-picking operations, taking into account constraints such as available storage capacity, order picking resource capacities, and dispatch policies. \cite{Syed-abdullah2018}
-
-
-In this paper, we focus on a logistic problem provided by a company that focuses its activity on the rental of a wide variety of reusable packaging for the storage and transport of a wide variety of food products. The main priority of this company is to provide containers to allocate fruits, vegetables, fish, etc in supermarkets that need a wide distribution throughout the country.
-
-The containers are manufactured to simplify the process of transporting, storing, and linearly arranging consumer goods. Today the company has multiple containers that are manufactured under the idea of eco-design which complies with the rule of the three Rs: reduction, reuse and recycling. The company's business model proposes a reduction in the environmental cost of processes through the optimization and responsible use of materials and waste (see Fig \ref{fig:covers}).
-
-\begin{figure}
-    \includegraphics[width=6cm]{img/covers.png}
-    \centering
-    \caption{Different containers used by the company}
-    \label{fig:covers}
-\end{figure}
-
-Currently the company has 13 warehouses that are strategically distributed throughout the country to facilitate the attention to their clients. In all of the warehouses, there are a number of containers/items of different types. These containers can be available to be used in a warehouse, they can be stacked to be repaired in the same warehouse, or they can be sent to a recycling center to make new ones. Each warehouse has a limited number of containers available for each type. However, if a large number of containers is needed, the company has the capacity to acquire more in order to cover the demand.
-
-The main goal of the company is to transport the containers from warehouses to supermarkets. Currently, the company must optimize the planning of 2000 trips weekly. To this end, the company must develop an efficient search algorithm to plan the weekly allocation of a fleet of trucks in the different warehouses that are spread throughout the country. Due to physical and temporal constraints, the company aims to minimize the cost of transport generated by the trucks and the cost of stock in each of the warehouses. Since the amount of stock in the warehouses may be negative, the demand for items is greater than the stock available and the company must acquire them, therefore the stock cost is directly associated with the price of the items with negative stock.
-
-This paper proposes a new SLAP proposal for balancing stocks. This proposal takes into account that the problem can be modelled as a VRP (more specifically as an OVRP) where the vehicle that transports the order does not return to its point of origin. To do this we propose a metaheuristic search algorithm is proposed the greedy randomized adaptive search (GRASP) \cite{Li1991}. It searches for the first solution by applying a series of heuristics. Later, the local search is performed by applying a series of multi-target heuristics to filter the different solutions and choose the most optimized one.
 
 \section*{Problem specification}
 
-This section presents, the problem specification posed by the company in order to provide a better understanding of the proposed algorithm, highlighting the most relevant aspects. The main objective is to assign each trip to a warehouse, taking into account all of the characteristics of each trip and each warehouse. To do this, we seek to minimize the transport cost and the stock cost. Minimizing transport cost is relatively simple by obtaining the trip with the minimum transport value. However, the stock cost poses a challenge due to the fact that the stock of each container type must be balanced. To solve this, a multi-objective function must be determined by assigning weights to the transport cost and the stock cost in order to determine the fitness function. This function must keep the transport cost stable while the stock in the warehouses is distributed homogeneously. Thus, the most important variables involved in the problem must be taken into account.
+This section features the problem specification proposed by the company with the intention of providing a better comprehension of the presented algorithm.
 
 \begin{itemize}
   \item \textbf{Transport cost }(TC): this is the cost associated with an order. This cost is based on the distance between the starting point and the warehouse, which is proportional to the distance. This is taken into account when calculating the final cost in the fitness function.
