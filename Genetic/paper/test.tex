@@ -130,36 +130,36 @@ The problem is formed by a dataset (DS) that is based on the combination of thre
     \end{aligned}
 \end{equation}
   
-The set $O = \{o_1, o_2, \dots, o_N \}$ contains all of the information about the orders, where $N$ is the number of orders. Each order $o_i \in O$ is composed of three parameters $o_i =[D_{o_i},Ir_{o_i},W_{o_i}]$:
+The set $O = \{o_1, o_2, \dots, o_N \}$ contains all orders, where $N$ is the number of orders. Each order $o_i \in O$ is formed by three parameters $o_i =[D_{o_i},Ir_{o_i},W_{are_{o_i}}]$:
 \begin{itemize}
     \item $D_{o_i}$ is the delivery date of $o_i$.
-    \item $Ir_{o_i}$ contains the set of items to be loaded (see Equation \ref{eq:OI}). Each element $ir_{o_{i}j} \in Ir_{o_i}$ represents the number of items to be loaded.
+    \item $Ir_{o_i}$ is the set of items requested in the order $o_i$ (see Equation \ref{eq:OI}). Each element $ir_{o_{i}j} \in Ir_{o_i}$ represents the number of items that have to be loaded.
     \begin{equation}\label{eq:OI}
         \begin{aligned}
             Ir_{o_{i}} = \{ ir_{o_{i}1}, ir_{o_{i}2} \dots, ir_{o_{i}P} \} \\
         \end{aligned}
     \end{equation}
-    \item $W_{o_i}$ is a set of possible warehouses where order $o_i$ can load all of the required items (see Equation \ref{eq:OW}).
+    \item $W_{are{o_i}}$ is the set of possible warehouses that have every item requested in order $o_i$ (see Equation \ref{eq:OW}).
     \begin{equation} \label{eq:OW}
         \begin{aligned}
-            Ware_{o_i} = \{ Ware_{o_{i}1}, Ware_{o_{i}1}, \dots Ware_{o_{i}Q} \}\\
+            Ware_{o_i} = \{ Ware_{o_{i}1}, Ware_{o_{i}2}, \dots Ware_{o_{i}Q} \}\\
         \end{aligned}
     \end{equation}
-    Each element $W_{o_{i}j}$ is composed of by three values:
+    Each $W_{o_{i}j}$ is formed by three values:
     \begin{itemize}
-        \item $ava_{o_{i}j}$ represents the availability of platform $j$ to load all of the items of order $o_i$. Thus, $ava_{o_{i}j}=1$  means the warehouse is available, and $ava_{o_{i}j}=0$ means that is not available.
-        \item $pr_{o_{i}j}$ contains the transport cost of order $o_i$ from platform $j$. If $ava_{o_{i}j}=0$, this value is null.
-        \item $dl_{o_{i}j}$ is the delay to load the order $o_i$ from platform $j$. If $ava_{o_{i}j}=0$, this value is null.
+        \item $ava_{o_{i}j}$ represents if the warehouse $j$ is available to load all of the items requested by the order $o_i$. Therefore, $ava_{o_{i}j}=1$  means that the warehouse is available, and $ava_{o_{i}j}=0$ means that it is not.
+        \item $pr_{o_{i}j}$ contains the transport cost of order $o_i$ from warehouse $j$. If $ava_{o_{i}j}=0$, this value is null.
+        \item $dl_{o_{i}j}$ is the delay to load the order $o_i$ from warehouse $j$. If $ava_{o_{i}j}=0$, this value is null.
     \end{itemize}
 \end{itemize}
 
-To control the amount of stock at the beginning of each week, the company provides a three-dimensional matrix with the current status of each warehouse $W$ (see Equation \ref{eq:W}).
+At the beginning of each week and in order to control the amount of stock, the current status of each warehouse is provided by the company through the use of a three-dimensional matrix $W$ (see Equation \ref{eq:W}).
 \begin{equation}
     \begin{aligned}\label{eq:W}
         W = \{w_1, w_2, w_3, \dots w_P \}\\
     \end{aligned}
 \end{equation}
-where each $wst_i \in W$ is composed of a bidirectional matrix (item x week days ). The model of the company, allows negative stock to be generated in the warehouses associated to an order $wst_{ijk} \in \mathbb{N} $. This is allowed because each of the logistic centers (warehouses) can replace the lack of containers by shipping them.
+where each $wst_i \in W$ is composed of a bidirectional matrix (item x week days ). Each of the logistic centers (warehouses) has the ability to replace the lack of items by shipping them. This allows the company to generate negative stock in the warehouses asociated to an order $wst_{ijk} \in \mathbb{N} $.
 
 Finally, $P$ is the set of unitary price for each items (see Equation \ref{eq:P}).
 
@@ -172,7 +172,7 @@ Finally, $P$ is the set of unitary price for each items (see Equation \ref{eq:P}
 
 \section*{Solving techniques}
 
-This section explains the current algorithm being used by the company, pointing out the structure and specifications of the implemented greedy algorithm as well as the characteristics that make it up. The proposed GRASP algorithm, local search, and several improvements are detailed below.
+This section explains the different algorithms being used in the evaluation of the solving of the problem proposed by the company, pointing out the the final method used, which is an hybridization of the GRASP algorithm and a Genetic Algorithm (GA). The resolution techniques presented are the Greedy algorithm, the GRASP algorithm and the Genetic Algorithm.
 
 \subsection*{The Greedy algorithm }
 Today, the objective of the company is the planning of weekly orders based on the demand of customers taking into account the available stock expected for each day of the week. The company has developed its own algorithm to obtain an optimized solution based on a greedy technique with a post-processing phase.
