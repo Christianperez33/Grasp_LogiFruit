@@ -25,6 +25,7 @@ class Genetic:
         self.dictStock   = copy.deepcopy(self.oriStock)
         self.precios = DatosPrecio(precios)
         self.oriPrecios = copy.deepcopy(self.precios.dictPrecios)
+        self.k_mut = 5
         values=getPopulation(self,af)
         self.datos = values[0] ## diccionario poblacion donde la clave es el índice de la solucion y el valor otro diccionario con los viajes-plataforma seleccionados
         ## {'Solucion_1': { 'Viaje_0' : 'Plataforma_12' , 'Viaje_1' : 'Plataforma_3'... }, 'Solucion_2' : {'Viaje_0' : 'Plataforma_8' , 'Viaje_1' : 'Plataforma_7'... }}
@@ -45,9 +46,10 @@ class Genetic:
         
 def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     ## Edad máxima individuo en funcion de las iteraciones
+    self.k_mut = k_mut
     max_age=int((max_age/100)*iter)
     ## Escritura del encabezado del seguimiento del fitness a lo largo de la iteraciones
-    with open("./Genetic/results/"+"seguimiento fitness.csv", 'a+',newline='') as csvfile:
+    with open("./results/"+"seguimiento fitness.csv", 'a+',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
         writer.writerow(["Iteracion","Fitness global","Mejor fitness","Coste transporte","Coste de stock"])
         # Bucle de las iteraciones del AG
@@ -98,15 +100,15 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
                 list_cs=list()    
                 list_ct=list() 
                 ## Recorro cada NUEVO miembro de la familia y calculo el fitness y su coste de TRANSPORTE Y STOCK .
+                family = mutation(self,numpy.array(family))
                 for member in family:
                     # MUTACION POR CADA MIEMBRO DE LA FAMILIA
-                    if k_mut > random.choice(list(range(1,100))):
-                        mutation(self,member)
                     [fitness,ct,cs]=calculate_fitness(self,member,alfa)
                     fitness_candidatos.append(fitness)
                     list_cs.append(cs)
                     list_ct.append(ct)
                 ## Ordeno los indices de los miembros de la familia por fitness
+
                 lista_indices_candidatos=numpy.argsort(fitness_candidatos)
 
                 # Ejemplo familia con tres hijos [0 1 2 3 4] donde 0 y 1 son los padres con variable "fitness_candidatos" [298 276 250 278 295]
@@ -137,9 +139,9 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.CS= {str(x+1) : list_new_generation_cs[x] for x in range(len(list_new_generation_cs))} # Actualizo el coste de stock de la poblacion
             self.n_population = len(self.datos) # Actualizo el tamaño de la poblacion
             
-            print(self.n_population)
+            # print(self.n_population)
             id,xx =min(self.fitness.items(),key=lambda x:x[1])
-            print((self.fitness[id],self.CT[id],self.CS[id]))
+            # print((self.fitness[id],self.CT[id],self.CS[id]))
     return self.fitness,self.datos        
 
 def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
@@ -152,13 +154,15 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     CT = {}
     CS = {}
     i = 0
+    # family = []
     for json_ in list_population:
         i += 1
         with open(self.solpath+json_) as f:
             someone = json.load(f) # Cargo una solucion GRASP 
-            # someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por IdViaje
+            # someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por 
             age[str(i)] = 0 # Diccionario con la edad de cada miembro de la pobacion o solucion 
             population[str(i)] = someone # Diccionario con la asignacacion de viajes-plataforma en la solucion
+            # family.append(someone)
             if i==1:
                 self.n_travel = len(population.get("1")) # Inicializacion numero de viajes de las soluciones
             values_fitness = calculate_fitness(self,someone,alfa,True) ## Funcion de calculo del fitness dad una solucion
@@ -166,6 +170,8 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
             CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
             CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
     
+
+
     plats = {k:[] for k in self.dictViajes.keys()}
     # todas las posibles plataformas para un viaje
     for v in self.dictViajes:
@@ -271,32 +277,46 @@ def reproduce(self,fathers,point_to_divide,n_son): # Funcion que obtiene nueva d
 
     return family
 
-def mutation(self,person):  # funcion mutation a partir de un miembro de la familia, escoge un viaje para cambiar su plataforma asignada
-    viaje_mut=random.sample(list(person.keys()),1) # Escoge aleatoriamente un viaje a mutar
-    viaje_mutar=viaje_mut[0]
-    # Obtenemos las plataformas disponibles
-    cosas = self.oriViajes[viaje_mutar]['PlataformasPosibles']['CosteTransporte']
-    cosas = cosas if isinstance(cosas, list) else [cosas]
-
-    # Si el viaje que muta solo tiene una plataforma disponible no tiene sentido mutar ese viaje ya que no varia el inidividuo
-    while (len(cosas)==1):
-        viaje_mut=random.sample(list(person.keys()),1) # Escoge aleatoriamente otro viaje a mutar
-        viaje_mutar=viaje_mut[0]
-        # Obtenemos las plataformas disponibles
-        cosas = self.oriViajes[viaje_mutar]['PlataformasPosibles']['CosteTransporte']
-        cosas = cosas if isinstance(cosas, list) else [cosas]
+def mutation(self,family):  # funcion mutation a partir de un miembro de la familia, escoge un viaje para cambiar su plataforma asignada
+    f_por = [f for f in range(len(family)) if self.k_mut > random.choice(list(range(1,5)))]
+    f_resto = family[list(set(list(range(len(family)))) - set(f_por))]
+    for f in family[f_por]:
+        mut = random.sample(list(f.keys()),random.choice(list(range(int(len(f)*0.05),int(len(f)*0.1)))))
+        for m in mut:
+            plats = self.dictViajes[m]['PlataformasPosibles']['CosteTransporte']
+            plats = plats if isinstance(plats, list) else [plats]
+            f[m]=random.choice(plats)['Plataforma']
+        f_resto = np.append(f_resto,f)
     
-    plataforma_asignada_viaje_mut=person.get(viaje_mutar) # Obtenemos plataforma asignada al viaje a mutar
-    plataforma_mut = random.sample(cosas,1) # Escoge aleatoriamente una plataforma a la que mutar
+    return f_resto
+    
 
-    # Nos aseguramos que la plataforma escogida no es la que ya tenia previamente asignada el viaje, asi no tendia sentido la mutacion
-    while plataforma_asignada_viaje_mut==plataforma_mut:
-        plataforma_mut = random.sample(cosas,1)
+            
+    # viaje_mut=random.sample(list(person.keys()),1) # Escoge aleatoriamente un viaje a mutar
+    # viaje_mutar=viaje_mut[0]
+    # # Obtenemos las plataformas disponibles
+    # cosas = self.oriViajes[viaje_mutar]['PlataformasPosibles']['CosteTransporte']
+    # cosas = cosas if isinstance(cosas, list) else [cosas]
 
-    plat_mutar_asignada = plataforma_mut[0]['Plataforma'] # Obtenemos del diccionario el numero de plataforma
-    person[viaje_mutar]=plat_mutar_asignada # Asignamos al miembro de la familia la nueva paltaforma en el viaje esocgido para la mutacion 
+    # # Si el viaje que muta solo tiene una plataforma disponible no tiene sentido mutar ese viaje ya que no varia el inidividuo
+    # while (len(cosas)==1):
+    #     viaje_mut=random.sample(list(person.keys()),1) # Escoge aleatoriamente otro viaje a mutar
+    #     viaje_mutar=viaje_mut[0]
+    #     # Obtenemos las plataformas disponibles
+    #     cosas = self.oriViajes[viaje_mutar]['PlataformasPosibles']['CosteTransporte']
+    #     cosas = cosas if isinstance(cosas, list) else [cosas]
+    
+    # plataforma_asignada_viaje_mut=person.get(viaje_mutar) # Obtenemos plataforma asignada al viaje a mutar
+    # plataforma_mut = random.sample(cosas,1) # Escoge aleatoriamente una plataforma a la que mutar
 
-    return 0
+    # # Nos aseguramos que la plataforma escogida no es la que ya tenia previamente asignada el viaje, asi no tendia sentido la mutacion
+    # while plataforma_asignada_viaje_mut==plataforma_mut:
+    #     plataforma_mut = random.sample(cosas,1)
+
+    # plat_mutar_asignada = plataforma_mut[0]['Plataforma'] # Obtenemos del diccionario el numero de plataforma
+    # person[viaje_mutar]=plat_mutar_asignada # Asignamos al miembro de la familia la nueva paltaforma en el viaje esocgido para la mutacion 
+
+    # return 0
 
 def calculate_fitness(self,member,alfa,init=False): # Esta función calcula la formula del fitness para una solucion, dado un alfa con el que realizar el calculo con coste de transporte(CT) y coste de stock (CS)
     ## FORMULA FITNESS: (ALFA * CT)  + ((1-ALFA) * CS)
@@ -384,7 +404,7 @@ def create_excel(self,index,populate,index_solution):
 
     # guardamos el diccionario de stock para poder ver el balanceo
     # dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-    with open("./Genetic/results/results_stock/"+"stock_sol_"+index_solution+"+.csv", 'w',newline='') as csvfile:
+    with open("./results/results_stock/"+"stock_sol_"+index_solution+"+.csv", 'w',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
         cuantos_articulos_negativos = 0
         articulo_minimo = 0
