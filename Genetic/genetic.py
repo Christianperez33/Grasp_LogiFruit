@@ -51,6 +51,9 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
     ## Escritura del encabezado del seguimiento del fitness a lo largo de la iteraciones
     with open("./results/"+"seguimiento fitness.csv", 'a+',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
+        writer.writerow(["------","------","------","-------","------","------"])
+        writer.writerow(["k_mut","k_crossover","alfa","max_age","n_son","n_sup"])
+        writer.writerow([str(k_mut),str(k_crossover),str(alfa),str(max_age),str(n_son),str(n_sup)])
         writer.writerow(["Iteracion","Fitness global","Mejor fitness","Coste transporte","Coste de stock"])
         # Bucle de las iteraciones del AG
         poblacion = self.datos
@@ -404,7 +407,7 @@ def create_excel(self,index,populate,index_solution):
 
     # guardamos el diccionario de stock para poder ver el balanceo
     # dictstock = dict(OrderedDict(sorted(self.dictStock.items(), key = lambda t: int(t[0]))))
-    with open("./results/results_stock/"+"stock_sol_"+index_solution+"+.csv", 'w',newline='') as csvfile:
+    with open("./results/results_stock/"+"stock_sol_"+index_solution+".csv", 'w',newline='') as csvfile:
         writer = csv.writer(csvfile,delimiter=';')
         cuantos_articulos_negativos = 0
         articulo_minimo = 0
