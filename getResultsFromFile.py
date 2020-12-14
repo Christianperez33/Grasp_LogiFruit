@@ -1,5 +1,5 @@
 import time
-from grasp import *
+from GRASP.grasp import *
 import argparse
 from tqdm import tqdm
 import json
@@ -9,8 +9,8 @@ from Genetic.getData import DatosPrecio
 import os
 import copy
 argparser = argparse.ArgumentParser()
-argparser.add_argument('-x', '--stock')
-argparser.add_argument('-y', '--viajes')
+argparser.add_argument('-x', '--stock', default="./Genetic/data_grasp/stock.csv")
+argparser.add_argument('-y', '--viajes', default="./Genetic/data_grasp/viajes.xml")
 argparser.add_argument('-z', '--precios', default="./Genetic/data_grasp/precios.csv")
 argparser.add_argument('-d', '--dir')
 args = argparser.parse_args()
