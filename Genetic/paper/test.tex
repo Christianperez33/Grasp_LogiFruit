@@ -190,7 +190,7 @@ It is necessary for an expert to review all of the trips in order to obtain a be
 
 \subsection*{GRASP}
 
-Taking into account the structure of the above greedy method and its drawbacks in to obtaining a good solution, a GRASP algorithm has been developed to obtain a balanced solution in terms of travel cost and stock balance. To do this, we focus on obtaining an efficient solution and keeping the stock as balanced as possible among the warehouses.
+A GRASP algorithm has been developed taking into account the drawbacks of the Greedy algorithm used by the company, in order to obtain in terms of stock balance and travel cost a balanced solution. 
 
 \begin{algorithm}[H]
     \caption{GRASP}
@@ -200,13 +200,7 @@ Taking into account the structure of the above greedy method and its drawbacks i
         \STATE \textit{output: } Optimized solution $s^*$
         \STATE $i \longleftarrow 0 $
         \STATE $ t \longleftarrow [1,2,3,\dots,|O|]$
-        \STATE \textbf{while} empty($t$) \textbf{do}: \label{1order}
-        \STATE \quad \textbf{if} sort-criterion(i) \textbf{then}: \label{sort-criterion}
-        \STATE \quad \quad swap( $ o_{i-1}$ , $ o_{i} $ )
-        \STATE \quad \quad $t \longleftarrow t \setminus i$
-        \STATE \quad \quad $i \longleftarrow i + 1$
-        \STATE \quad $\textbf{end if}$
-        \STATE $\textbf{end while}$ \label{2order}
+        \STATE $LCRordering(\alpha)$\label{LCRordering}
         \STATE
         \STATE $s \longleftarrow [\quad] $
         \STATE $LCR \longleftarrow [o_1,\dots,o_n]$
@@ -225,12 +219,11 @@ Taking into account the structure of the above greedy method and its drawbacks i
 \end{algorithm}
 
 
-The proposed Algorithm \ref{code:grasp} is based on two steps. First, the list of orders is sorted to improve the response of the algorithm (from lines \ref{1order} to \ref{2order}). This assumption is based on the idea of constrainedness, analyzing the most restrictive orders first in order to give the algorithm more decision power in the final iterations. Second, the iterative part of GRASP (from line \ref{1grasp} to \ref{2grasp}) obtains a list that a fraction of the size of the list of requests (called LCR). This list contains the algorithm's candidates to assign a warehouse. Then, a local search is generated in which the best warehouse is obtained. Once we have the best warehouses for all of the trips, we select the warehouse with the lowest cost, eliminating the order from the LCR list and adding the next one from the sorting list.
+The proposed Algorithm \ref{code:grasp} is composed of two parts. First, the set of orders is sorted with purpose of improving the efficiency of the algorithm (line \ref{LCRordering}). This type of sorting is based on the idea of constrainedness, meaning giving the algorithm more decision power in the last iterations by analyzing the most restrictive orders in the beginning. Second, in the iterative part of GRASP (from line \ref{1grasp} to \ref{2grasp}), a list (called LCR) that contains the candidates to assign a warehouse given by the algorithm is obtained. Later, through the use of local search the best warehouse stablished. When the best warehouses for all the trips are known, the warehouse with the lowest cost is selected, deleting the order from the LCR list and adding the next one.
 
 \subsubsection*{LRC ordering:}
 The sorting of the LCR list is carried out to give more flexibility and to test the behavior of the algorithm with different inputs. This pre-processing auto-allocates all of the trips that have only one available warehouse due to availability or customer restrictions.
 
-This type of ordering is modular for easier testing. For this purpose, a sorting algorithm has been developed based on a criterion (see Line \ref{sort-criterion}). Once all of the values an the list are correctly sorted, a list with these values is returned.
 
 
 \begin{itemize}

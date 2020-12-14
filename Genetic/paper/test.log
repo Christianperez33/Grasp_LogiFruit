@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.4)  14 DEC 2020 16:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.4)  14 DEC 2020 18:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -226,46 +226,44 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 
 
 
-]
-Underfull \hbox (badness 1092) in paragraph at lines 193--194
-\OT1/ptm/m/n/10 Taking into ac-count the struc-ture of the above greedy
- []
-
-[2]
-Underfull \hbox (badness 1888) in paragraph at lines 244--245
+] [2]
+Underfull \hbox (badness 1888) in paragraph at lines 237--238
 []\OT1/ptm/b/n/10 Sort by ware-houses plus stan-dard-ized de-lay and
  []
 
-[3]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3]
 <img/costcomparisionMODEL.png, id=24, 383.18156pt x 245.41687pt>
 File: img/costcomparisionMODEL.png Graphic file (type png)
 <use img/costcomparisionMODEL.png>
-Package pdftex.def Info: img/costcomparisionMODEL.png  used on input line 300.
+Package pdftex.def Info: img/costcomparisionMODEL.png  used on input line 293.
 (pdftex.def)             Requested size: 170.71652pt x 109.33934pt.
 <img/averagestocknegativeMODEL.png, id=26, 358.33875pt x 213.79875pt>
 File: img/averagestocknegativeMODEL.png Graphic file (type png)
 <use img/averagestocknegativeMODEL.png>
-Package pdftex.def Info: img/averagestocknegativeMODEL.png  used on input line 313.
+Package pdftex.def Info: img/averagestocknegativeMODEL.png  used on input line 306.
 (pdftex.def)             Requested size: 252.94499pt x 150.92061pt.
 <img/itemsstocknegativeMODEL.png, id=27, 359.84438pt x 214.55156pt>
 File: img/itemsstocknegativeMODEL.png Graphic file (type png)
 <use img/itemsstocknegativeMODEL.png>
-Package pdftex.def Info: img/itemsstocknegativeMODEL.png  used on input line 319.
+Package pdftex.def Info: img/itemsstocknegativeMODEL.png  used on input line 312.
 (pdftex.def)             Requested size: 252.94499pt x 150.82018pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 311--323
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 304--316
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 311--323
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 304--316
 []$ 
  []
 
 <img/comparisoncostIMPROV.png, id=28, 577.40718pt x 217.5628pt>
 File: img/comparisoncostIMPROV.png Graphic file (type png)
 <use img/comparisoncostIMPROV.png>
-Package pdftex.def Info: img/comparisoncostIMPROV.png  used on input line 331.
+Package pdftex.def Info: img/comparisoncostIMPROV.png  used on input line 324.
 (pdftex.def)             Requested size: 170.71652pt x 64.32321pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -274,60 +272,60 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 <img/averagestocknegativeIMPROV.png, id=35, 436.63126pt x 219.82124pt>
 File: img/averagestocknegativeIMPROV.png Graphic file (type png)
 <use img/averagestocknegativeIMPROV.png>
-Package pdftex.def Info: img/averagestocknegativeIMPROV.png  used on input line 341.
+Package pdftex.def Info: img/averagestocknegativeIMPROV.png  used on input line 334.
 (pdftex.def)             Requested size: 170.71652pt x 85.9446pt.
 <img/quatitytocknegativeIMPROV.png, id=36, 358.33875pt x 215.30438pt>
 File: img/quatitytocknegativeIMPROV.png Graphic file (type png)
 <use img/quatitytocknegativeIMPROV.png>
-Package pdftex.def Info: img/quatitytocknegativeIMPROV.png  used on input line 346.
+Package pdftex.def Info: img/quatitytocknegativeIMPROV.png  used on input line 339.
 (pdftex.def)             Requested size: 170.71652pt x 102.57288pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 339--349
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 332--342
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 339--349
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 332--342
 []$ 
  []
 
 <img/averagestocknegativeALGOTH.png, id=37, 362.10281pt x 264.23718pt>
 File: img/averagestocknegativeALGOTH.png Graphic file (type png)
 <use img/averagestocknegativeALGOTH.png>
-Package pdftex.def Info: img/averagestocknegativeALGOTH.png  used on input line 360.
+Package pdftex.def Info: img/averagestocknegativeALGOTH.png  used on input line 353.
 (pdftex.def)             Requested size: 170.71652pt x 124.57855pt.
 <img/cost.png, id=38, 786.94pt x 501.875pt>
 File: img/cost.png Graphic file (type png)
 <use img/cost.png>
-Package pdftex.def Info: img/cost.png  used on input line 366.
+Package pdftex.def Info: img/cost.png  used on input line 359.
 (pdftex.def)             Requested size: 170.71652pt x 108.87358pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 358--370
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 351--363
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 358--370
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 351--363
 []$ 
  []
 
 <img/itemsstocknegativeALGOTH.png, id=39, 353.82187pt x 273.27094pt>
 File: img/itemsstocknegativeALGOTH.png Graphic file (type png)
 <use img/itemsstocknegativeALGOTH.png>
-Package pdftex.def Info: img/itemsstocknegativeALGOTH.png  used on input line 380.
+Package pdftex.def Info: img/itemsstocknegativeALGOTH.png  used on input line 373.
 (pdftex.def)             Requested size: 170.71652pt x 131.85239pt.
 <img/FINAL.png, id=40, 429.10312pt x 268.75406pt>
 File: img/FINAL.png Graphic file (type png)
 <use img/FINAL.png>
-Package pdftex.def Info: img/FINAL.png  used on input line 386.
+Package pdftex.def Info: img/FINAL.png  used on input line 379.
 (pdftex.def)             Requested size: 170.71652pt x 106.9215pt.
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 378--390
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 371--383
 []$[]$
  []
 
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 378--390
+Overfull \hbox (13.55061pt too wide) in paragraph at lines 371--383
 []$ 
  []
 
@@ -353,15 +351,15 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4017 strings out of 481239
- 59435 string characters out of 5920377
- 302005 words of memory out of 5000000
- 19224 multiletter control sequences out of 15000+600000
+ 4015 strings out of 481239
+ 59416 string characters out of 5920377
+ 301987 words of memory out of 5000000
+ 19222 multiletter control sequences out of 15000+600000
  550674 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,13n,46p,1165b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,13n,46p,1165b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (6 pages, 217202 bytes).
+Output written on /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (6 pages, 216683 bytes).
 PDF statistics:
  93 PDF objects out of 1000 (max. 8388607)
  52 compressed objects within 1 object stream
