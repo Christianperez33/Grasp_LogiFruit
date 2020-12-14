@@ -68,7 +68,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.index_best_fitness=fitness_values[0]   ## Indice mejor valor
             self.list_fitness=fitness_values[3] ## Lista proporcion fitness( torneo)
             
-            # create_excel(self,fitness_values[0],poblacion,str(i))
+            create_excel(self,fitness_values[0],poblacion,str(i))
             ## Escribo los resultados para el seguimiento
             writer.writerow([int(i),int(self.fitness_Global),int(self.fitness_Best),int(fitness_values[4]),int(fitness_values[5])])
             #csvfile.close()
