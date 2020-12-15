@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex test"] 1607966533 "test.aux" "test.bbl" "test" 1607966591
+["bibtex test"] 1608029056 "test.aux" "test.bbl" "test" 1608029056
   "./aaai.bst" 1607080345 21725 6d8748be1c9864381e507b2fcffde491 ""
   "bib.bib" 1607080345 16879 63169b5ec78c8b6a592846b2d4346374 ""
-  "test.aux" 1607966533 1157 7a90093332828365a27bc358fd554b3f "pdflatex"
+  "test.aux" 1608029056 604 f0f996200ddab511c7b1f0a3aff1efd9 "pdflatex"
   (generated)
   "test.bbl"
   "test.blg"
-["pdflatex"] 1607966533 "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf" "test" 1607966591
+["pdflatex"] 1608029056 "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf" "test" 1608029056
   "/etc/texmf/web2c/texmf.cnf" 1607081212 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux" 1607966533 1157 7a90093332828365a27bc358fd554b3f ""
-  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" 1607966590 32301 76e1200f0bb563a9f13bcd9ad98655ca ""
+  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux" 1608029056 604 f0f996200ddab511c7b1f0a3aff1efd9 ""
+  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" 1608029054 22936 ebd810b8122f3d6f729613ba288e4510 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -81,22 +81,12 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1607081902 4770781 1ed1abab22da9c3e2cc82e4db562318b ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1607081917 8255553 623a86b6b625ca8fea371fc52acc0b7d ""
   "aaai20.sty" 1607080345 9596 ff73d13d82f0c21c8fc36dbe1054250a ""
-  "img/FINAL.png" 1607080345 19451 bcbc93f576abf2947fd87a94452cbc05 ""
-  "img/averagestocknegativeALGOTH.png" 1607080345 24037 58823b3b6241e109eb5b634cfd242a6e ""
-  "img/averagestocknegativeIMPROV.png" 1607080345 19171 0a52eea754461e3419420492bdb3b4a5 ""
-  "img/averagestocknegativeMODEL.png" 1607080345 23429 4daf86c1cf25e9f36cae53905294d47e ""
-  "img/comparisoncostIMPROV.png" 1607080345 21679 424363e34925480dc06b23ab35c1923a ""
-  "img/cost.png" 1607080345 28900 98b35e144f92c3a51d44b84fa7d0b4b9 ""
-  "img/costcomparisionMODEL.png" 1607080345 16878 078550a95235c117e35e587190daf4b2 ""
-  "img/itemsstocknegativeALGOTH.png" 1607080345 21671 246b3e2094336f7d547e68af8e08c296 ""
-  "img/itemsstocknegativeMODEL.png" 1607080345 18086 0f517a2c497a75c2c8a98cb6d76b9504 ""
-  "img/quatitytocknegativeIMPROV.png" 1607080345 16927 19e2bcbd73ad3684cfe3e72d3baf88d0 ""
-  "test.aux" 1607966533 1157 7a90093332828365a27bc358fd554b3f "pdflatex"
-  "test.bbl" 1607966533 49 0eba253fc001332e731e8aba3f23127b "bibtex test"
-  "test.tex" 1607966590 32301 76e1200f0bb563a9f13bcd9ad98655ca ""
+  "test.aux" 1608029056 604 f0f996200ddab511c7b1f0a3aff1efd9 "pdflatex"
+  "test.bbl" 1608029056 49 0eba253fc001332e731e8aba3f23127b "bibtex test"
+  "test.tex" 1608029054 22936 ebd810b8122f3d6f729613ba288e4510 ""
   (generated)
-  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.log"
-  "test.aux"
   "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf"
+  "test.aux"
+  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.log"
   "test.pdf"
   "test.log"
