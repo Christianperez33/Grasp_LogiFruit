@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex test"] 1608029056 "test.aux" "test.bbl" "test" 1608029056
+["bibtex test"] 1608032957 "test.aux" "test.bbl" "test" 1608032957
   "./aaai.bst" 1607080345 21725 6d8748be1c9864381e507b2fcffde491 ""
   "bib.bib" 1607080345 16879 63169b5ec78c8b6a592846b2d4346374 ""
-  "test.aux" 1608029056 604 f0f996200ddab511c7b1f0a3aff1efd9 "pdflatex"
+  "test.aux" 1608032957 604 f0f996200ddab511c7b1f0a3aff1efd9 "pdflatex"
   (generated)
-  "test.bbl"
   "test.blg"
-["pdflatex"] 1608029056 "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf" "test" 1608029056
+  "test.bbl"
+["pdflatex"] 1608032957 "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf" "test" 1608032957
   "/etc/texmf/web2c/texmf.cnf" 1607081212 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux" 1608029056 604 f0f996200ddab511c7b1f0a3aff1efd9 ""
-  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" 1608029054 22936 ebd810b8122f3d6f729613ba288e4510 ""
+  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux" 1608032957 604 f0f996200ddab511c7b1f0a3aff1efd9 ""
+  "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.tex" 1608032956 22934 0160b83c9a7b9658317e37cb0161933f ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -81,12 +81,12 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1607081902 4770781 1ed1abab22da9c3e2cc82e4db562318b ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1607081917 8255553 623a86b6b625ca8fea371fc52acc0b7d ""
   "aaai20.sty" 1607080345 9596 ff73d13d82f0c21c8fc36dbe1054250a ""
-  "test.aux" 1608029056 604 f0f996200ddab511c7b1f0a3aff1efd9 "pdflatex"
-  "test.bbl" 1608029056 49 0eba253fc001332e731e8aba3f23127b "bibtex test"
-  "test.tex" 1608029054 22936 ebd810b8122f3d6f729613ba288e4510 ""
+  "test.aux" 1608032957 604 f0f996200ddab511c7b1f0a3aff1efd9 "pdflatex"
+  "test.bbl" 1608032957 49 0eba253fc001332e731e8aba3f23127b "bibtex test"
+  "test.tex" 1608032956 22934 0160b83c9a7b9658317e37cb0161933f ""
   (generated)
   "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf"
+  "test.pdf"
   "test.aux"
   "/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.log"
-  "test.pdf"
   "test.log"

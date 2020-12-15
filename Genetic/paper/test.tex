@@ -219,7 +219,7 @@ A GRASP algorithm has been developed taking into account the drawbacks of the Gr
 \end{algorithm}
 
 
-The proposed Algorithm \ref{code:grasp} is composed of two parts. First, the set of orders is sorted with purpose of improving the efficiency of the algorithm (line \ref{LCRordering}). This type of sorting is based on the idea of constrainedness, meaning giving the algorithm more decision power in the last iterations by analyzing the most restrictive orders in the beginning. Second, in the iterative part of GRASP (from line \ref{1grasp} to \ref{2grasp}), a list (called LCR) that contains the candidates to assign a warehouse given by the algorithm is obtained. Later, through the use of local search the best warehouse stablished. When the best warehouses for all the trips are known, the warehouse with the lowest cost is selected, deleting the order from the LCR list and adding the next one.
+The GRASP Algorithm \ref{code:grasp} is composed of two parts. First, the set of orders is sorted with purpose of improving the efficiency of the algorithm (line \ref{LCRordering}). This type of sorting is based on the idea of constrainedness, meaning giving the algorithm more decision power in the last iterations by analyzing the most restrictive orders in the beginning. Second, in the iterative part of GRASP (from line \ref{1grasp} to \ref{2grasp}), a list (called LCR) that contains the candidates to assign a warehouse given by the algorithm is obtained. Later, through the use of local search the best warehouse stablished. When the best warehouses for all the trips are known, the warehouse with the lowest cost is selected, deleting the order from the LCR list and adding the next one.
 
 \subsubsection*{LRC ordering:}
 In order to provide more flexibility and to test the algorithm with different data inputs, the LCR list is sorted. This ordering consists in different steps. First as a pre-processing, every order that only has one available warehouse due to restrictions and availability is automatically allocated. Second, the order of the list is based on the number of possible warehouses, positioning in the first order the trips with fewer possible warehouses, allowing the algorithm to employ less decisions in this assignations. The trips with the same number of warehouses are sorted by the number of items requested by each trip, positioning the ones with fewer items first.
@@ -269,6 +269,7 @@ There have appeared several problems regarding the optimization of the solution 
 \end{itemize}
 
 \subsection*{Genetic Algorithm}
+
 
 
 \section*{Evaluation}
