@@ -262,15 +262,39 @@ The transport cost is calculated by the addition of the price of traveling to a 
 \subsection*{Improvements}
 There have appeared several problems regarding the optimization of the solution during the developement of the algorithm, in order to resolve them, some sections of the code have been imiproved:
 \begin{itemize}
-    \item \textbf{LCR sorting:} As mentioned before, in order to improve the allocation of the trips with the most restrictive characteristics, there have been a sorting of the LCR list, leaving the orders with more solutions at the end of this list.
+    \item \textbf{LCR sorting:} ADesgranstics, there have been a sorting of the LCR list, leaving the orders with more solutions at the end of this list.
     \item \textbf{Shuffle:} It has been obeserved that in each one of the iterations of the GRASP algorithm, the same order of trips in the LCR list is generated. By using the same criteria employed in the LCR ordering, a shuffle method that randomizes the LCR list has been developed. This shuffle allows to avoid identical solutions, by generating different LCR lists.
     \item \textbf{Scheduler:} The objective function applies a value alpha to the transport cost and the stock cost with the intention of finding the optimal point. During the execution of the tests there is a polarization of the objective function due to the amount of items with negative stock in the warehouses, losing the optimal value. The reason behind this is that a fixed alpha value worsens the results by losing the dynamism of the algorithm. In order to solve this problem, a \textit{scheduler} has been developed, which changes the alpha value in each iteration. The alpha value decreases or increases whether the order has been assigned a warehouse with negative or positive stock. The factor used is obtained by dividing the rest of alpha by the number of orders that are not assigned yet. Through this process the stock cost is minimized in an easier way by the \textit{scheduler}.
     
 \end{itemize}
 
 \subsection*{Genetic Algorithm}
+In order to improve the solutions given by the GRASP algorithm previously explained, a Genetic Algorithm (GA) is developed. The input of this algorithm is the solutions provided by the GRASP, allowing an hybridization of both algorithms through this process. This hybridization allows an improvement of the solutions that have converged in the GRASP algorithm.
 
 
+\begin{figure}[H]
+    %\centering
+    \includegraphics[scale=0.3]{img/GeneticAlg.png}
+    \caption{Genetic algorithm structure.}
+    \label{fig:GAlg}
+\end{figure}
+
+This algorithm is composed of different parts, all presented in the Figure \ref{fig:GAlg}. Each of this parts, except the initial population, are repeated until the stop criterion is satisfied. This stop criterion consists on whether the algorithm has performed an stablished number of iterations.
+
+
+\subsubsection*{Initial population:}
+The complete set of initial solutions or initial population is composed of two main groups. First, 60\% of the initial population are final solutions from the previously implemented GRASP algorithm, with the intention of stacking the GRASP algorithm and the Genetic algorithm (GA) in order to obtain better results. Second, the rest of the initial population (40\%) are randomized solutions.
+
+These random solutions are composed of the same orders of the proposed problem but assigning each order a random warehouse. However, this warehouse must be one of the possible platforms to which the order can be assigned, thus complying with the limitations of the order.
+
+Before starting the iterating part of the algorithm, the fitness of each solution is calculated, in order to execute the crossover part.
+
+\subsubsection*{Crossover:}
+Once the fitness of each solution from the population is obtained, the list of all solutions is sorted in ascending order, placing the solutions with better fitness at the first positions. A list composed of parent pairs is then formed by selecting the two best solutions that have not yet been assigned in order to form each parent pair.
+
+The objetive of the crossover or reproduction is to obtain a number of new solutions (or children) from each parent pair. To achieve this goal, each child is formed by a random fraction of the orders that compose one of the parents, and the rest of the orders are taken from the remaining parent. The number of childs that are breeded is variable, and it is passed to the algorithm as a paramater. The result of this process is a list that contains sets of solutions calles families, each one formed by a parent pair and a number of children.
+
+\subsubsection*{Mutation:}
 
 \section*{Evaluation}
 

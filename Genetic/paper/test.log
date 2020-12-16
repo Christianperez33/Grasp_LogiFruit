@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.4)  15 DEC 2020 12:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.4)  16 DEC 2020 13:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -229,7 +229,18 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ] [2]
 Underfull \vbox (badness 1642) has occurred while \output is active []
 
- (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl [3]
+<img/GeneticAlg.png, id=20, 647.41875pt x 1230.5975pt>
+File: img/GeneticAlg.png Graphic file (type png)
+<use img/GeneticAlg.png>
+Package pdftex.def Info: img/GeneticAlg.png  used on input line 277.
+(pdftex.def)             Requested size: 194.22711pt x 369.1821pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3]
+Underfull \vbox (badness 2142) has occurred while \output is active []
+
+ (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl
 
 /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl:3: LaTeX Error: Something's wrong--perhaps a missing \item.
 
@@ -242,26 +253,24 @@ l.3 \end{thebibliography}
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-) [4
-
-] (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux)
+) [4 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/GeneticAlg.png>] (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 3930 strings out of 481239
- 57164 string characters out of 5920377
- 301861 words of memory out of 5000000
- 19149 multiletter control sequences out of 15000+600000
+ 3941 strings out of 481239
+ 57333 string characters out of 5920377
+ 301869 words of memory out of 5000000
+ 19157 multiletter control sequences out of 15000+600000
  550674 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,13n,46p,1165b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (4 pages, 132672 bytes).
+Output written on /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (4 pages, 169774 bytes).
 PDF statistics:
- 66 PDF objects out of 1000 (max. 8388607)
- 47 compressed objects within 1 object stream
+ 69 PDF objects out of 1000 (max. 8388607)
+ 48 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
