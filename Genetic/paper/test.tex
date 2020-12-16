@@ -292,9 +292,18 @@ Before starting the iterating part of the algorithm, the fitness of each solutio
 \subsubsection*{Crossover:}
 Once the fitness of each solution from the population is obtained, the list of all solutions is sorted in ascending order, placing the solutions with better fitness at the first positions. A list composed of parent pairs is then formed by selecting the two best solutions that have not yet been assigned in order to form each parent pair.
 
-The objetive of the crossover or reproduction is to obtain a number of new solutions (or children) from each parent pair. To achieve this goal, each child is formed by a random fraction of the orders that compose one of the parents, and the rest of the orders are taken from the remaining parent. The number of childs that are breeded is variable, and it is passed to the algorithm as a paramater. The result of this process is a list that contains sets of solutions calles families, each one formed by a parent pair and a number of children.
+The objetive of the crossover or reproduction is to obtain a number of new solutions (or children) from each parent pair. To achieve this goal, each child is formed by a random fraction of the orders that compose one of the parents, and the rest of the orders are taken from the remaining parent. The number of childs that are breeded is variable, and it is passed to the algorithm as a paramater. The result of this process is a list that contains sets of solutions called families, each one formed by a parent pair and a number of children.
 
 \subsubsection*{Mutation:}
+In order to avoid local minima during the finding of solutions that minimize the fitness function, the process of mutation is performed. This step of the algorithm is composed of two parts, and consists of randomly changing the assigned warehouses of a set of orders in a solution.
+
+First, a random value is obtained for each member of a family.Then, this value is compared to a parameter $k$ in order to determine whether this member will mutate or not. Second, for each solution or member selected for mutating, 1\% of its orders are obtained, to which one of the possible warehouses will be assigned randomly.
+
+\subsubsection*{Fitness calculation:}
+
+
+\subsubsection*{Selection:}
+
 
 \section*{Evaluation}
 
