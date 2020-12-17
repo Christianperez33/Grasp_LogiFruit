@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.4)  11 DEC 2020 17:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.4)  16 DEC 2020 16:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -226,122 +226,21 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 
 
 
-]
-Underfull \hbox (badness 1092) in paragraph at lines 193--194
-\OT1/ptm/m/n/10 Taking into ac-count the struc-ture of the above greedy
- []
+] [2]
+Underfull \vbox (badness 1642) has occurred while \output is active []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2]
-Underfull \hbox (badness 1888) in paragraph at lines 244--245
-[]\OT1/ptm/b/n/10 Sort by ware-houses plus stan-dard-ized de-lay and
- []
-
+<img/GeneticAlg.png, id=20, 647.41875pt x 1230.5975pt>
+File: img/GeneticAlg.png Graphic file (type png)
+<use img/GeneticAlg.png>
+Package pdftex.def Info: img/GeneticAlg.png  used on input line 277.
+(pdftex.def)             Requested size: 194.22711pt x 369.1821pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3]
-<img/costcomparisionMODEL.png, id=23, 383.18156pt x 245.41687pt>
-File: img/costcomparisionMODEL.png Graphic file (type png)
-<use img/costcomparisionMODEL.png>
-Package pdftex.def Info: img/costcomparisionMODEL.png  used on input line 300.
-(pdftex.def)             Requested size: 170.71652pt x 109.33934pt.
-<img/averagestocknegativeMODEL.png, id=25, 358.33875pt x 213.79875pt>
-File: img/averagestocknegativeMODEL.png Graphic file (type png)
-<use img/averagestocknegativeMODEL.png>
-Package pdftex.def Info: img/averagestocknegativeMODEL.png  used on input line 313.
-(pdftex.def)             Requested size: 252.94499pt x 150.92061pt.
-<img/itemsstocknegativeMODEL.png, id=26, 359.84438pt x 214.55156pt>
-File: img/itemsstocknegativeMODEL.png Graphic file (type png)
-<use img/itemsstocknegativeMODEL.png>
-Package pdftex.def Info: img/itemsstocknegativeMODEL.png  used on input line 319.
-(pdftex.def)             Requested size: 252.94499pt x 150.82018pt.
+Underfull \vbox (badness 2142) has occurred while \output is active []
 
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 311--323
-[]$[]$
- []
-
-
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 311--323
-[]$ 
- []
-
-[4 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/costcomparisionMODEL.png>]
-<img/comparisoncostIMPROV.png, id=32, 577.40718pt x 217.5628pt>
-File: img/comparisoncostIMPROV.png Graphic file (type png)
-<use img/comparisoncostIMPROV.png>
-Package pdftex.def Info: img/comparisoncostIMPROV.png  used on input line 331.
-(pdftex.def)             Requested size: 170.71652pt x 64.32321pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-<img/averagestocknegativeIMPROV.png, id=33, 436.63126pt x 219.82124pt>
-File: img/averagestocknegativeIMPROV.png Graphic file (type png)
-<use img/averagestocknegativeIMPROV.png>
-Package pdftex.def Info: img/averagestocknegativeIMPROV.png  used on input line 341.
-(pdftex.def)             Requested size: 170.71652pt x 85.9446pt.
-<img/quatitytocknegativeIMPROV.png, id=34, 358.33875pt x 215.30438pt>
-File: img/quatitytocknegativeIMPROV.png Graphic file (type png)
-<use img/quatitytocknegativeIMPROV.png>
-Package pdftex.def Info: img/quatitytocknegativeIMPROV.png  used on input line 346.
-(pdftex.def)             Requested size: 170.71652pt x 102.57288pt.
-
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 339--349
-[]$[]$
- []
-
-
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 339--349
-[]$ 
- []
-
-<img/averagestocknegativeALGOTH.png, id=35, 362.10281pt x 264.23718pt>
-File: img/averagestocknegativeALGOTH.png Graphic file (type png)
-<use img/averagestocknegativeALGOTH.png>
-Package pdftex.def Info: img/averagestocknegativeALGOTH.png  used on input line 360.
-(pdftex.def)             Requested size: 170.71652pt x 124.57855pt.
-<img/cost.png, id=36, 786.94pt x 501.875pt>
-File: img/cost.png Graphic file (type png)
-<use img/cost.png>
-Package pdftex.def Info: img/cost.png  used on input line 366.
-(pdftex.def)             Requested size: 170.71652pt x 108.87358pt.
-
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 358--370
-[]$[]$
- []
-
-
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 358--370
-[]$ 
- []
-
-[5 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeMODEL.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/itemsstocknegativeMODEL.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/comparisoncostIMPROV.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeIMPROV.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/quatitytocknegativeIMPROV.png>]
-<img/itemsstocknegativeALGOTH.png, id=45, 353.82187pt x 273.27094pt>
-File: img/itemsstocknegativeALGOTH.png Graphic file (type png)
-<use img/itemsstocknegativeALGOTH.png>
-Package pdftex.def Info: img/itemsstocknegativeALGOTH.png  used on input line 380.
-(pdftex.def)             Requested size: 170.71652pt x 131.85239pt.
-<img/FINAL.png, id=46, 429.10312pt x 268.75406pt>
-File: img/FINAL.png Graphic file (type png)
-<use img/FINAL.png>
-Package pdftex.def Info: img/FINAL.png  used on input line 386.
-(pdftex.def)             Requested size: 170.71652pt x 106.9215pt.
-
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 378--390
-[]$[]$
- []
-
-
-Overfull \hbox (13.55061pt too wide) in paragraph at lines 378--390
-[]$ 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [6 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/averagestocknegativeALGOTH.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/cost.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/itemsstocknegativeALGOTH.png> </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/FINAL.png>] (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl
+ (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl
 
 /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.bbl:3: LaTeX Error: Something's wrong--perhaps a missing \item.
 
@@ -354,7 +253,7 @@ l.3 \end{thebibliography}
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-) [7
+) [4 </home/admin01/Code/Grasp_LogiFruit/Genetic/paper/img/GeneticAlg.png>] [5
 
 ] (/home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.aux)
 
@@ -362,18 +261,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4017 strings out of 481239
- 59435 string characters out of 5920377
- 305005 words of memory out of 5000000
- 19224 multiletter control sequences out of 15000+600000
+ 3941 strings out of 481239
+ 57333 string characters out of 5920377
+ 301869 words of memory out of 5000000
+ 19157 multiletter control sequences out of 15000+600000
  550674 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,13n,46p,1165b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,13n,46p,1165b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (7 pages, 217777 bytes).
+Output written on /home/admin01/Code/Grasp_LogiFruit/Genetic/paper/test.pdf (5 pages, 170695 bytes).
 PDF statistics:
- 98 PDF objects out of 1000 (max. 8388607)
- 56 compressed objects within 1 object stream
+ 72 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
