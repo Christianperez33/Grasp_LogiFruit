@@ -300,11 +300,13 @@ In order to avoid local minima during the finding of solutions that minimize the
 First, a random value is obtained for each member of a family.Then, this value is compared to a parameter $k$ in order to determine whether this member will mutate or not. Second, for each solution or member selected for mutating, 1\% of its orders are obtained, to which one of the possible warehouses will be assigned randomly.
 
 \subsubsection*{Fitness calculation:}
-
+The fitness value of every member of each family is calculated once the process of mutation is finished. This value is calculated by the fitness function.
+This function takes into account the stock cost, the transport cost, and an alpha value that provides more weight to the transport cost.
 
 \subsubsection*{Selection:}
+Finally the new population or set of solutions is obtained taking into account the fitness value of every member of each family. This process uses a parameter value that stablishes the number of members of each family that will become part of the new population. The members selected are the ones with a better fitness value.
 
-
+If the stop criterion is not satisfied, the algorithm iterates again starting in the crossover layer. If, on the contrary, this criterion is satisfied, the algorithm stops and keeps as final solution the member of the final population with the best fitness value. The criterion consists on a fixed number of iterations.
 \section*{Evaluation}
 
 
