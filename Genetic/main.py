@@ -27,11 +27,12 @@ argparser.add_argument('-x', '--stock', help='Path al fichero csv de stock', def
 argparser.add_argument('-y', '--viajes', help='Path al fichero xml de viajes', default="./data_grasp/viajes.xml")
 argparser.add_argument('-z', '--precios', help='Path al fichero csv de precios', default="./data_grasp/precios.csv")
 argparser.add_argument('-s', '--solpath')
+argparser.add_argument('-r', '--randomized')
 args = argparser.parse_args()
 start_time = time.time()
 
 if int(args.n_son)+2>=int(args.n_sup):
-    g = Genetic(int(args.alfa),args.viajes,args.stock,args.precios,args.solpath)
+    g = Genetic(int(args.alfa),args.viajes,args.stock,args.precios,args.solpath,args.randomized)
     [x,y] = develope(g,int(args.iter),float(args.mutate),int(args.crossover),int(args.alfa),int(args.max_age),int(args.n_son),int(args.n_sup))
     best,bfitness=min(x.items(),key=lambda x:x[1])
     with open('./results/json/solution'+str(args.solpath.split("/")[-3])+'_'+str(args.iter)+'_'+str(args.n_son)+'.json', 'w') as outfile:

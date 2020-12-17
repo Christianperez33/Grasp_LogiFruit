@@ -14,7 +14,7 @@ from tqdm import tqdm
 import numpy as np
 
 class Genetic:
-    def __init__(self,af,viajes ="./data_grasp/5JULIO/viajes.xml",stock="./data_grasp/5JULIO/stock.csv",precios = "./data_grasp/precios.csv", solpath=""):
+    def __init__(self,af,viajes ="./data_grasp/5JULIO/viajes.xml",stock="./data_grasp/5JULIO/stock.csv",precios = "./data_grasp/precios.csv", solpath="", randomized=0):
         self.solpath = solpath
         self.alfa=af
         self.viajes = DatosViajes(viajes)
@@ -26,7 +26,7 @@ class Genetic:
         self.precios = DatosPrecio(precios)
         self.oriPrecios = copy.deepcopy(self.precios.dictPrecios)
         self.k_mut = 5
-        values=getPopulation(self,af)
+        values=getPopulation(self,af,randomized)
         self.datos = values[0] ## diccionario poblacion donde la clave es el índice de la solucion y el valor otro diccionario con los viajes-plataforma seleccionados
         ## {'Solucion_1': { 'Viaje_0' : 'Plataforma_12' , 'Viaje_1' : 'Plataforma_3'... }, 'Solucion_2' : {'Viaje_0' : 'Plataforma_8' , 'Viaje_1' : 'Plataforma_7'... }}
         self.age=values[1] ## diccionario con las edades de cada miembro de la poblacion
@@ -68,7 +68,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             self.index_best_fitness=fitness_values[0]   ## Indice mejor valor
             self.list_fitness=fitness_values[3] ## Lista proporcion fitness( torneo)
             
-            create_excel(self,fitness_values[0],poblacion,str(i))
+            # create_excel(self,fitness_values[0],poblacion,str(i))
             ## Escribo los resultados para el seguimiento
             writer.writerow([int(i),int(self.fitness_Global),int(self.fitness_Best),int(fitness_values[4]),int(fitness_values[5])])
             #csvfile.close()
@@ -147,7 +147,7 @@ def develope(self,iter,k_mut,k_crossover,alfa,max_age,n_son,n_sup):
             # print((self.fitness[id],self.CT[id],self.CS[id]))
     return self.fitness,self.datos        
 
-def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
+def getPopulation(self,alfa,randomized): # Funcion de inicialización de los datos del AG
     
     list_population = os.listdir(path=self.solpath) # PATH donde se alojan las soluciones del GRASP que son la pobalcion inicial del AG
     # Diccionarios con los datos necesarios durante todo el AG
@@ -158,20 +158,19 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     CS = {}
     i = 0
     # family = []
-    for json_ in list_population:
-        i += 1
-        with open(self.solpath+json_) as f:
-            someone = json.load(f) # Cargo una solucion GRASP 
-            # someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por 
-            age[str(i)] = 0 # Diccionario con la edad de cada miembro de la pobacion o solucion 
-            population[str(i)] = someone # Diccionario con la asignacacion de viajes-plataforma en la solucion
-            # family.append(someone)
-            if i==1:
-                self.n_travel = len(population.get("1")) # Inicializacion numero de viajes de las soluciones
-            values_fitness = calculate_fitness(self,someone,alfa,True) ## Funcion de calculo del fitness dad una solucion
-            fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
-            CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
-            CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
+    if int(randomized) == 0:
+        for json_ in list_population:
+            i += 1
+            with open(self.solpath+json_) as f:
+                someone = json.load(f) # Cargo una solucion GRASP 
+                # someone=  dict(sorted(someone.items(), key=itemgetter(0)))# Ordeno la solucion por 
+                age[str(i)] = 0 # Diccionario con la edad de cada miembro de la pobacion o solucion 
+                population[str(i)] = someone # Diccionario con la asignacacion de viajes-plataforma en la solucion
+                # family.append(someone)
+                values_fitness = calculate_fitness(self,someone,alfa,True) ## Funcion de calculo del fitness dad una solucion
+                fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+                CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+                CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
     
 
 
@@ -182,16 +181,17 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
         for xx in ([p[1]] if isinstance(p[1],dict) else p[1]):
             plats[str(v)].append(xx["Plataforma"])
     tamn = list(range(1,len(population)+1))
+
+    if int(randomized) == 0:
+        for n in range(50-len(population)):
+            i += 1
+            population[str(i)] = population[str(random.choice(tamn))]
+            age[str(i)] = 0
+            values_fitness = calculate_fitness(self,population[str(i)],alfa) ## Funcion de calculo del fitness dad una solucion
+            fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
+            CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
+            CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
     
-    for n in range(50-len(population)):
-        i += 1
-        population[str(i)] = population[str(random.choice(tamn))]
-        age[str(i)] = 0
-        values_fitness = calculate_fitness(self,population[str(i)],alfa) ## Funcion de calculo del fitness dad una solucion
-        fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
-        CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
-        CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
-        
     for n in range(100-len(population)):
         i += 1
         population[str(i)] = {x:random.choice(plats[x]) for x in list(plats.keys())}        
@@ -213,7 +213,7 @@ def getPopulation(self,alfa): # Funcion de inicialización de los datos del AG
     #         fitness[str(i)] = values_fitness[0] # Diccionario con los fitness de cada solucion 
     #         CT[str(i)] = values_fitness[1] # Diccionario con el coste de transporte de cada solucion
     #         CS[str(i)] = values_fitness[2] # Diccionario con el coste de stock de cada solucion
-            
+    self.n_travel = len(population.get("1"))  
     self.n_population = len(population) # Inicializacion numero de miembros de la poblacion inicial
     # print(self.n_population)
     return (population,age,fitness,CT,CS)

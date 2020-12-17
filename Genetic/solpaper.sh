@@ -1,11 +1,13 @@
 #!/bin/bash
-start=`date +%s`
+# start=`date +%s`
 
-python3 ./main.py -i 100  -s  ./poolsol/ -ns 2
-python3 ./main.py -i 100  -s  ./poolsol/ -ns 4
-python3 ./main.py -i 200  -s  ./poolsol/ -ns 2
-python3 ./main.py -i 200  -s  ./poolsol/ -ns 4
+for a in {2..10..2}
+do
+    echo -ne "Progress nsup: $[ $a*100/10 ]% \n";
+    python3 ./main.py -i 200  -s  ./poolsol/ -ns $a -r 0
+    python3 ./main.py -i 200  -s  ./poolsol/ -ns $a -r 1
+done
 
-end=`date +%s`
-runtime=$((end-start))
-echo "Tiempo de ejecución: $runtime" 
+# end=`date +%s`
+# runtime=$((end-start))
+# echo "Tiempo de ejecución: $runtime"
