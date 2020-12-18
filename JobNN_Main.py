@@ -12,6 +12,28 @@ from JobSchedule_NN import JBNN, count_parameters
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = JBNN(in_channels=14, num_classes=14)
-x1=torch.randn(1,14,8,16)
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+
+
+x1=torch.randn(5,14,8,16)
+target=torch.randint(0,14,(5,))
+#y1=torch.nn.functional.one_hot(target, num_classes=14)
+#print(torch.max(y1, 1)[1])
+print(target)
 print(model(x1).shape)
 count_parameters(model)
+
+running_loss = 0.0
+optimizer.zero_grad()
+outputs = model(x1)
+loss = criterion(outputs, target)
+loss.backward()
+optimizer.step()
+
+
+running_loss += loss.item()
+print('loss: %.3f' %
+    (running_loss))
+running_loss = 0.0
+
