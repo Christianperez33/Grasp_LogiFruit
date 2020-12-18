@@ -85,9 +85,12 @@ for filename in os.listdir(args.dir):
     file = open(args.dir+filename, "rb")
     sol = json.loads(file.read())
     w = copy.deepcopy(oriStock)
+    print(w)
     w = {k:{x:list(w[k][x].values()) for x in w[k]} for k in w}
 
     w_prima = getPlatPrima(sol,90,len(sol))
     w_prima = {k:{x:list(w_prima[k][x].values()) for x in w_prima[k]} for k in w_prima}
 
+    print(w['1']['43'])
+    os._exit(0)
     # value = { k[0] : w_prima[k[1]] for k in  set(w_prima.items()) - set(w.items())}
