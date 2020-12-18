@@ -85,12 +85,14 @@ for filename in os.listdir(args.dir):
     file = open(args.dir+filename, "rb")
     sol = json.loads(file.read())
     w = copy.deepcopy(oriStock)
-    w = {k:{x:list(w[k][x].values()) for x in w[k]} for k in w}
+    w = {k:{x:list(map(int,list(w[k][x].values())))+[0] for x in w[k]} for k in w}
+
+    w_0 = np.stack([list(w[i].values()) for i in w])
+    print(w_0.shape)
 
     w_prima_order = getPlatPrima(sol,90,len(sol))
-
-    res_w_prima= {order:{k:{x:list( w_prima_order[order][k][x].values()) for x in  w_prima_order[order][k]} for k in  w_prima_order[order]} for order in w_prima_order}
-
-    print(res_w_prima['1808']['14']['41'])
+    res_w_prima= {order:{k:{x:list(map(int, list(w_prima_order[order][k][x].values()))) + [0] for x in  w_prima_order[order][k]} for k in  w_prima_order[order]} for order in w_prima_order}
+    w_prima = np.stack([np.stack([list(res_w_prima[o][i].values()) for i in res_w_prima[o]]) for o in res_w_prima])
+    print(w_prima.shape)
     os._exit(0)
     # value = { k[0] : w_prima[k[1]] for k in  set(w_prima.items()) - set(w.items())}
