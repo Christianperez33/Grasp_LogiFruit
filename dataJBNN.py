@@ -31,7 +31,6 @@ oriPrecios = copy.deepcopy(precios.dictPrecios)
 def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del fitness para una solucion, dado un alfa con el que realizar el calculo con coste de transporte(CT) y coste de stock (CS)
     ## FORMULA FITNESS: (ALFA * CT)  + ((1-ALFA) * CS)
     ## CT-> Coste de transporte, para cda viaje sumar el coste de transporte de su plataforma asignada
-    dictStock  = copy.deepcopy(oriStock)
     # coste_transporte = 0
     # for s in member:
     #     cosas = oriViajes[s]['PlataformasPosibles']['CosteTransporte']
@@ -41,8 +40,9 @@ def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del f
     #             coste_transporte = coste_transporte + float(c['Precio'])
     ## CS-> Coste de stock, recorremos todos los viajes plataforma de la solucion, comprobando si el stock de las plataformas es negativo y sumando el coste de reponer ese stock
     # coste_stock=0
-
+    res = {}
     for id_viaje,id_plat in member.items():
+        dictStock  = copy.deepcopy(oriStock)
         articulos = [dictViajes[id_viaje]['Carga']['CantidadModelo']] if not isinstance(dictViajes[id_viaje]['Carga']['CantidadModelo'], list) else dictViajes[id_viaje]['Carga']['CantidadModelo']
 
         # stocks = {}
@@ -72,9 +72,9 @@ def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del f
                 dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]] = resto_unitario
 
             # stocks[idArticulo] = coste_stock_aux
-
+        res[id_viaje] = dictStock
         # coste_stock +=  abs(sum(stocks.values()))
-    return dictStock
+    return res
     # Función fitness
     # fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
     # fitness_completo_precio=  coste_transporte + coste_stock/n_travel
@@ -85,12 +85,12 @@ for filename in os.listdir(args.dir):
     file = open(args.dir+filename, "rb")
     sol = json.loads(file.read())
     w = copy.deepcopy(oriStock)
-    print(w)
     w = {k:{x:list(w[k][x].values()) for x in w[k]} for k in w}
 
-    w_prima = getPlatPrima(sol,90,len(sol))
-    w_prima = {k:{x:list(w_prima[k][x].values()) for x in w_prima[k]} for k in w_prima}
+    w_prima_order = getPlatPrima(sol,90,len(sol))
 
-    print(w['1']['43'])
+    res_w_prima= {order:{k:{x:list( w_prima_order[order][k][x].values()) for x in  w_prima_order[order][k]} for k in  w_prima_order[order]} for order in w_prima_order}
+
+    print(res_w_prima['1808']['14']['41'])
     os._exit(0)
     # value = { k[0] : w_prima[k[1]] for k in  set(w_prima.items()) - set(w.items())}
