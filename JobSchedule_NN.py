@@ -81,7 +81,7 @@ class JBNN_ADD(nn.Module):
         self.conv_layers = self.create_conv_layers(JBNN_types['JBNN1'])
 
         self.fcs = nn.Sequential(
-            nn.Linear((112*1*16)+16, 512),
+            nn.Linear((112*1*16)+14, 512),
             #nn.ReLU(),
             nn.Sigmoid(),
             nn.Linear(512,512),
@@ -93,8 +93,6 @@ class JBNN_ADD(nn.Module):
     def forward(self, x, x1):
         x = self.conv_layers(x)
         x = x.reshape(x.shape[0], -1)
-        print(x.shape)
-        print(x1.shape)
         x = torch.cat((x,x1),dim=1)
         x = self.fcs(x)
         return x

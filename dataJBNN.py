@@ -42,7 +42,10 @@ def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del f
     ## CS-> Coste de stock, recorremos todos los viajes plataforma de la solucion, comprobando si el stock de las plataformas es negativo y sumando el coste de reponer ese stock
     # coste_stock=0
     res = {}
+    plats = []
+    precios_sol=[]
     for id_viaje,id_plat in member.items():
+        plats.append(int(id_plat)-1)
         dictStock  = copy.deepcopy(oriStock)
         articulos = [dictViajes[id_viaje]['Carga']['CantidadModelo']] if not isinstance(dictViajes[id_viaje]['Carga']['CantidadModelo'], list) else dictViajes[id_viaje]['Carga']['CantidadModelo']
 
@@ -53,7 +56,10 @@ def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del f
         plataformas = oriViajes[id_viaje]['PlataformasPosibles']['CosteTransporte']
         plataformas = plataformas if isinstance(plataformas, list) else [plataformas]
         demora = [p["Demora"] for p in plataformas if str(p['Plataforma']) == str(id_plat)][0]
-
+        precio = np.zeros(14)
+        for p in plataformas:
+            precio[int(p['Plataforma'])-1] = float(p['Precio'])
+        precios_sol.append(precio)
         ## Recorremos los articulos de cada viaje   
         for articulo in articulos:
             idArticulo = articulo['Articulo']
@@ -68,14 +74,15 @@ def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del f
 
             # ? se restan las catidades de ese articulo a cada uno de los dias en los que se usa
             for d in range(init,len(fechas)+1):
-                resto_unitario =  int(dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
-                # coste_stock_aux += (abs(resto_unitario) * precio if resto_unitario < 0 else 0)
-                dictStock[id_plat][idArticulo][fechas[fechas.index(fecha) - d]] = resto_unitario
+                for plat_in in list(dictStock.keys()):
+                    resto_unitario =  int(dictStock[plat_in][idArticulo][fechas[fechas.index(fecha) - d]]) - cantidad
+                    # coste_stock_aux += (abs(resto_unitario) * precio if resto_unitario < 0 else 0)
+                    dictStock[plat_in][idArticulo][fechas[fechas.index(fecha) - d]] = resto_unitario
 
             # stocks[idArticulo] = coste_stock_aux
         res[id_viaje] = dictStock
         # coste_stock +=  abs(sum(stocks.values()))
-    return res
+    return [res,plats,precios_sol]
     # Función fitness
     # fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
     # fitness_completo_precio=  coste_transporte + coste_stock/n_travel
@@ -85,25 +92,26 @@ for filename in os.listdir(args.dir):
     dictStock  = copy.deepcopy(oriStock)
     file = open(args.dir+filename, "rb")
     sol = json.loads(file.read())
+
     w = copy.deepcopy(oriStock)
     w = {k:{x:list(map(int,list(w[k][x].values())))+[0] for x in w[k]} for k in w}
 
     w_ini = np.stack([list(w[i].values()) for i in w])
-    print(w_ini.shape)
 
-    w_prima_order = getPlatPrima(sol,90,len(sol))
+    w_prima_order,plats,precios_sol = getPlatPrima(sol,90,len(sol))
     res_w_prima= {order:{k:{x:list(map(int, list(w_prima_order[order][k][x].values()))) + [0] for x in  w_prima_order[order][k]} for k in  w_prima_order[order]} for order in w_prima_order}
     w_prima = np.stack([np.stack([list(res_w_prima[o][i].values()) for i in res_w_prima[o]]) for o in res_w_prima])
     
     R=[]
     w_last=w_ini
-    for w_i in w_prima:
+    for w_i,p in list(zip(w_prima,plats)):
         r_i=w_i-w_last
-        R.append(r_i)
-        w_last=w_i
-    pprint(R[1843][int(sol[list(res_w_prima.keys())[1843]])-1])
-    R=np.array(R)
-    print(R.shape)
+        r_i = np.multiply([[[x['PrecioUnitario']] for x in precios.dictPrecios.values()]]*14,r_i)
+        R.append(np.concatenate((w_i,r_i),axis=2))
+        w_last[p]=w_i[p]
+    #pprint(R[1094][int(sol[list(res_w_prima.keys())[1094]])-1])
 
+    R=np.array(R)
+    #print(list(res_w_prima.keys())[1843])
     os._exit(0)
     # value = { k[0] : w_prima[k[1]] for k in  set(w_prima.items()) - set(w.items())}
