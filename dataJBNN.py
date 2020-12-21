@@ -1,4 +1,5 @@
 import time
+from pprint import pprint
 from GRASP.grasp import *
 import argparse
 from tqdm import tqdm
@@ -87,12 +88,22 @@ for filename in os.listdir(args.dir):
     w = copy.deepcopy(oriStock)
     w = {k:{x:list(map(int,list(w[k][x].values())))+[0] for x in w[k]} for k in w}
 
-    w_0 = np.stack([list(w[i].values()) for i in w])
-    print(w_0.shape)
+    w_ini = np.stack([list(w[i].values()) for i in w])
+    print(w_ini.shape)
 
     w_prima_order = getPlatPrima(sol,90,len(sol))
     res_w_prima= {order:{k:{x:list(map(int, list(w_prima_order[order][k][x].values()))) + [0] for x in  w_prima_order[order][k]} for k in  w_prima_order[order]} for order in w_prima_order}
     w_prima = np.stack([np.stack([list(res_w_prima[o][i].values()) for i in res_w_prima[o]]) for o in res_w_prima])
-    print(w_prima.shape)
+    
+    R=[]
+    w_last=w_ini
+    for w_i in w_prima:
+        r_i=w_i-w_last
+        R.append(r_i)
+        w_last=w_i
+    pprint(R[1843][int(sol[list(res_w_prima.keys())[1843]])-1])
+    R=np.array(R)
+    print(R.shape)
+
     os._exit(0)
     # value = { k[0] : w_prima[k[1]] for k in  set(w_prima.items()) - set(w.items())}

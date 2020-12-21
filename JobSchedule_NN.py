@@ -73,3 +73,50 @@ class JBNN(nn.Module):
         
         return nn.Sequential(*layers)
 
+
+class JBNN_ADD(nn.Module):
+    def __init__(self, in_channels=14, num_classes=14):
+        super(JBNN_ADD, self).__init__()
+        self.in_channels = in_channels
+        self.conv_layers = self.create_conv_layers(JBNN_types['JBNN1'])
+
+        self.fcs = nn.Sequential(
+            nn.Linear((112*1*16)+16, 512),
+            #nn.ReLU(),
+            nn.Sigmoid(),
+            nn.Linear(512,512),
+            #nn.ReLU(),
+            nn.Sigmoid(),
+            nn.Linear(512,num_classes)
+        )
+
+    def forward(self, x, x1):
+        x = self.conv_layers(x)
+        x = x.reshape(x.shape[0], -1)
+        print(x.shape)
+        print(x1.shape)
+        x = torch.cat((x,x1),dim=1)
+        x = self.fcs(x)
+        return x
+
+    def create_conv_layers(self, architecture):
+        layers=[]
+        in_channels = self.in_channels
+
+        for x in architecture:
+            if type(x) == int:
+                out_channels = x
+
+                layers += [nn.Conv2d(in_channels=in_channels, out_channels=out_channels, 
+                                        kernel_size=(3,3), stride=(1,1), padding=(1,1)),
+                                    nn.BatchNorm2d(x),
+                                    #nn.ReLU()
+                                    nn.Sigmoid()]
+                in_channels = x
+            elif x == 'P':
+                #layers += [nn.MaxPool2d(kernel_size=(2,2), stride=(2,2))]
+                #layers += [MedianPool2d()]
+                layers += [nn.AvgPool2d(kernel_size=(2,1), stride=(2,1))]
+        
+        return nn.Sequential(*layers)
+
