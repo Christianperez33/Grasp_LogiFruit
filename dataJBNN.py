@@ -9,6 +9,7 @@ from Genetic.getData import DatosViajes
 from Genetic.getData import DatosPrecio
 import os
 import copy
+import torch
 argparser = argparse.ArgumentParser()
 argparser.add_argument('-x', '--stock', default="./Genetic/data_grasp/stock.csv")
 argparser.add_argument('-y', '--viajes', default="./Genetic/data_grasp/viajes.xml")
@@ -87,19 +88,23 @@ def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del f
     # fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
     # fitness_completo_precio=  coste_transporte + coste_stock/n_travel
     # return ((fitness_completo_precio),(coste_transporte/n_travel),coste_stock)
-
+R_Fin=np.array([])
+Label_sol_Fin=np.array([])
+Precios_sol_Fin=np.array([])
+idx=0
 for filename in os.listdir(args.dir):
+    idx+=1
     dictStock  = copy.deepcopy(oriStock)
     file = open(args.dir+filename, "rb")
     sol = json.loads(file.read())
-
     w = copy.deepcopy(oriStock)
     w = {k:{x:list(map(int,list(w[k][x].values())))+[0] for x in w[k]} for k in w}
-
     w_ini = np.stack([list(w[i].values()) for i in w])
 
     w_prima_order,plats,precios_sol = getPlatPrima(sol,90,len(sol))
     res_w_prima= {order:{k:{x:list(map(int, list(w_prima_order[order][k][x].values()))) + [0] for x in  w_prima_order[order][k]} for k in  w_prima_order[order]} for order in w_prima_order}
+
+    label_sol = [int(sol[order])-1 for order in w_prima_order]
     w_prima = np.stack([np.stack([list(res_w_prima[o][i].values()) for i in res_w_prima[o]]) for o in res_w_prima])
     
     R=[]
@@ -109,9 +114,23 @@ for filename in os.listdir(args.dir):
         r_i = np.multiply([[[x['PrecioUnitario']] for x in precios.dictPrecios.values()]]*14,r_i)
         R.append(np.concatenate((w_i,r_i),axis=2))
         w_last[p]=w_i[p]
-    #pprint(R[1094][int(sol[list(res_w_prima.keys())[1094]])-1])
 
     R=np.array(R)
-    #print(list(res_w_prima.keys())[1843])
-    os._exit(0)
-    # value = { k[0] : w_prima[k[1]] for k in  set(w_prima.items()) - set(w.items())}
+    
+    if len(R_Fin)==0:
+        R_Fin=R
+        Label_sol_Fin=np.array(label_sol)
+        Precios_sol_Fin=np.array(precios_sol)
+    else:
+        R_Fin = np.concatenate((R_Fin, R))
+        Label_sol_Fin = np.concatenate((Label_sol_Fin, np.array(label_sol)))
+        Precios_sol_Fin = np.concatenate((Precios_sol_Fin, np.array(precios_sol)))
+
+tr_conv_name="TrainingJBNN/train_conv.npy"
+tr_lab_name="TrainingJBNN/train_label.npy"
+tr_data_name="TrainingJBNN/train_data.npy"
+    
+np.save(tr_conv_name,torch.tensor(R_Fin,dtype=torch.float))
+np.save(tr_lab_name,torch.tensor(Label_sol_Fin))
+np.save(tr_data_name,torch.tensor(Precios_sol_Fin,dtype=torch.float))
+
