@@ -593,8 +593,6 @@ class Grasp:
 
         coste_transporte = 0
         
-        print(self.calculate_fitness(self.solucion,alfa))
-        os._exit(0)
         for s in self.solucion:
             cosas = self.oriViajes[s]['PlataformasPosibles']['CosteTransporte']
             cosas = cosas if isinstance(cosas, list) else [cosas]
