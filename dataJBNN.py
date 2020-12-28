@@ -93,7 +93,6 @@ Label_sol_Fin=np.array([])
 Precios_sol_Fin=np.array([])
 idx=0
 for filename in os.listdir(args.dir):
-    idx+=1
     dictStock  = copy.deepcopy(oriStock)
     file = open(args.dir+filename, "rb")
     sol = json.loads(file.read())
@@ -117,14 +116,19 @@ for filename in os.listdir(args.dir):
 
     R=np.array(R)
     
-    if len(R_Fin)==0:
+    if idx==0:
+        np.save("TestJBNN/test_conv.npy",torch.tensor(R,dtype=torch.float))
+        np.save("TestJBNN/test_label.npy",torch.tensor(np.array(label_sol)))
+        np.save("TestJBNN/test_data.npy",torch.tensor(np.array(precios_sol),dtype=torch.float))
+    elif idx==1:
         R_Fin=R
         Label_sol_Fin=np.array(label_sol)
         Precios_sol_Fin=np.array(precios_sol)
-    else:
+    elif idx>=2:
         R_Fin = np.concatenate((R_Fin, R))
         Label_sol_Fin = np.concatenate((Label_sol_Fin, np.array(label_sol)))
         Precios_sol_Fin = np.concatenate((Precios_sol_Fin, np.array(precios_sol)))
+    idx+=1
 
 tr_conv_name="TrainingJBNN/train_conv.npy"
 tr_lab_name="TrainingJBNN/train_label.npy"

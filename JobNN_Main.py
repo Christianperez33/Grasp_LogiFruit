@@ -5,8 +5,6 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
 import os
-import torchvision
-from torchvision import datasets
 from torch.nn.modules.utils import _pair, _quadruple
 from prettytable import PrettyTable
 from JobSchedule_NN import JBNN, count_parameters, JBNN_ADD
