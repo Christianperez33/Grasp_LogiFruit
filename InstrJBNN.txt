@@ -1,0 +1,10 @@
+1. Crea el set de datos de training y validation a partir del archivo dataJBNN.py:
+-Este archivo admite como parámetros el directorio donde se encuentran las soluciones del algoritmo genetico.
+-Crea previamente una carpeta llamada "TrainingJBNN" y otra llamada "TestJBNN" si no las tienes ya, en éstas se guardaran los sets de datos.
+
+2.Una vez obtenidos los datos, ejecuta JobNN_Train.py.
+-No admite parámetros.
+-Al final de la ejecución presenta en una gráfica la evolución del loss.
+-Intenta acelerar el proceso con CUDA y una GPU.
+-Prueba con 100/200 epochs, aunque tardará unas horas.
+-Se irá guardando el modelo entrenado cada 5 epochs en la carpeta Models.

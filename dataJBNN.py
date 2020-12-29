@@ -129,11 +129,18 @@ for filename in os.listdir(args.dir):
         Label_sol_Fin = np.concatenate((Label_sol_Fin, np.array(label_sol)))
         Precios_sol_Fin = np.concatenate((Precios_sol_Fin, np.array(precios_sol)))
     idx+=1
+    print(R_Fin.shape)
+    print(Label_sol_Fin.shape)
+    print(Precios_sol_Fin.shape)
+
 
 tr_conv_name="TrainingJBNN/train_conv.npy"
 tr_lab_name="TrainingJBNN/train_label.npy"
 tr_data_name="TrainingJBNN/train_data.npy"
-    
+print(R_Fin.shape)
+print(Label_sol_Fin.shape)
+print(Precios_sol_Fin.shape)
+
 np.save(tr_conv_name,torch.tensor(R_Fin,dtype=torch.float))
 np.save(tr_lab_name,torch.tensor(Label_sol_Fin))
 np.save(tr_data_name,torch.tensor(Precios_sol_Fin,dtype=torch.float))
