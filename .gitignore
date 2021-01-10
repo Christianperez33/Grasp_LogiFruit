@@ -5,9 +5,6 @@ __pycache__/
 
 Models/100_ep_model
 Models/last_ep_model
-TestJBNN/test_conv.npy
-TestJBNN/test_data.npy
-TestJBNN/test_label.npy
-TrainingJBNN/train_conv.npy
-TrainingJBNN/train_data.npy
-TrainingJBNN/train_label.npy
+JBNN/TrainingJBNN/train_conv.npy
+JBNN/TrainingJBNN/train_data.npy
+JBNN/TrainingJBNN/train_label.npy
