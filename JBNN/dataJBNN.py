@@ -1,25 +1,20 @@
-import os
-import sys
-sys.path.append("../Genetic/")
-sys.path.append("../GRASP/")
-import copy
-import json
 import time
-import torch
+from pprint import pprint
+from GRASP.grasp import *
 import argparse
 from tqdm import tqdm
-from pprint import pprint
-import numpy as np
-from grasp import *
-from getData import DatosStock
-from getData import DatosViajes
-from getData import DatosPrecio
-
+import json
+from Genetic.getData import DatosStock
+from Genetic.getData import DatosViajes
+from Genetic.getData import DatosPrecio
+import os
+import copy
+import torch
 argparser = argparse.ArgumentParser()
-argparser.add_argument('-x', '--stock', default="../Genetic/data_grasp/stock.csv")
-argparser.add_argument('-y', '--viajes', default="../Genetic/data_grasp/viajes.xml")
-argparser.add_argument('-z', '--precios', default="../Genetic/data_grasp/precios.csv")
-argparser.add_argument('-d', '--dir', default="../Genetic/poolsol/")
+argparser.add_argument('-x', '--stock', default="./Genetic/data_grasp/stock.csv")
+argparser.add_argument('-y', '--viajes', default="./Genetic/data_grasp/viajes.xml")
+argparser.add_argument('-z', '--precios', default="./Genetic/data_grasp/precios.csv")
+argparser.add_argument('-d', '--dir')
 args = argparser.parse_args()
 
 # stockORI = DatosStock(args.stock)
@@ -93,13 +88,11 @@ def getPlatPrima(member,alfa,n_travel): # Esta función calcula la formula del f
     # fitness_completo_precio= ((alfa/100) * coste_transporte) + ((1 - (alfa/100)) * (coste_stock))
     # fitness_completo_precio=  coste_transporte + coste_stock/n_travel
     # return ((fitness_completo_precio),(coste_transporte/n_travel),coste_stock)
-
 R_Fin=np.array([])
 Label_sol_Fin=np.array([])
 Precios_sol_Fin=np.array([])
 idx=0
 for filename in os.listdir(args.dir):
-    idx+=1
     dictStock  = copy.deepcopy(oriStock)
     file = open(args.dir+filename, "rb")
     sol = json.loads(file.read())
@@ -123,19 +116,31 @@ for filename in os.listdir(args.dir):
 
     R=np.array(R)
     
-    if len(R_Fin)==0:
+    if idx==0:
+        np.save("TestJBNN/test_conv.npy",torch.tensor(R,dtype=torch.float))
+        np.save("TestJBNN/test_label.npy",torch.tensor(np.array(label_sol)))
+        np.save("TestJBNN/test_data.npy",torch.tensor(np.array(precios_sol),dtype=torch.float))
+    elif idx==1:
         R_Fin=R
         Label_sol_Fin=np.array(label_sol)
         Precios_sol_Fin=np.array(precios_sol)
-    else:
+    elif idx>=2:
         R_Fin = np.concatenate((R_Fin, R))
         Label_sol_Fin = np.concatenate((Label_sol_Fin, np.array(label_sol)))
         Precios_sol_Fin = np.concatenate((Precios_sol_Fin, np.array(precios_sol)))
+    idx+=1
+    print(R_Fin.shape)
+    print(Label_sol_Fin.shape)
+    print(Precios_sol_Fin.shape)
+
 
 tr_conv_name="TrainingJBNN/train_conv.npy"
 tr_lab_name="TrainingJBNN/train_label.npy"
 tr_data_name="TrainingJBNN/train_data.npy"
-    
+print(R_Fin.shape)
+print(Label_sol_Fin.shape)
+print(Precios_sol_Fin.shape)
+
 np.save(tr_conv_name,torch.tensor(R_Fin,dtype=torch.float))
 np.save(tr_lab_name,torch.tensor(Label_sol_Fin))
 np.save(tr_data_name,torch.tensor(Precios_sol_Fin,dtype=torch.float))
